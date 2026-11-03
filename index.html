@@ -42,6 +42,7 @@ const WALLETS = {
 };
 
 const allProducts = [
+  // MAIN MINERS
   { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373", price: 1199.99, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
   { id: 2, category: "Miners", title: "Bitaxe Gamma Lottery Miner + PSU", price: 119.99, reviews: 89, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
   { id: 3, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=500&q=80" },
@@ -59,12 +60,30 @@ const allProducts = [
   { id: 15, category: "Miners", title: "Whale Mystery Box", price: 799.99, reviews: 34, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
   { id: 16, category: "Miners", title: "Legend's Mystery Box", price: 399.99, reviews: 12, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
   { id: 17, category: "Miners", title: "Poor Man's Mystery Box", price: 199.99, reviews: 54, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 18, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: "https://cdn-icons-png.flaticon.com/512/2897/2897785.png" },
-  { id: 19, category: "Accessories", title: "AxeDash Desktop Display for Bitaxe", price: 49.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 20, category: "Accessories", title: "6x Gold Nugget Lottery Miner COMBO", price: 269.99, reviews: 110, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 21, category: "Accessories", title: "7x USB Lottery Miner COMBO", price: 244.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 22, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80" },
-  { id: 23, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80" }
+  { id: 18, category: "Miners", title: "NerdMiner V2 Lottery Miner", price: 39.99, reviews: 88, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
+  { id: 19, category: "Miners", title: "Easy Miner Laptop Kit - GekkoScience COMPAC", price: 149.99, reviews: 22, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
+  { id: 20, category: "Miners", title: "Bitaxe Gamma Ice Angel Edition", price: 249.99, reviews: 41, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
+  
+  // ACCESSORIES
+  { id: 21, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: "https://cdn-icons-png.flaticon.com/512/2897/2897785.png" },
+  { id: 22, category: "Accessories", title: "AxeDash Desktop Display for Bitaxe", price: 49.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 23, category: "Accessories", title: "6x Gold Nugget Lottery Miner COMBO", price: 269.99, reviews: 110, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 24, category: "Accessories", title: "7x USB Lottery Miner COMBO", price: 244.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 25, category: "Accessories", title: "Bitcoin Battle Pass", price: 59.99, reviews: 33, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 26, category: "Accessories", title: "X Node Mini - 2TB Full Node", price: 199.99, reviews: 17, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 27, category: "Accessories", title: "1200W Server Power Supply (PSU)", price: 89.99, reviews: 54, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 28, category: "Accessories", title: "APW12 Power Supply for S19 Series", price: 110.00, reviews: 33, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 29, category: "Accessories", title: "6-Pin to 8-Pin PCIe Cables (Pack of 4)", price: 15.00, reviews: 110, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 30, category: "Accessories", title: "ASIC Miner Cooling Fan (6000 RPM)", price: 25.00, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  
+  // MERCH
+  { id: 31, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80" },
+  { id: 32, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80" },
+  { id: 33, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 38, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&q=80" },
+  { id: 34, category: "Merch", title: "Metal Bitcoin Coin (Gold Plated)", price: 12.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
+  { id: 35, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 149.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
+  { id: 36, category: "Merch", title: "Crypto Sticker Pack", price: 9.99, reviews: 150, image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?w=500&q=80" },
+  { id: 37, category: "Merch", title: "Bitcoin Coffee Mug", price: 18.00, reviews: 72, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=500&q=80" }
 ];
 
 function App() {
@@ -81,11 +100,8 @@ function App() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [showSearch, setShowSearch] = useState(false);
   
-  // Auth States
   const [authMode, setAuthMode] = useState("login"); 
   const [authError, setAuthError] = useState("");
-
-  // Add to Cart Animation State
   const [animatingId, setAnimatingId] = useState(null);
 
   useEffect(() => {
@@ -103,7 +119,7 @@ function App() {
     
     setTimeout(() => {
       setAnimatingId("added");
-      addToCart(product);
+      setCart(prev => [...prev, product]);
       
       setTimeout(() => {
         setAnimatingId(null);
@@ -111,7 +127,6 @@ function App() {
     }, 600);
   };
 
-  const addToCart = (product) => setCart(prev => [...prev, product]);
   const clearCart = () => setCart([]);
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
@@ -297,8 +312,6 @@ function App() {
             <h2 className="text-2xl font-bold mb-4">Premium Mining Hardware</h2>
           </div>
 
-          <div className="px-4 py-3 text-sm font-medium text-gray-400 border-b border-gray-800">{filteredProducts.length} products</div>
-          
           <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
             <button className="flex items-center gap-1 text-sm font-medium text-gray-300">Sort by ▾</button>
             <div className="flex gap-3 text-lg text-gray-500"><span className="text-brand-blue">▦</span><span>☰</span></div>
