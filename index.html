@@ -9,11 +9,25 @@
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script>
-tailwind.config = { theme: { extend: { colors: { brand: { blue: "#0a1f9e", orange: "#f7941d", gold: "#ffb400", chat: "#8b9df5" } } } } }
+tailwind.config = { 
+  theme: { 
+    extend: { 
+      colors: { 
+        brand: { blue: "#0a1f9e", orange: "#f7941d", gold: "#ffb400", chat: "#8b9df5" },
+        dark: { bg: "#1a1a1a", card: "#242424", text: "#e5e5e5" }
+      } 
+    } 
+  } 
+}
 </script>
-<style>::-webkit-scrollbar { width: 0px; } .drawer { transition: transform 0.3s ease-in-out; }</style>
+<style>
+::-webkit-scrollbar { width: 0px; } 
+.drawer { transition: transform 0.3s ease-in-out; }
+.glow-img { filter: drop-shadow(0 0 15px rgba(247, 148, 29, 0.15)); transition: filter 0.3s; }
+.glow-img:hover { filter: drop-shadow(0 0 25px rgba(247, 148, 29, 0.3)); }
+</style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900">
+<body class="bg-dark-bg font-sans text-dark-text">
 <div id="root"></div>
 <script type="text/babel">
 const { useState, useEffect } = React;
@@ -28,39 +42,29 @@ const WALLETS = {
 };
 
 const allProducts = [
-  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 1199.99, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373", price: 1199.99, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
   { id: 2, category: "Miners", title: "Bitaxe Gamma Lottery Miner + PSU", price: 119.99, reviews: 89, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
   { id: 3, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=500&q=80" },
   { id: 4, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, reviews: 189, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=500&q=80" },
   { id: 5, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
-  { id: 6, category: "Miners", title: "Antminer S19j Pro 104TH/s", price: 1150.00, reviews: 145, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=500&q=80" },
-  { id: 7, category: "Miners", title: "AvalonMiner A1246 90TH/s", price: 950.00, reviews: 67, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
-  { id: 8, category: "Miners", title: "Whatsminer M30S++ 112TH/s", price: 1250.00, reviews: 110, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
-  { id: 9, category: "Miners", title: "Bitaxe Ultra 204 (Overclocked)", price: 185.00, reviews: 32, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
-  { id: 10, category: "Miners", title: "Antminer L7 9500MH/s (Litecoin)", price: 4500.00, reviews: 88, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=500&q=80" },
-  { id: 11, category: "Miners", title: "IceRiver KS0 100GH/s (Kaspa)", price: 350.00, reviews: 56, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
-  { id: 12, category: "Miners", title: "Goldshell Mini-DOGE Pro 320MH/s", price: 480.00, reviews: 112, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
-  { id: 13, category: "Miners", title: "NerdMiner V2 (ESP32 Solo Lottery Miner)", price: 45.00, reviews: 305, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
-  { id: 14, category: "Miners", title: "Canaan Avalon Nano 3 (4TH/s Home Heater)", price: 189.00, reviews: 240, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
-  { id: 15, category: "Miners", title: "Mars Lander 3 (Miner + Node)", price: 499.00, reviews: 34, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 16, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: "https://cdn-icons-png.flaticon.com/512/2897/2897785.png" },
-  { id: 17, category: "Accessories", title: "1200W Server Power Supply (PSU)", price: 89.99, reviews: 54, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 18, category: "Accessories", title: "APW12 Power Supply for S19 Series", price: 110.00, reviews: 33, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 19, category: "Accessories", title: "APW3++ Power Supply (1600W)", price: 95.00, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 20, category: "Accessories", title: "6-Pin to 8-Pin PCIe Cables (Pack of 4)", price: 15.00, reviews: 110, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 21, category: "Accessories", title: "ASIC Miner Cooling Fan (6000 RPM)", price: 25.00, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 22, category: "Accessories", title: "RJ45 Ethernet Cable (10ft)", price: 8.00, reviews: 42, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 23, category: "Accessories", title: "Anti-Static Wrist Strap", price: 6.50, reviews: 29, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 24, category: "Accessories", title: "Miner Silencer Duct Kit", price: 45.00, reviews: 61, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 25, category: "Accessories", title: "Smart Plug with Energy Monitoring", price: 22.00, reviews: 95, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
-  { id: 26, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80" },
-  { id: 27, category: "Merch", title: "Whale Pass VIP Hardware Wallet", price: 149.99, reviews: 112, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
-  { id: 28, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80" },
-  { id: 29, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 38, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=500&q=80" },
-  { id: 30, category: "Merch", title: "Metal Bitcoin Coin (Gold Plated)", price: 12.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
-  { id: 31, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 149.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
-  { id: 32, category: "Merch", title: "Crypto Sticker Pack", price: 9.99, reviews: 150, image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?w=500&q=80" },
-  { id: 33, category: "Merch", title: "Bitcoin Coffee Mug", price: 18.00, reviews: 72, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=500&q=80" }
+  { id: 6, category: "Miners", title: "NerdQaxe++ 4.8-6TH/s Multi-Chip BTC Miner", price: 229.99, reviews: 145, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=500&q=80" },
+  { id: 7, category: "Miners", title: "NerdOCTaxe 9-12TH/s BTC Miner w/ PSU", price: 424.99, reviews: 67, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
+  { id: 8, category: "Miners", title: "MARS LANDER 3 All-In-One Lottery Miner & Node", price: 749.99, reviews: 110, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
+  { id: 9, category: "Miners", title: "Bitaxe GammaHex 1300 Hydro 10.5TH/s", price: 449.99, reviews: 32, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
+  { id: 10, category: "Miners", title: "LuckyAxe BLO4 Bitcoin / DOGE Dual Miner", price: 499.99, reviews: 88, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=500&q=80" },
+  { id: 11, category: "Miners", title: "Nexus S1-8 Hydro 40TH/s BM1373", price: 1199.99, reviews: 56, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
+  { id: 12, category: "Miners", title: "GekkoScience Terminus A2X 7-8TH/s Pod", price: 499.99, reviews: 112, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
+  { id: 13, category: "Miners", title: "USB Lottery Miner", price: 34.99, reviews: 305, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=500&q=80" },
+  { id: 14, category: "Miners", title: "Gold Digger Lottery Miner", price: 49.99, reviews: 240, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=500&q=80" },
+  { id: 15, category: "Miners", title: "Whale Mystery Box", price: 799.99, reviews: 34, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 16, category: "Miners", title: "Legend's Mystery Box", price: 399.99, reviews: 12, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 17, category: "Miners", title: "Poor Man's Mystery Box", price: 199.99, reviews: 54, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 18, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: "https://cdn-icons-png.flaticon.com/512/2897/2897785.png" },
+  { id: 19, category: "Accessories", title: "AxeDash Desktop Display for Bitaxe", price: 49.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 20, category: "Accessories", title: "6x Gold Nugget Lottery Miner COMBO", price: 269.99, reviews: 110, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 21, category: "Accessories", title: "7x USB Lottery Miner COMBO", price: 244.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=500&q=80" },
+  { id: 22, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500&q=80" },
+  { id: 23, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500&q=80" }
 ];
 
 function App() {
@@ -76,6 +80,13 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [showSearch, setShowSearch] = useState(false);
+  
+  // Auth States
+  const [authMode, setAuthMode] = useState("login"); 
+  const [authError, setAuthError] = useState("");
+
+  // Add to Cart Animation State
+  const [animatingId, setAnimatingId] = useState(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("crypto_cart");
@@ -86,22 +97,62 @@ function App() {
     localStorage.setItem("crypto_cart", JSON.stringify(cart));
   }, [cart]);
 
-  const addToCart = (product) => setCart([...cart, product]);
+  const handleAddToCart = (product) => {
+    if (animatingId === product.id) return;
+    setAnimatingId(product.id);
+    
+    setTimeout(() => {
+      setAnimatingId("added");
+      addToCart(product);
+      
+      setTimeout(() => {
+        setAnimatingId(null);
+      }, 1000);
+    }, 600);
+  };
+
+  const addToCart = (product) => setCart(prev => [...prev, product]);
   const clearCart = () => setCart([]);
   const total = cart.reduce((sum, item) => sum + item.price, 0);
 
-  const handleLogin = (e) => {
+  const handleAuth = (e) => {
     e.preventDefault();
     const email = e.target.elements.email.value;
-    localStorage.setItem("user_email", email);
-    setUserEmail(email);
-    setIsLoggedIn(true);
+    const password = e.target.elements.password.value;
+    setAuthError("");
+
+    if (authMode === "signup") {
+      const users = JSON.parse(localStorage.getItem("registered_users") || "{}");
+      if (users[email]) {
+        setAuthError("Email already exists. Please sign in.");
+        return;
+      }
+      users[email] = password;
+      localStorage.setItem("registered_users", JSON.stringify(users));
+      localStorage.setItem("user_email", email);
+      setUserEmail(email);
+      setIsLoggedIn(true);
+    } else {
+      const users = JSON.parse(localStorage.getItem("registered_users") || "{}");
+      if (!users[email]) {
+        setAuthError("No account found. Please create one.");
+        return;
+      }
+      if (users[email] !== password) {
+        setAuthError("Incorrect password.");
+        return;
+      }
+      localStorage.setItem("user_email", email);
+      setUserEmail(email);
+      setIsLoggedIn(true);
+    }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("user_email");
     setUserEmail("");
     setIsLoggedIn(false);
+    setAuthMode("login");
   };
 
   const handleMenuClick = (category) => {
@@ -118,28 +169,55 @@ function App() {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-brand-blue flex flex-col items-center justify-center p-6">
-        <div className="mb-12 text-center text-white">
+      <div className="min-h-screen bg-dark-bg flex flex-col items-center justify-center p-6 text-white">
+        <div className="mb-12 text-center">
           <div className="flex items-center justify-center gap-2 font-black text-5xl mb-2 tracking-tighter">
             <span className="text-brand-orange">₿</span>
             <div className="flex flex-col leading-none text-left"><span>itcoin</span><span className="text-3xl">merch</span></div>
           </div>
         </div>
-        <div className="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Sign in</h2>
-          <p className="text-gray-500 mb-6 text-sm">Enter your details to access the store.</p>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <input type="email" name="email" placeholder="Email Address" required className="w-full border p-3 rounded-lg outline-none focus:border-brand-blue bg-gray-50" />
-            <input type="password" placeholder="Password" required className="w-full border p-3 rounded-lg outline-none focus:border-brand-blue bg-gray-50" />
-            <button type="submit" className="w-full bg-brand-orange text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition">Login</button>
+        <div className="bg-[#242424] p-8 rounded-xl shadow-2xl w-full max-w-md border border-gray-700">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white">{authMode === "login" ? "Sign in" : "Create Account"}</h2>
+            <button 
+              onClick={() => { setAuthMode(authMode === "login" ? "signup" : "login"); setAuthError(""); }}
+              className="text-xs font-bold text-brand-orange hover:underline"
+            >
+              {authMode === "login" ? "Create one" : "Sign in"}
+            </button>
+          </div>
+          
+          {authError && <div className="bg-red-900/50 border border-red-500 text-red-200 p-3 rounded mb-4 text-sm font-medium">{authError}</div>}
+          
+          <form onSubmit={handleAuth} className="space-y-4">
+            <input type="email" name="email" placeholder="Email Address" required className="w-full border border-gray-600 p-3 rounded-lg outline-none focus:border-brand-orange bg-[#1a1a1a] text-white placeholder-gray-400" />
+            <input type="password" name="password" placeholder="Password" required className="w-full border border-gray-600 p-3 rounded-lg outline-none focus:border-brand-orange bg-[#1a1a1a] text-white placeholder-gray-400" />
+            <button type="submit" className="w-full bg-[#6b46c1] hover:bg-[#553c9a] text-white font-bold py-3 rounded-lg transition">
+              {authMode === "login" ? "Continue with shop" : "Sign Up"}
+            </button>
           </form>
+          
+          <div className="flex items-center my-6">
+            <div className="flex-1 border-t border-gray-600"></div>
+            <span className="px-3 text-gray-500 text-sm">or</span>
+            <div className="flex-1 border-t border-gray-600"></div>
+          </div>
+          
+          <div className="flex gap-4">
+            <button className="flex-1 bg-transparent border border-gray-600 py-2 rounded-lg flex items-center justify-center hover:bg-gray-800">
+              <img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-5 h-5" alt="Google" />
+            </button>
+            <button className="flex-1 bg-transparent border border-gray-600 py-2 rounded-lg flex items-center justify-center hover:bg-gray-800">
+              <img src="https://www.svgrepo.com/show/475656/facebook-color.svg" className="w-5 h-5" alt="Facebook" />
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen pb-24 relative overflow-x-hidden">
+    <div className="min-h-screen pb-24 relative overflow-x-hidden bg-dark-bg text-white">
       <header className="sticky top-0 z-40 bg-brand-blue text-white shadow-md">
         <div className="text-center text-xs py-2 border-b border-white/10 font-medium">See our <a href="#" className="underline font-bold">1,079 reviews</a> on <span className="text-green-400">★</span> Trustpilot</div>
         <div className="flex items-center justify-between px-4 h-16">
@@ -163,13 +241,13 @@ function App() {
         </div>
         {showSearch && (
           <div className="p-3 bg-blue-900 border-t border-blue-800">
-            <input type="text" placeholder="Search 30+ products..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full p-2 rounded text-black outline-none" />
+            <input type="text" placeholder="Search products..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full p-2 rounded text-black outline-none" />
           </div>
         )}
       </header>
 
       <div className={`fixed inset-0 z-50 bg-black/50 transition-opacity ${showMenu ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setShowMenu(false)}>
-        <div className={`w-[85%] max-w-sm bg-white h-full flex flex-col overflow-y-auto drawer ${showMenu ? 'translate-x-0' : '-translate-x-full'}`} onClick={e => e.stopPropagation()}>
+        <div className={`w-[85%] max-w-sm bg-[#242424] text-white h-full flex flex-col overflow-y-auto drawer border-r border-gray-700 ${showMenu ? 'translate-x-0' : '-translate-x-full'}`} onClick={e => e.stopPropagation()}>
           <div className="bg-brand-blue text-white flex items-center justify-between px-4 h-16 sticky top-0 z-10">
             <button onClick={() => setShowMenu(false)} className="text-3xl">✕</button>
             <div className="flex items-center gap-1 font-black text-xl"><span className="text-brand-orange">₿</span>itcoin<span className="text-sm">merch</span></div>
@@ -178,47 +256,29 @@ function App() {
           {menuView === "main" && (
             <div className="flex-1 flex flex-col">
               <nav className="flex flex-col py-2">
-                <button onClick={() => setMenuView("miners")} className="px-6 py-4 border-b flex justify-between items-center text-gray-800 font-medium">Miners <span>›</span></button>
-                <button onClick={() => handleMenuClick("Merch")} className="px-6 py-4 border-b text-left text-gray-800 font-medium">Merch</button>
-                <button onClick={() => handleMenuClick("All")} className="px-6 py-4 border-b text-left text-gray-800 font-medium">Whale Pass</button>
-                <button onClick={() => setMenuView("guides")} className="px-6 py-4 border-b flex justify-between items-center text-gray-800 font-medium">Guides <span>›</span></button>
-                <button onClick={() => setShowMenu(false)} className="px-6 py-4 border-b text-left text-gray-800 font-medium">Reviews</button>
-                <button onClick={() => setShowMenu(false)} className="px-6 py-4 border-b text-left text-gray-800 font-medium">Mining Pool</button>
-                <button onClick={() => { setShowMenu(false); setPage("support"); }} className="px-6 py-4 border-b text-left text-gray-800 font-medium">Support</button>
+                <button onClick={() => setMenuView("miners")} className="px-6 py-4 border-b border-gray-700 flex justify-between items-center font-medium">Miners <span>›</span></button>
+                <button onClick={() => handleMenuClick("Merch")} className="px-6 py-4 border-b border-gray-700 text-left font-medium">Merch</button>
+                <button onClick={() => handleMenuClick("All")} className="px-6 py-4 border-b border-gray-700 text-left font-medium">Whale Pass</button>
+                <button onClick={() => setMenuView("guides")} className="px-6 py-4 border-b border-gray-700 flex justify-between items-center font-medium">Guides <span>›</span></button>
+                <button onClick={() => setShowMenu(false)} className="px-6 py-4 border-b border-gray-700 text-left font-medium">Reviews</button>
+                <button onClick={() => setShowMenu(false)} className="px-6 py-4 border-b border-gray-700 text-left font-medium">Mining Pool</button>
+                <button onClick={() => { setShowMenu(false); setPage("support"); }} className="px-6 py-4 border-b border-gray-700 text-left font-medium">Support</button>
               </nav>
-              <div className="p-6 border-b bg-gray-50 mt-auto">
-                <h3 className="font-bold text-sm tracking-widest mb-4">NEED HELP?</h3>
-                <div className="flex items-center gap-3 mb-4 text-gray-700 text-sm font-medium"><span className="text-xl">📞</span> 8775000282</div>
-                <div className="flex items-center gap-3 text-gray-700 text-sm font-medium"><span className="text-xl">✉️</span> support@bitcoinmerch.com</div>
-              </div>
-              <div className="p-6">
-                <h3 className="font-bold text-sm tracking-widest mb-4">FOLLOW US</h3>
-                <div className="flex items-center gap-4 mb-4 text-gray-700 text-sm font-medium"><div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">f</div> Facebook</div>
-                <div className="flex items-center gap-4 text-gray-700 text-sm font-medium"><div className="w-8 h-8 bg-sky-400 rounded-full flex items-center justify-center text-white text-sm font-bold">t</div> Twitter</div>
+              <div className="p-6 border-b border-gray-700 bg-[#1a1a1a] mt-auto">
+                <h3 className="font-bold text-sm tracking-widest mb-4 text-gray-400">NEED HELP?</h3>
+                <div className="flex items-center gap-3 mb-4 text-sm font-medium"><span className="text-xl">📞</span> 8775000282</div>
+                <div className="flex items-center gap-3 text-sm font-medium"><span className="text-xl">✉️</span> support@bitcoinmerch.com</div>
               </div>
             </div>
           )}
           {menuView === "miners" && (
-            <div className="flex-1 bg-white">
-              <button onClick={() => setMenuView("main")} className="px-4 py-4 text-sm font-semibold flex items-center border-b w-full text-left">‹ Back</button>
+            <div className="flex-1 bg-[#242424]">
+              <button onClick={() => setMenuView("main")} className="px-4 py-4 text-sm font-semibold flex items-center border-b border-gray-700 w-full text-left text-brand-orange">‹ Back</button>
               <div className="py-2">
-                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800 flex items-center gap-2"><span className="text-yellow-500">⭐</span> Mars Lander 3 (Miner + Node)</button>
-                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Lottery Miners</button>
-                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Bitaxe & Open-Source</button>
-                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Industrial ASIC Miners</button>
-                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Bitcoin Miners</button>
-                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Dogecoin Miners</button>
-                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Bitaxe & Open-Source Parts & Upgrades</button>
-              </div>
-            </div>
-          )}
-          {menuView === "guides" && (
-            <div className="flex-1 bg-white">
-              <button onClick={() => setMenuView("main")} className="px-4 py-4 text-sm font-semibold flex items-center border-b w-full text-left">‹ Back</button>
-              <div className="py-2">
-                <button onClick={() => setShowMenu(false)} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Guides</button>
-                <button onClick={() => setShowMenu(false)} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Video Guides</button>
-                <button onClick={() => setShowMenu(false)} className="w-full text-left px-6 py-4 text-sm font-medium text-gray-800">Firmware Flasher</button>
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-800 flex items-center gap-2"><span className="text-yellow-500">⭐</span> Mars Lander 3 (Miner + Node)</button>
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-800">Lottery Miners</button>
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-800">Bitaxe & Open-Source</button>
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-800">Industrial ASIC Miners</button>
               </div>
             </div>
           )}
@@ -232,30 +292,48 @@ function App() {
             <h1 className="text-3xl font-black leading-tight mb-2">BFCM SALE LIVE<br/><span className="text-brand-orange">FREE SHIPPING</span></h1>
             <p className="text-xs text-gray-400">USA $199+ · Int'l $1,000+</p>
           </div>
-          <div className="bg-white px-4 py-3 border-b text-sm font-medium">{filteredProducts.length} products</div>
-          <div className="bg-white flex items-center justify-between px-4 py-3 border-b border-gray-200">
-            <button className="flex items-center gap-1 text-sm font-medium">Sort by ▾</button>
-            <div className="flex gap-3 text-lg text-gray-400"><span className="text-brand-blue">▦</span><span>☰</span></div>
+          
+          <div className="bg-dark-bg px-4 py-6 border-b border-gray-800 text-center">
+            <h2 className="text-2xl font-bold mb-4">Premium Mining Hardware</h2>
           </div>
-          <div className="bg-white px-2 py-2 border-b flex gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide">
+
+          <div className="px-4 py-3 text-sm font-medium text-gray-400 border-b border-gray-800">{filteredProducts.length} products</div>
+          
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
+            <button className="flex items-center gap-1 text-sm font-medium text-gray-300">Sort by ▾</button>
+            <div className="flex gap-3 text-lg text-gray-500"><span className="text-brand-blue">▦</span><span>☰</span></div>
+          </div>
+          
+          <div className="px-2 py-3 border-b border-gray-800 flex gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide bg-dark-bg">
             {["All", "Miners", "Accessories", "Merch"].map(cat => (
-              <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-4 py-1.5 rounded-full text-xs font-semibold border ${activeCategory === cat ? 'bg-brand-blue text-white border-brand-blue' : 'bg-gray-100 text-gray-600 border-gray-200'}`}>{cat}</button>
+              <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-4 py-1.5 rounded-full text-xs font-semibold border ${activeCategory === cat ? 'bg-brand-orange text-white border-brand-orange' : 'bg-transparent text-gray-400 border-gray-600'}`}>{cat}</button>
             ))}
           </div>
           
           {filteredProducts.length === 0 ? (
             <div className="p-8 text-center text-gray-500">No products found.</div>
           ) : (
-            <section className="grid grid-cols-2 gap-px bg-gray-200">
+            <section className="grid grid-cols-2 gap-4 p-4">
               {filteredProducts.map(p => (
-                <article key={p.id} className="flex flex-col bg-white p-3 relative">
-                  <div className="relative aspect-[4/3] mb-3 flex items-center justify-center overflow-hidden bg-gray-50 rounded">
-                    <img src={p.image} alt={p.title} className="max-h-full max-w-full object-contain mix-blend-multiply p-2" />
+                <article key={p.id} className="flex flex-col bg-dark-card p-3 rounded-lg border border-gray-800">
+                  <div className="relative aspect-square mb-3 flex items-center justify-center overflow-hidden bg-[#1a1a1a] rounded-lg">
+                    <img src={p.image} alt={p.title} className="max-h-full max-w-full object-contain glow-img" />
                   </div>
-                  <h3 className="text-sm font-semibold leading-snug line-clamp-2 mb-2">{p.title}</h3>
-                  <p className="text-brand-orange font-semibold text-[15px] mb-1">From ${p.price.toFixed(2)}</p>
-                  <div className="flex items-center gap-1 text-[11px] mb-4 mt-1"><span className="text-brand-gold text-sm">★★★★★</span><span>{p.reviews} reviews</span></div>
-                  <button onClick={() => addToCart(p)} className="mt-auto bg-brand-blue text-white font-semibold py-3 rounded-sm uppercase text-xs tracking-wide hover:bg-blue-800 transition">Choose Options</button>
+                  <h3 className="text-sm font-semibold leading-snug line-clamp-2 mb-2 text-white">{p.title}</h3>
+                  <p className="text-white font-bold text-lg mb-1">${p.price.toFixed(2)}</p>
+                  
+                  <button 
+                    onClick={() => handleAddToCart(p)}
+                    className={`mt-auto w-full py-3 rounded-md text-sm font-bold tracking-wide transition-all duration-300 flex items-center justify-center ${
+                      animatingId === p.id ? 'bg-gray-600 text-white' : 
+                      animatingId === "added" && cart.includes(p) ? 'bg-green-600 text-white' : 
+                      'bg-brand-orange text-white hover:bg-orange-600'
+                    }`}
+                  >
+                    {animatingId === p.id ? "Adding..." : 
+                     animatingId === "added" && cart.includes(p) ? "Added ✓" : 
+                     "ADD TO CART"}
+                  </button>
                 </article>
               ))}
             </section>
@@ -263,54 +341,32 @@ function App() {
         </main>
       )}
 
-      {page === "support" && (
-        <main className="p-4 max-w-lg mx-auto mt-6">
-          <h1 className="text-3xl font-bold text-center mb-4 text-gray-900">Contact Us</h1>
-          <p className="text-center text-gray-500 text-sm mb-8 leading-relaxed">Real people in Los Angeles, ready to help with orders, setup and anything mining. Pick the way that works best for you.</p>
-          <div className="border border-brand-orange rounded-xl p-6 mb-6">
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 text-brand-orange text-xl">📞</div>
-            <h2 className="text-xl font-bold mb-2">Call us</h2>
-            <a href="tel:8775000282" className="text-brand-blue underline font-medium mb-2 block">(877) 500-0282</a>
-            <p className="text-sm text-gray-500 mb-6">(877) 5000-BTC · Fastest way to reach us, weekdays 9am – 5pm PT</p>
-            <a href="tel:8775000282" className="bg-brand-blue text-white font-medium py-2 px-6 rounded inline-block">Call now</a>
-          </div>
-          <div className="border border-gray-200 rounded-xl p-6">
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 text-brand-orange text-xl">✉️</div>
-            <h2 className="text-xl font-bold mb-2">Email</h2>
-            <a href="mailto:support@bitcoinmerch.com" className="text-gray-900 font-medium mb-2 block">support@bitcoinmerch.com</a>
-            <p className="text-sm text-gray-500 mb-6">We reply within 24 hours. Include your order number if you have one.</p>
-            <a href="mailto:support@bitcoinmerch.com" className="bg-brand-blue/10 text-brand-blue font-medium py-2 px-6 rounded inline-block">Send email</a>
-          </div>
-          <button onClick={() => setPage("home")} className="w-full mt-8 text-brand-blue font-bold">← Back to Store</button>
-        </main>
-      )}
-
       {page === "checkout" && (
         <main className="p-4 max-w-md mx-auto mt-4">
           <h1 className="text-2xl font-bold mb-6">Checkout</h1>
           {cart.length === 0 ? (
-            <div className="text-center p-8 bg-white rounded shadow">
-              <p className="mb-4">Your cart is empty.</p>
-              <button onClick={() => setPage("home")} className="bg-brand-blue text-white px-6 py-2 rounded">Go back to store</button>
+            <div className="text-center p-8 bg-dark-card rounded border border-gray-800">
+              <p className="mb-4 text-gray-400">Your cart is empty.</p>
+              <button onClick={() => setPage("home")} className="bg-brand-orange text-white px-6 py-2 rounded">Go back to store</button>
             </div>
           ) : (
             <>
-              <div className="bg-white p-4 rounded-lg shadow-sm mb-6 border">
-                <h2 className="font-bold mb-4 border-b pb-2">Order Summary</h2>
+              <div className="bg-dark-card p-4 rounded-lg border border-gray-800 mb-6">
+                <h2 className="font-bold mb-4 border-b border-gray-700 pb-2">Order Summary</h2>
                 {cart.map((item, index) => (
-                  <div key={index} className="flex justify-between text-sm mb-2 text-gray-700">
+                  <div key={index} className="flex justify-between text-sm mb-2 text-gray-300">
                     <span className="truncate pr-4">{item.title}</span>
                     <span>${item.price.toFixed(2)}</span>
                   </div>
                 ))}
-                <div className="border-t mt-4 pt-2 flex justify-between font-bold text-lg text-brand-blue">
+                <div className="border-t border-gray-700 mt-4 pt-2 flex justify-between font-bold text-lg text-brand-orange">
                   <span>Total:</span>
                   <span>${total.toFixed(2)}</span>
                 </div>
               </div>
-              <form onSubmit={(e) => { e.preventDefault(); setPage("success"); }} className="bg-white p-4 rounded-lg shadow-sm border">
-                <label className="block text-sm font-bold mb-2 text-gray-700">Select Payment Method</label>
-                <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="w-full border p-3 rounded mb-4 bg-gray-50 font-medium outline-none focus:border-brand-blue">
+              <form onSubmit={(e) => { e.preventDefault(); setPage("success"); }} className="bg-dark-card p-4 rounded-lg border border-gray-800">
+                <label className="block text-sm font-bold mb-2 text-gray-300">Select Payment Method</label>
+                <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="w-full border border-gray-600 p-3 rounded mb-4 bg-[#1a1a1a] text-white outline-none focus:border-brand-orange">
                   <option value="BTC">Bitcoin (BTC)</option>
                   <option value="ETH">Ethereum (ETH)</option>
                   <option value="SOL">Solana (SOL)</option>
@@ -318,7 +374,7 @@ function App() {
                   <option value="USDT_BEP20">USDT (BEP20)</option>
                   <option value="USDT_SOL">USDT (Solana)</option>
                 </select>
-                <button type="submit" className="w-full bg-black hover:bg-gray-800 text-white font-bold py-4 rounded transition">Generate Payment Address</button>
+                <button type="submit" className="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded transition">Generate Payment Address</button>
               </form>
             </>
           )}
@@ -327,13 +383,13 @@ function App() {
 
       {page === "success" && (
         <main className="p-4 max-w-md mx-auto mt-8">
-          <div className="bg-white p-6 rounded-lg shadow-lg border text-center">
+          <div className="bg-dark-card p-6 rounded-lg border border-gray-800 text-center">
             <div className="text-5xl mb-4">⏳</div>
-            <h1 className="text-2xl font-bold text-brand-blue mb-2">Order Pending</h1>
-            <p className="text-sm text-gray-600 mb-6">Send exactly <strong>${total.toFixed(2)}</strong> in <strong>{paymentMethod.replace('_', ' ')}</strong> to the address below.</p>
-            <div className="bg-gray-100 p-4 rounded border font-mono text-sm break-all mb-4 select-all cursor-pointer">{WALLETS[paymentMethod]}</div>
+            <h1 className="text-2xl font-bold text-white mb-2">Order Pending</h1>
+            <p className="text-sm text-gray-400 mb-6">Send exactly <strong>${total.toFixed(2)}</strong> in <strong>{paymentMethod.replace('_', ' ')}</strong> to the address below.</p>
+            <div className="bg-[#1a1a1a] border border-gray-700 p-4 rounded font-mono text-sm break-all mb-4 select-all cursor-pointer text-brand-orange">{WALLETS[paymentMethod]}</div>
             <p className="text-xs text-gray-500 mb-6">Once sent, please email your transaction hash to support@bitcoinmerch.com to approve your order.</p>
-            <button onClick={() => { clearCart(); setPage("home"); }} className="w-full bg-brand-blue text-white font-bold py-3 rounded">Return to Store</button>
+            <button onClick={() => { clearCart(); setPage("home"); }} className="w-full bg-brand-orange text-white font-bold py-3 rounded">Return to Store</button>
           </div>
         </main>
       )}
@@ -356,10 +412,10 @@ function App() {
         </div>
       )}
 
-      <a href="#" className="fixed right-0 top-1/2 -translate-y-1/2 z-30 bg-black text-white text-[10px] font-semibold py-3 px-1 [writing-mode:vertical-rl] rotate-180 tracking-widest">★ Reviews</a>
+      <a href="#" className="fixed right-0 top-1/2 -translate-y-1/2 z-30 bg-black text-white text-[10px] font-semibold py-3 px-1 [writing-mode:vertical-rl] rotate-180 tracking-widest border-l border-gray-800">★ Reviews</a>
 
       {showSpin && (
-        <div className="fixed bottom-0 inset-x-0 z-50 bg-black text-white px-4 py-4 flex items-center justify-between shadow-[0_-10px_20px_rgba(0,0,0,0.3)]">
+        <div className="fixed bottom-0 inset-x-0 z-50 bg-black text-white px-4 py-4 flex items-center justify-between shadow-[0_-10px_20px_rgba(0,0,0,0.5)] border-t border-gray-800">
           <span className="text-sm font-medium">Do You Want A Discount</span>
           <button className="bg-brand-orange text-white font-bold rounded-full px-5 py-2 text-sm shadow-md">🎰 Spin to win</button>
           <button onClick={() => setShowSpin(false)} className="absolute -top-3 right-2 bg-white text-black rounded-full w-6 h-6 text-xs flex items-center justify-center border shadow-sm">✕</button>
