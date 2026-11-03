@@ -41,48 +41,45 @@ const WALLETS = {
   USDT_SOL: "6yQi3Ep7dGmwWvEB5vFqAn186doUHVDoeM9yT5tpAjai"
 };
 
-// Using placehold.co with relevant keywords to ensure images always load and match the item
-const getImg = (keyword) => `https://placehold.co/400x400/242424/ffffff?text=${encodeURIComponent(keyword)}`;
-
 const allProducts = [
-  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373", price: 1199.99, reviews: 45, image: getImg("Nexus Miner") },
-  { id: 2, category: "Miners", title: "Bitaxe Gamma Lottery Miner + PSU", price: 119.99, reviews: 89, image: getImg("Bitaxe Miner") },
-  { id: 3, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: getImg("Antminer S21") },
-  { id: 4, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, reviews: 189, image: getImg("Antminer S19") },
-  { id: 5, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: getImg("Whatsminer") },
-  { id: 6, category: "Miners", title: "NerdQaxe++ 4.8-6TH/s Multi-Chip BTC Miner", price: 229.99, reviews: 145, image: getImg("NerdQaxe Miner") },
-  { id: 7, category: "Miners", title: "NerdOCTaxe 9-12TH/s BTC Miner w/ PSU", price: 424.99, reviews: 67, image: getImg("Octaxe Miner") },
-  { id: 8, category: "Miners", title: "MARS LANDER 3 All-In-One Lottery Miner & Node", price: 749.99, reviews: 110, image: getImg("Mars Lander") },
-  { id: 9, category: "Miners", title: "Bitaxe GammaHex 1300 Hydro 10.5TH/s", price: 449.99, reviews: 32, image: getImg("Hydro Miner") },
-  { id: 10, category: "Miners", title: "LuckyAxe BLO4 Bitcoin / DOGE Dual Miner", price: 499.99, reviews: 88, image: getImg("LuckyAxe") },
-  { id: 11, category: "Miners", title: "Nexus S1-8 Hydro 40TH/s BM1373", price: 1199.99, reviews: 56, image: getImg("Nexus Hydro") },
-  { id: 12, category: "Miners", title: "GekkoScience Terminus A2X 7-8TH/s Pod", price: 499.99, reviews: 112, image: getImg("GekkoScience") },
-  { id: 13, category: "Miners", title: "USB Lottery Miner", price: 34.99, reviews: 305, image: getImg("USB Miner") },
-  { id: 14, category: "Miners", title: "Gold Digger Lottery Miner", price: 49.99, reviews: 240, image: getImg("Gold Miner") },
-  { id: 15, category: "Miners", title: "Whale Mystery Box", price: 799.99, reviews: 34, image: getImg("Whale Mystery Box") },
-  { id: 16, category: "Miners", title: "Legend's Mystery Box", price: 399.99, reviews: 12, image: getImg("Legend Mystery Box") },
-  { id: 17, category: "Miners", title: "Poor Man's Mystery Box", price: 199.99, reviews: 54, image: getImg("Poor Man Box") },
-  { id: 18, category: "Miners", title: "NerdMiner V2 Lottery Miner", price: 39.99, reviews: 88, image: getImg("NerdMiner") },
-  { id: 19, category: "Miners", title: "Easy Miner Laptop Kit - GekkoScience COMPAC", price: 149.99, reviews: 22, image: getImg("Laptop Miner") },
-  { id: 20, category: "Miners", title: "Bitaxe Gamma Ice Angel Edition", price: 249.99, reviews: 41, image: getImg("Ice Angel Miner") },
-  { id: 21, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: getImg("Shipping Box") },
-  { id: 22, category: "Accessories", title: "AxeDash Desktop Display for Bitaxe", price: 49.99, reviews: 78, image: getImg("AxeDash Display") },
-  { id: 23, category: "Accessories", title: "6x Gold Nugget Lottery Miner COMBO", price: 269.99, reviews: 110, image: getImg("Gold Nugget Combo") },
-  { id: 24, category: "Accessories", title: "7x USB Lottery Miner COMBO", price: 244.99, reviews: 78, image: getImg("USB Combo") },
-  { id: 25, category: "Accessories", title: "Bitcoin Battle Pass", price: 59.99, reviews: 33, image: getImg("Battle Pass") },
-  { id: 26, category: "Accessories", title: "X Node Mini - 2TB Full Node", price: 199.99, reviews: 17, image: getImg("Node Mini") },
-  { id: 27, category: "Accessories", title: "1200W Server Power Supply (PSU)", price: 89.99, reviews: 54, image: getImg("Server PSU") },
-  { id: 28, category: "Accessories", title: "APW12 Power Supply for S19 Series", price: 110.00, reviews: 33, image: getImg("APW12 PSU") },
-  { id: 29, category: "Accessories", title: "6-Pin to 8-Pin PCIe Cables (Pack of 4)", price: 15.00, reviews: 110, image: getImg("PCIe Cables") },
-  { id: 30, category: "Accessories", title: "ASIC Miner Cooling Fan (6000 RPM)", price: 25.00, reviews: 78, image: getImg("Cooling Fan") },
-  { id: 31, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: getImg("Bitcoin T-Shirt") },
-  { id: 32, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: getImg("Crypto Hoodie") },
-  { id: 33, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 38, image: getImg("Bitcoin Hat") },
-  { id: 34, category: "Merch", title: "Metal Bitcoin Coin (Gold Plated)", price: 12.00, reviews: 203, image: getImg("Bitcoin Coin") },
-  { id: 35, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 149.00, reviews: 310, image: getImg("Ledger Wallet") },
-  { id: 36, category: "Merch", title: "Crypto Sticker Pack", price: 9.99, reviews: 150, image: getImg("Crypto Stickers") },
-  { id: 37, category: "Merch", title: "Bitcoin Coffee Mug", price: 18.00, reviews: 72, image: getImg("Bitcoin Mug") },
-  { id: 38, category: "Merch", title: "Crypto Mining Mousepad", price: 15.00, reviews: 45, image: getImg("Mining Mousepad") }
+  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373", price: 1199.99, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 2, category: "Miners", title: "Bitaxe Gamma Lottery Miner + PSU", price: 119.99, reviews: 89, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 3, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=400&q=80" },
+  { id: 4, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, reviews: 189, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=400&q=80" },
+  { id: 5, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 6, category: "Miners", title: "NerdQaxe++ 4.8-6TH/s Multi-Chip BTC Miner", price: 229.99, reviews: 145, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=400&q=80" },
+  { id: 7, category: "Miners", title: "NerdOCTaxe 9-12TH/s BTC Miner w/ PSU", price: 424.99, reviews: 67, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 8, category: "Miners", title: "MARS LANDER 3 All-In-One Lottery Miner & Node", price: 749.99, reviews: 110, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 9, category: "Miners", title: "Bitaxe GammaHex 1300 Hydro 10.5TH/s", price: 449.99, reviews: 32, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 10, category: "Miners", title: "LuckyAxe BLO4 Bitcoin / DOGE Dual Miner", price: 499.99, reviews: 88, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=400&q=80" },
+  { id: 11, category: "Miners", title: "Nexus S1-8 Hydro 40TH/s BM1373", price: 1199.99, reviews: 56, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 12, category: "Miners", title: "GekkoScience Terminus A2X 7-8TH/s Pod", price: 499.99, reviews: 112, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 13, category: "Miners", title: "USB Lottery Miner", price: 34.99, reviews: 305, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 14, category: "Miners", title: "Gold Digger Lottery Miner", price: 49.99, reviews: 240, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 15, category: "Miners", title: "Whale Mystery Box", price: 799.99, reviews: 34, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 16, category: "Miners", title: "Legend's Mystery Box", price: 399.99, reviews: 12, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 17, category: "Miners", title: "Poor Man's Mystery Box", price: 199.99, reviews: 54, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 18, category: "Miners", title: "NerdMiner V2 Lottery Miner", price: 39.99, reviews: 88, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 19, category: "Miners", title: "Easy Miner Laptop Kit - GekkoScience COMPAC", price: 149.99, reviews: 22, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 20, category: "Miners", title: "Bitaxe Gamma Ice Angel Edition", price: 249.99, reviews: 41, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 21, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: "https://images.unsplash.com/photo-1586528116311-ad8ed745d3e1?w=400&q=80" },
+  { id: 22, category: "Accessories", title: "AxeDash Desktop Display for Bitaxe", price: 49.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 23, category: "Accessories", title: "6x Gold Nugget Lottery Miner COMBO", price: 269.99, reviews: 110, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 24, category: "Accessories", title: "7x USB Lottery Miner COMBO", price: 244.99, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 25, category: "Accessories", title: "Bitcoin Battle Pass", price: 59.99, reviews: 33, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 26, category: "Accessories", title: "X Node Mini - 2TB Full Node", price: 199.99, reviews: 17, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 27, category: "Accessories", title: "1200W Server Power Supply (PSU)", price: 89.99, reviews: 54, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 28, category: "Accessories", title: "APW12 Power Supply for S19 Series", price: 110.00, reviews: 33, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 29, category: "Accessories", title: "6-Pin to 8-Pin PCIe Cables (Pack of 4)", price: 15.00, reviews: 110, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 30, category: "Accessories", title: "ASIC Miner Cooling Fan (6000 RPM)", price: 25.00, reviews: 78, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 31, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" },
+  { id: 32, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80" },
+  { id: 33, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 38, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&q=80" },
+  { id: 34, category: "Merch", title: "Metal Bitcoin Coin (Gold Plated)", price: 12.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 35, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 149.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 36, category: "Merch", title: "Crypto Sticker Pack", price: 9.99, reviews: 150, image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?w=400&q=80" },
+  { id: 37, category: "Merch", title: "Bitcoin Coffee Mug", price: 18.00, reviews: 72, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&q=80" },
+  { id: 38, category: "Merch", title: "Crypto Mining Mousepad", price: 15.00, reviews: 45, image: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=400&q=80" }
 ];
 
 function App() {
@@ -344,7 +341,7 @@ function App() {
               {filteredProducts.map(p => (
                 <article key={p.id} className="flex flex-col bg-dark-card p-3 rounded-lg border border-gray-800">
                   <div className="relative aspect-square mb-3 flex items-center justify-center overflow-hidden bg-[#1a1a1a] rounded-lg">
-                    <img src={p.image} alt={p.title} className="max-h-full max-w-full object-contain glow-img" />
+                    <img src={p.image} alt={p.title} className="max-h-full max-w-full object-cover glow-img" />
                   </div>
                   <h3 className="text-sm font-semibold leading-snug line-clamp-2 mb-2 text-white">{p.title}</h3>
                   <p className="text-white font-bold text-lg mb-1">${p.price.toFixed(2)}</p>
