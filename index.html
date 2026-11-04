@@ -41,48 +41,45 @@ const WALLETS = {
   USDT_SOL: "6yQi3Ep7dGmwWvEB5vFqAn186doUHVDoeM9yT5tpAjai"
 };
 
-// Using picsum with a unique seed for each product to guarantee different, real images
-const getImg = (id) => `https://picsum.photos/seed/${id}/400/400`;
-
 const allProducts = [
-  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 324.99, whalePrice: 276.24, reviews: 45, image: getImg(1) },
-  { id: 2, category: "Miners", title: "Bitaxe Gamma Lottery Miner + PSU", price: 119.99, whalePrice: 101.99, reviews: 89, image: getImg(2) },
-  { id: 3, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, whalePrice: 2609.10, reviews: 214, image: getImg(3) },
-  { id: 4, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, whalePrice: 1665.00, reviews: 189, image: getImg(4) },
-  { id: 5, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, whalePrice: 1278.00, reviews: 92, image: getImg(5) },
-  { id: 6, category: "Miners", title: "NerdQaxe++ 4.8-6TH/s Multi-Chip BTC Miner", price: 229.99, whalePrice: 206.99, reviews: 145, image: getImg(6) },
-  { id: 7, category: "Miners", title: "NerdOCTaxe 9-12TH/s BTC Miner w/ PSU", price: 424.99, whalePrice: 382.49, reviews: 67, image: getImg(7) },
-  { id: 8, category: "Miners", title: "MARS LANDER 3 All-In-One Lottery Miner & Node", price: 749.99, whalePrice: 674.99, reviews: 110, image: getImg(8) },
-  { id: 9, category: "Miners", title: "Bitaxe GammaHex 1300 Hydro 10.5TH/s", price: 449.99, whalePrice: 404.99, reviews: 32, image: getImg(9) },
-  { id: 10, category: "Miners", title: "LuckyAxe BLO4 Bitcoin / DOGE Dual Miner", price: 499.99, whalePrice: 449.99, reviews: 88, image: getImg(10) },
-  { id: 11, category: "Miners", title: "Nexus S1-8 Hydro 40TH/s BM1373", price: 1199.99, whalePrice: 1079.99, reviews: 56, image: getImg(11) },
-  { id: 12, category: "Miners", title: "GekkoScience Terminus A2X 7-8TH/s Pod", price: 499.99, whalePrice: 449.99, reviews: 112, image: getImg(12) },
-  { id: 13, category: "Miners", title: "USB Lottery Miner", price: 34.99, reviews: 305, image: getImg(13) },
-  { id: 14, category: "Miners", title: "Gold Digger Lottery Miner", price: 49.99, reviews: 240, image: getImg(14) },
-  { id: 15, category: "Miners", title: "Whale Mystery Box", price: 799.99, reviews: 34, image: getImg(15) },
-  { id: 16, category: "Miners", title: "Legend's Mystery Box", price: 399.99, reviews: 12, image: getImg(16) },
-  { id: 17, category: "Miners", title: "Poor Man's Mystery Box", price: 199.99, reviews: 54, image: getImg(17) },
-  { id: 18, category: "Miners", title: "NerdMiner V2 Lottery Miner", price: 39.99, reviews: 88, image: getImg(18) },
-  { id: 19, category: "Miners", title: "Easy Miner Laptop Kit - GekkoScience COMPAC", price: 149.99, reviews: 22, image: getImg(19) },
-  { id: 20, category: "Miners", title: "Bitaxe Gamma Ice Angel Edition", price: 249.99, reviews: 41, image: getImg(20) },
-  { id: 21, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: getImg(21) },
-  { id: 22, category: "Accessories", title: "AxeDash Desktop Display for Bitaxe", price: 49.99, reviews: 78, image: getImg(22) },
-  { id: 23, category: "Accessories", title: "6x Gold Nugget Lottery Miner COMBO", price: 269.99, reviews: 110, image: getImg(23) },
-  { id: 24, category: "Accessories", title: "7x USB Lottery Miner COMBO", price: 244.99, reviews: 78, image: getImg(24) },
-  { id: 25, category: "Accessories", title: "Bitcoin Battle Pass", price: 59.99, reviews: 33, image: getImg(25) },
-  { id: 26, category: "Accessories", title: "X Node Mini - 2TB Full Node", price: 199.99, reviews: 17, image: getImg(26) },
-  { id: 27, category: "Accessories", title: "1200W Server Power Supply (PSU)", price: 89.99, reviews: 54, image: getImg(27) },
-  { id: 28, category: "Accessories", title: "APW12 Power Supply for S19 Series", price: 110.00, reviews: 33, image: getImg(28) },
-  { id: 29, category: "Accessories", title: "6-Pin to 8-Pin PCIe Cables (Pack of 4)", price: 15.00, reviews: 110, image: getImg(29) },
-  { id: 30, category: "Accessories", title: "ASIC Miner Cooling Fan (6000 RPM)", price: 25.00, reviews: 78, image: getImg(30) },
-  { id: 31, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: getImg(31) },
-  { id: 32, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: getImg(32) },
-  { id: 33, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 38, image: getImg(33) },
-  { id: 34, category: "Merch", title: "Metal Bitcoin Coin (Gold Plated)", price: 12.00, reviews: 203, image: getImg(34) },
-  { id: 35, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 149.00, reviews: 310, image: getImg(35) },
-  { id: 36, category: "Merch", title: "Crypto Sticker Pack", price: 9.99, reviews: 150, image: getImg(36) },
-  { id: 37, category: "Merch", title: "Bitcoin Coffee Mug", price: 18.00, reviews: 72, image: getImg(37) },
-  { id: 38, category: "Merch", title: "Crypto Mining Mousepad", price: 15.00, reviews: 45, image: getImg(38) }
+  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 324.99, whalePrice: 276.24, reviews: 45, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&q=80" },
+  { id: 2, category: "Miners", title: "Bitaxe Gamma Lottery Miner + PSU", price: 119.99, whalePrice: 101.99, reviews: 89, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=400&q=80" },
+  { id: 3, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, whalePrice: 2609.10, reviews: 214, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 4, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, whalePrice: 1665.00, reviews: 189, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=400&q=80" },
+  { id: 5, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, whalePrice: 1278.00, reviews: 92, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400&q=80" },
+  { id: 6, category: "Miners", title: "NerdQaxe++ 4.8-6TH/s Multi-Chip BTC Miner", price: 229.99, whalePrice: 206.99, reviews: 145, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 7, category: "Miners", title: "NerdOCTaxe 9-12TH/s BTC Miner w/ PSU", price: 424.99, whalePrice: 382.49, reviews: 67, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&q=80" },
+  { id: 8, category: "Miners", title: "MARS LANDER 3 All-In-One Lottery Miner & Node", price: 749.99, whalePrice: 674.99, reviews: 110, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&q=80" },
+  { id: 9, category: "Miners", title: "Bitaxe GammaHex 1300 Hydro 10.5TH/s", price: 449.99, whalePrice: 404.99, reviews: 32, image: "https://images.unsplash.com/photo-1516245834210-c4c1d2b8c6f4?w=400&q=80" },
+  { id: 10, category: "Miners", title: "LuckyAxe BLO4 Bitcoin / DOGE Dual Miner", price: 499.99, whalePrice: 449.99, reviews: 88, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=400&q=80" },
+  { id: 11, category: "Miners", title: "Nexus S1-8 Hydro 40TH/s BM1373", price: 1199.99, whalePrice: 1079.99, reviews: 56, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400&q=80" },
+  { id: 12, category: "Miners", title: "GekkoScience Terminus A2X 7-8TH/s Pod", price: 499.99, whalePrice: 449.99, reviews: 112, image: "https://images.unsplash.com/photo-1601524909162-ae8725290836?w=400&q=80" },
+  { id: 13, category: "Miners", title: "USB Lottery Miner", price: 34.99, reviews: 305, image: "https://images.unsplash.com/photo-1616628188859-7a11abb6fcc9?w=400&q=80" },
+  { id: 14, category: "Miners", title: "Gold Digger Lottery Miner", price: 49.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&q=80" },
+  { id: 15, category: "Miners", title: "Whale Mystery Box", price: 799.99, reviews: 34, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=400&q=80" },
+  { id: 16, category: "Miners", title: "Legend's Mystery Box", price: 399.99, reviews: 12, image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&q=80" },
+  { id: 17, category: "Miners", title: "Poor Man's Mystery Box", price: 199.99, reviews: 54, image: "https://images.unsplash.com/photo-1586528116311-ad8ed745d3e1?w=400&q=80" },
+  { id: 18, category: "Miners", title: "NerdMiner V2 Lottery Miner", price: 39.99, reviews: 88, image: "https://images.unsplash.com/photo-1555664424-778a1e5e1b48?w=400&q=80" },
+  { id: 19, category: "Miners", title: "Easy Miner Laptop Kit - GekkoScience COMPAC", price: 149.99, reviews: 22, image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&q=80" },
+  { id: 20, category: "Miners", title: "Bitaxe Gamma Ice Angel Edition", price: 249.99, reviews: 41, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80" },
+  { id: 21, category: "Accessories", title: "Shipping Protection", price: 0.75, reviews: 21, image: "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=400&q=80" },
+  { id: 22, category: "Accessories", title: "AxeDash Desktop Display for Bitaxe", price: 49.99, reviews: 78, image: "https://images.unsplash.com/photo-1527443154391-507e9dc6c5cc?w=400&q=80" },
+  { id: 23, category: "Accessories", title: "6x Gold Nugget Lottery Miner COMBO", price: 269.99, reviews: 110, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400&q=80" },
+  { id: 24, category: "Accessories", title: "7x USB Lottery Miner COMBO", price: 244.99, reviews: 78, image: "https://images.unsplash.com/photo-1616628188859-7a11abb6fcc9?w=400&q=80" },
+  { id: 25, category: "Accessories", title: "Bitcoin Battle Pass", price: 59.99, reviews: 33, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 26, category: "Accessories", title: "X Node Mini - 2TB Full Node", price: 199.99, reviews: 17, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80" },
+  { id: 27, category: "Accessories", title: "1200W Server Power Supply (PSU)", price: 89.99, reviews: 54, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 28, category: "Accessories", title: "APW12 Power Supply for S19 Series", price: 110.00, reviews: 33, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=400&q=80" },
+  { id: 29, category: "Accessories", title: "6-Pin to 8-Pin PCIe Cables (Pack of 4)", price: 15.00, reviews: 110, image: "https://images.unsplash.com/photo-1544652478-6653e09f18a2?w=400&q=80" },
+  { id: 30, category: "Accessories", title: "ASIC Miner Cooling Fan (6000 RPM)", price: 25.00, reviews: 78, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400&q=80" },
+  { id: 31, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 87, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80" },
+  { id: 32, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 64, image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80" },
+  { id: 33, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 38, image: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&q=80" },
+  { id: 34, category: "Merch", title: "Metal Bitcoin Coin (Gold Plated)", price: 12.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=400&q=80" },
+  { id: 35, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 149.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=400&q=80" },
+  { id: 36, category: "Merch", title: "Crypto Sticker Pack", price: 9.99, reviews: 150, image: "https://images.unsplash.com/photo-1572375992501-4b0892d50c69?w=400&q=80" },
+  { id: 37, category: "Merch", title: "Bitcoin Coffee Mug", price: 18.00, reviews: 72, image: "https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=400&q=80" },
+  { id: 38, category: "Merch", title: "Crypto Mining Mousepad", price: 15.00, reviews: 45, image: "https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=400&q=80" }
 ];
 
 function App() {
@@ -370,123 +367,4 @@ function App() {
                     }`}
                   >
                     {animatingId === p.id ? "Adding..." : 
-                     animatingId === "added" && cart.includes(p) ? "Added ✓" : 
-                     "ADD TO CART"}
-                  </button>
-                </article>
-              ))}
-            </section>
-          )}
-        </main>
-      )}
-
-      {page === "support" && (
-        <main className="p-4 max-w-lg mx-auto mt-6">
-          <h1 className="text-3xl font-bold text-center mb-4 text-white">Contact Us</h1>
-          <p className="text-center text-gray-400 text-sm mb-8 leading-relaxed">Real people in Los Angeles, ready to help with orders, setup and anything mining. Pick the way that works best for you.</p>
-          <div className="border border-brand-orange rounded-xl p-6 mb-6 bg-[#242424]">
-            <div className="w-12 h-12 bg-orange-900/30 rounded-xl flex items-center justify-center mb-4 text-brand-orange text-xl">📞</div>
-            <h2 className="text-xl font-bold mb-2">Call us</h2>
-            <a href="tel:8775000282" className="text-brand-orange underline font-medium mb-2 block">(877) 500-0282</a>
-            <p className="text-sm text-gray-400 mb-6">(877) 5000-BTC · Fastest way to reach us, weekdays 9am – 5pm PT</p>
-            <a href="tel:8775000282" className="bg-brand-orange text-white font-medium py-2 px-6 rounded inline-block">Call now</a>
-          </div>
-          <div className="border border-gray-700 rounded-xl p-6 bg-[#242424]">
-            <div className="w-12 h-12 bg-orange-900/30 rounded-xl flex items-center justify-center mb-4 text-brand-orange text-xl">✉️</div>
-            <h2 className="text-xl font-bold mb-2">Email</h2>
-            <a href="mailto:support@bitcoinmerch.com" className="text-white font-medium mb-2 block hover:text-brand-orange">support@bitcoinmerch.com</a>
-            <p className="text-sm text-gray-400 mb-6">We reply within 24 hours. Include your order number if you have one.</p>
-            <a href="mailto:support@bitcoinmerch.com" className="bg-[#1a1a1a] text-white border border-gray-600 font-medium py-2 px-6 rounded inline-block hover:border-brand-orange">Send email</a>
-          </div>
-          <button onClick={() => setPage("home")} className="w-full mt-8 text-brand-orange font-bold hover:underline">← Back to Store</button>
-        </main>
-      )}
-
-      {page === "checkout" && (
-        <main className="p-4 max-w-md mx-auto mt-4">
-          <h1 className="text-2xl font-bold mb-6">Checkout</h1>
-          {cart.length === 0 ? (
-            <div className="text-center p-8 bg-dark-card rounded border border-gray-800">
-              <p className="mb-4 text-gray-400">Your cart is empty.</p>
-              <button onClick={() => setPage("home")} className="bg-brand-orange text-white px-6 py-2 rounded">Go back to store</button>
-            </div>
-          ) : (
-            <>
-              <div className="bg-dark-card p-4 rounded-lg border border-gray-800 mb-6">
-                <h2 className="font-bold mb-4 border-b border-gray-700 pb-2">Order Summary</h2>
-                {cart.map((item, index) => (
-                  <div key={index} className="flex justify-between text-sm mb-2 text-gray-300">
-                    <span className="truncate pr-4">{item.title}</span>
-                    <span>${item.price.toFixed(2)}</span>
-                  </div>
-                ))}
-                <div className="border-t border-gray-700 mt-4 pt-2 flex justify-between font-bold text-lg text-brand-orange">
-                  <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
-                </div>
-              </div>
-              <form onSubmit={(e) => { e.preventDefault(); setPage("success"); }} className="bg-dark-card p-4 rounded-lg border border-gray-800">
-                <label className="block text-sm font-bold mb-2 text-gray-300">Select Payment Method</label>
-                <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="w-full border border-gray-600 p-3 rounded mb-4 bg-[#1a1a1a] text-white outline-none focus:border-brand-orange">
-                  <option value="BTC">Bitcoin (BTC)</option>
-                  <option value="ETH">Ethereum (ETH)</option>
-                  <option value="SOL">Solana (SOL)</option>
-                  <option value="USDT_TRC20">USDT (TRC20)</option>
-                  <option value="USDT_BEP20">USDT (BEP20)</option>
-                  <option value="USDT_SOL">USDT (Solana)</option>
-                </select>
-                <button type="submit" className="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded transition">Generate Payment Address</button>
-              </form>
-            </>
-          )}
-        </main>
-      )}
-
-      {page === "success" && (
-        <main className="p-4 max-w-md mx-auto mt-8">
-          <div className="bg-dark-card p-6 rounded-lg border border-gray-800 text-center">
-            <div className="text-5xl mb-4">⏳</div>
-            <h1 className="text-2xl font-bold text-white mb-2">Order Pending</h1>
-            <p className="text-sm text-gray-400 mb-6">Send exactly <strong>${total.toFixed(2)}</strong> in <strong>{paymentMethod.replace('_', ' ')}</strong> to the address below.</p>
-            <div className="bg-[#1a1a1a] border border-gray-700 p-4 rounded font-mono text-sm break-all mb-4 select-all cursor-pointer text-brand-orange">{WALLETS[paymentMethod]}</div>
-            <p className="text-xs text-gray-500 mb-6">Once sent, please email your transaction hash to support@bitcoinmerch.com to approve your order.</p>
-            <button onClick={() => { clearCart(); setPage("home"); }} className="w-full bg-brand-orange text-white font-bold py-3 rounded">Return to Store</button>
-          </div>
-        </main>
-      )}
-
-      <button onClick={() => setShowChat(true)} className="fixed bottom-20 left-4 z-30 bg-brand-chat text-brand-blue rounded-full w-14 h-14 shadow-lg text-2xl flex items-center justify-center border-2 border-white">💬</button>
-
-      {showChat && (
-        <div className="fixed inset-0 z-[60] bg-brand-blue flex flex-col text-white p-6">
-          <div className="flex justify-end">
-            <button onClick={() => setShowChat(false)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-xl">✕</button>
-          </div>
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="bg-white px-4 py-2 rounded-md mb-6 inline-flex items-center gap-1 shadow-lg">
-              <span className="text-brand-orange font-black text-3xl">₿</span>
-              <span className="font-black text-2xl text-black leading-none">itcoin merch</span>
-            </div>
-            <h2 className="text-lg font-medium mb-12">We are online - How can we help?</h2>
-          </div>
-          <button className="bg-brand-chat text-brand-blue font-medium py-4 px-6 rounded-full self-start mb-8">Send us a message</button>
-        </div>
-      )}
-
-      <a href="#" className="fixed right-0 top-1/2 -translate-y-1/2 z-30 bg-black text-white text-[10px] font-semibold py-3 px-1 [writing-mode:vertical-rl] rotate-180 tracking-widest border-l border-gray-800">★ Reviews</a>
-
-      {showSpin && (
-        <div className="fixed bottom-0 inset-x-0 z-50 bg-black text-white px-4 py-4 flex items-center justify-between shadow-[0_-10px_20px_rgba(0,0,0,0.5)] border-t border-gray-800">
-          <span className="text-sm font-medium">Do You Want A Discount</span>
-          <button className="bg-brand-orange text-white font-bold rounded-full px-5 py-2 text-sm shadow-md">🎰 Spin to win</button>
-          <button onClick={() => setShowSpin(false)} className="absolute -top-3 right-2 bg-white text-black rounded-full w-6 h-6 text-xs flex items-center justify-center border shadow-sm">✕</button>
-        </div>
-      )}
-    </div>
-  );
-}
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
-</script>
-</body>
-</html>
+                     animatingId === "added" && cart.includes(p) ? "Added
