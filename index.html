@@ -97,6 +97,10 @@ function App() {
     setShowCartDrawer(true);
   };
 
+  const removeFromCart = (indexToRemove) => {
+    setCart(prev => prev.filter((_, index) => index !== indexToRemove));
+  };
+
   const handleProductClick = (product) => {
     setSelectedProduct(product);
     setQuantity(1);
@@ -105,7 +109,7 @@ function App() {
   };
 
   const clearCart = () => setCart([]);
-  const total = cart.reduce((sum, item) => sum + (item.price * item.cartQty), 0);
+  const total = cart.reduce((sum, item) => sum + (item.price * (item.cartQty || 1)), 0);
 
   const handleAuth = (e) => {
     e.preventDefault();
@@ -172,7 +176,7 @@ function App() {
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
               </svg>
-              {cart.length > 0 && (<span className="absolute -top-1 -right-2 bg-brand-orange text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{cart.reduce((sum, item) => sum + item.cartQty, 0)}</span>)}
+              {cart.length > 0 && (<span className="absolute -top-1 -right-2 bg-brand-orange text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{cart.reduce((sum, item) => sum + (item.cartQty || 1), 0)}</span>)}
             </button>
 
             {showProfileMenu && (
@@ -201,12 +205,13 @@ function App() {
         )}
       </header>
 
+      {/* CART DRAWER WITH REMOVE BUTTON */}
       <div className={`fixed inset-0 z-50 bg-black/50 transition-opacity ${showCartDrawer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setShowCartDrawer(false)}>
         <div className={`absolute right-0 top-0 w-full max-w-md bg-white h-full flex flex-col shadow-2xl drawer ${showCartDrawer ? 'translate-x-0' : 'translate-x-full'}`} onClick={e => e.stopPropagation()}>
           <div className="flex items-center justify-between p-4 border-b">
             <div className="flex items-center gap-2">
               <h2 className="text-2xl font-serif">Cart</h2>
-              <span className="bg-brand-orange text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">{cart.reduce((sum, item) => sum + item.cartQty, 0)}</span>
+              <span className="bg-brand-orange text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">{cart.reduce((sum, item) => sum + (item.cartQty || 1), 0)}</span>
             </div>
             <button onClick={() => setShowCartDrawer(false)} className="text-gray-500 text-2xl">✕</button>
           </div>
@@ -227,9 +232,10 @@ function App() {
                     <div key={index} className="flex justify-between items-start text-sm mb-4 border-b pb-2">
                       <div>
                         <span className="pr-4 font-medium block">{item.title}</span>
-                        <span className="text-xs text-gray-500">Qty: {item.cartQty} | Variant: {item.selectedVariant}</span>
+                        <span className="text-xs text-gray-500">Qty: {item.cartQty || 1} | Variant: {item.selectedVariant}</span>
+                        <button onClick={() => removeFromCart(index)} className="text-xs text-red-500 underline mt-1">Remove</button>
                       </div>
-                      <span>${(item.price * item.cartQty).toFixed(2)}</span>
+                      <span>${(item.price * (item.cartQty || 1)).toFixed(2)}</span>
                     </div>
                   ))}
                 </div>
@@ -643,8 +649,8 @@ function App() {
                 <h2 className="font-bold mb-4 border-b border-gray-200 pb-2 text-black">Order Summary</h2>
                 {cart.map((item, index) => (
                   <div key={index} className="flex justify-between text-sm mb-2 text-gray-600">
-                    <span className="truncate pr-4">{item.cartQty}x {item.title} ({item.selectedVariant})</span>
-                    <span>${(item.price * item.cartQty).toFixed(2)}</span>
+                    <span className="truncate pr-4">{item.cartQty || 1}x {item.title} ({item.selectedVariant})</span>
+                    <span>${(item.price * (item.cartQty || 1)).toFixed(2)}</span>
                   </div>
                 ))}
                 <div className="border-t border-gray-200 mt-4 pt-2 flex justify-between font-bold text-lg text-brand-orange">
