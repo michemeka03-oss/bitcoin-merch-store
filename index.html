@@ -41,35 +41,33 @@ const WALLETS = {
 };
 
 const allProducts = [
-  // The Nexus
-  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 324.99, whalePrice: 276.24, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80" },
-  
-  // The 4 Industrial Miners from your screenshot
-  { id: 2, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer S21 XP 270TH/s Bitcoin Miner", price: 3899.99, reviews: 12, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80" },
-  { id: 3, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer L11 20GH/s DOGE LTC Miner", price: 6539.99, reviews: 8, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80" },
-  { id: 4, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer Z15 Pro 840Ksol Zcash Miner", price: 10859.99, reviews: 5, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" },
-  { id: 5, category: "Miners", title: "Bitcoin Merch® - BITMAIN Antminer S23 Hydro 563TH/s BTC Miner", price: 14899.99, reviews: 3, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80" },
+  // The 4 Industrial Miners from your screenshot (Front and Center)
+  { id: 1, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer S21 XP 270TH/s Bitcoin Miner", price: 3899.99, reviews: 12, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80" },
+  { id: 2, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer L11 20GH/s DOGE LTC Miner", price: 6539.99, reviews: 8, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80" },
+  { id: 3, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer Z15 Pro 840Ksol Zcash Miner", price: 10859.99, reviews: 5, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" },
+  { id: 4, category: "Miners", title: "Bitcoin Merch® - BITMAIN Antminer S23 Hydro 563TH/s BTC Miner", price: 14899.99, reviews: 3, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80" },
 
-  // Other Miners
+  // The Nexus (Major Product)
+  { id: 5, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 324.99, whalePrice: 276.24, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80" },
+
+  // Other High-Ticket Miners
   { id: 6, category: "Miners", title: "Bitcoin Merch® - NerdQaxe++ Hydro 4.8-6TH/s w Power Supply", price: 284.99, whalePrice: 242.24, reviews: 89, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80" },
-  { id: 7, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 119.99, whalePrice: 101.99, reviews: 189, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80" },
-  { id: 8, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" },
-  { id: 9, category: "Miners", title: "Bitcoin Merch® - Gold Digger Lottery Miner", price: 49.99, whalePrice: 42.49, reviews: 145, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" },
-  { id: 10, category: "Miners", title: "Bitcoin Merch® - 7x USB Lottery Miner COMBO", price: 244.99, whalePrice: 208.24, reviews: 21, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80" },
-  { id: 11, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80" },
+  { id: 7, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma++ 2TH/s w/ Power Supply", price: 149.99, whalePrice: 127.49, reviews: 214, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80" },
+  { id: 8, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 119.99, whalePrice: 101.99, reviews: 189, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" },
+  { id: 9, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" },
+  { id: 10, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" },
+  { id: 11, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, reviews: 189, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80" },
+  { id: 12, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80" },
+  { id: 13, category: "Miners", title: "Goldshell Mini-DOGE Pro 320MH/s", price: 480.00, reviews: 112, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80" },
   
-  // Accessories
-  { id: 12, category: "Accessories", title: "AxeDash Desktop Display", price: 49.99, whalePrice: 42.49, reviews: 112, image: "https://images.unsplash.com/photo-1601524909162-ae8725290836?w=600&q=80" },
-  { id: 13, category: "Accessories", title: "1200W Server Power Supply", price: 89.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" },
-  { id: 14, category: "Accessories", title: "APW12 Power Supply", price: 110.00, reviews: 33, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" },
-  { id: 15, category: "Accessories", title: "6-Pin to 8-Pin Cables", price: 15.00, reviews: 110, image: "https://images.unsplash.com/photo-1544652478-6653e09f18a2?w=600&q=80" },
-  { id: 16, category: "Accessories", title: "Cooling Fan 6000 RPM", price: 25.00, reviews: 78, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80" },
+  // High-Ticket Accessories / Upgrades
+  { id: 14, category: "Accessories", title: "AxeDash Desktop Display", price: 49.99, whalePrice: 42.49, reviews: 112, image: "https://images.unsplash.com/photo-1601524909162-ae8725290836?w=600&q=80" },
+  { id: 15, category: "Accessories", title: "1200W Server Power Supply", price: 89.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" },
+  { id: 16, category: "Accessories", title: "APW12 Power Supply", price: 110.00, reviews: 33, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" },
   
-  // Merch
-  { id: 17, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 34, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=600&q=80" },
-  { id: 18, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 12, image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80" },
-  { id: 19, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 54, image: "https://images.unsplash.com/photo-1586528116311-ad8ed745d3e1?w=600&q=80" },
-  { id: 20, category: "Merch", title: "Metal Bitcoin Coin", price: 12.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" }
+  // Premium Merch
+  { id: 17, category: "Merch", title: "Bitcoin Merch® - Cardsmiths Crypto Currency Collectible Trading Cards", price: 19.99, reviews: 34, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=600&q=80" },
+  { id: 18, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 149.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80" }
 ];
 
 function App() {
@@ -95,11 +93,9 @@ function App() {
   const [quantity, setQuantity] = useState(1);
   const [variant, setVariant] = useState("Standard");
 
-  // Checkout State
   const [shippingMethod, setShippingMethod] = useState("USPS");
   const [selectedCountry, setSelectedCountry] = useState("United States");
 
-  // Support Form State
   const [supportMessage, setSupportMessage] = useState("");
   const [supportSent, setSupportSent] = useState(false);
 
@@ -395,8 +391,8 @@ function App() {
           </div>
           
           <div className="bg-white px-4 py-8 text-center border-b">
-            <h2 className="text-3xl font-bold mb-2">Bitcoin Merch Exclusive</h2>
-            <h3 className="text-2xl font-medium mb-8">Lottery Miners</h3>
+            <h2 className="text-3xl font-bold mb-2">Industrial ASIC Miners</h2>
+            <h3 className="text-2xl font-medium mb-8">High Performance Hardware</h3>
           </div>
 
           <div className="px-2 py-3 border-b flex gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide bg-white">
@@ -421,7 +417,7 @@ function App() {
                     onClick={() => handleProductClick(p)}
                     className="mt-auto w-full py-3 bg-brand-orange text-white text-sm font-bold tracking-wide uppercase hover:bg-orange-600 transition"
                   >
-                    Choose Options
+                    Add to Cart
                   </button>
                 </article>
               ))}
