@@ -1,1 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitcoin Merch</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script>
+tailwind.config = { 
+  theme: { 
+    extend: { 
+      colors: { 
+        brand: { blue: "#0a1f9e", orange: "#f7941d", gold: "#ffb400", chat: "#8b9df5" },
+      } 
+    } 
+  } 
+}
+</script>
+<style>
+::-webkit-scrollbar { width: 0px; } 
+.drawer { transition: transform 0.3s ease-in-out; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</head>
+<body class="bg-white font-sans text-gray-900">
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
 
+const WALLETS = {
+  BTC: "bc1qaanjf99rsalzqwpqzfy7jry2dzrhc867cz8vp5",
+  ETH: "0x336b215a1988fAfA64637728E5Fecc7EBc7e0A2C",
+  SOL: "6yQi3Ep7dGmwWvEB5vFqAn186doUHVDoeM9yT5tpAjai",
+  USDT_TRC20: "UQBWtgWTTStiRZeXvZYxtNfrhri5JHRztBKwizTQ15cCwZ2P",
+  USDT_BEP20: "0x336b215a1988fAfA64637728E5Fecc7EBc7e0A2C",
+  USDT_SOL: "6yQi3Ep7dGmwWvEB5vFqAn186doUHVDoeM9yT5tpAjai"
+};
+
+const allProducts = [
+  // The Nexus
+  { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 324.99, whalePrice: 276.24, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80" },
+  
+  // The 4 Industrial Miners from your screenshot
+  { id: 2, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer S21 XP 270TH/s Bitcoin Miner", price: 3899.99, reviews: 12, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80" },
+  { id: 3, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer L11 20GH/s DOGE LTC Miner", price: 6539.99, reviews: 8, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80" },
+  { id: 4, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer Z15 Pro 840Ksol Zcash Miner", price: 10859.99, reviews: 5, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80" },
+  { id: 5, category: "Miners", title: "Bitcoin Merch® - BITMAIN Antminer S23 Hydro 563TH/s BTC Miner", price: 14899.99, reviews: 3, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80" },
+
+  // Other Miners
+  { id: 6, category: "Miners", title: "Bitcoin Merch® - NerdQaxe++ Hydro 4.8-6TH/s w Power Supply", price: 284.99, whalePrice: 242.24, reviews: 89, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80" },
+  { id: 7, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 119.99, whalePrice: 101.99, reviews: 189, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80" },
+  { id: 8, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" },
+  { id: 9, category: "Miners", title: "Bitcoin Merch® - Gold Digger Lottery Miner", price: 49.99, whalePrice: 42.49, reviews: 145, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" },
+  { id: 10, category: "Miners", title: "Bitcoin Merch® - 7x USB Lottery Miner COMBO", price: 244.99, whalePrice: 208.24, reviews: 21, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80" },
+  { id: 11, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80" },
+  
+  // Accessories
+  { id: 12, category: "Accessories", title: "AxeDash Desktop Display", price: 49.99, whalePrice: 42.49, reviews: 112, image: "https://images.unsplash.com/photo-1601524909162-ae8725290836?w=600&q=80" },
+  { id: 13, category: "Accessories", title: "1200W Server Power Supply", price: 89.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" },
+  { id: 14, category: "Accessories", title: "APW12 Power Supply", price: 110.00, reviews: 33, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80" },
+  { id: 15, category: "Accessories", title: "6-Pin to 8-Pin Cables", price: 15.00, reviews: 110, image: "https://images.unsplash.com/photo-1544652478-6653e09f18a2?w=600&q=80" },
+  { id: 16, category: "Accessories", title: "Cooling Fan 6000 RPM", price: 25.00, reviews: 78, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80" },
+  
+  // Merch
+  { id: 17, category: "Merch", title: "Bitcoin OG Tee", price: 29.99, reviews: 34, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=600&q=80" },
+  { id: 18, category: "Merch", title: "Crypto Hoodie - Blue Logo", price: 55.00, reviews: 12, image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80" },
+  { id: 19, category: "Merch", title: "Bitcoin Snapback Hat", price: 24.99, reviews: 54, image: "https://images.unsplash.com/photo-1586528116311-ad8ed745d3e1?w=600&q=80" },
+  { id: 20, category: "Merch", title: "Metal Bitcoin Coin", price: 12.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" }
+];
+
+function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("user_email") !== null);
+  const [userEmail, setUserEmail] = useState(() => localStorage.getItem("user_email") || "");
+  
+  const [page, setPage] = useState("home"); 
+  const [selectedProduct, setSelectedProduct] = useState(null); 
+  const [cart, setCart] = useState([]);
+  const [paymentMethod, setPaymentMethod] = useState("BTC");
+  
+  const [showSpin, setShowSpin] = useState(true);
+  const [showChat, setShowChat] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+  const [showCartDrawer, setShowCartDrawer] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
+
+  const [menuView, setMenuView] = useState("main");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [showSearch, setShowSearch] = useState(false);
+
+  const [quantity, setQuantity] = useState(1);
+  const [variant, setVariant] = useState("Standard");
+
+  // Checkout State
+  const [shippingMethod, setShippingMethod] = useState("USPS");
+  const [selectedCountry, setSelectedCountry] = useState("United States");
+
+  // Support Form State
+  const [supportMessage, setSupportMessage] = useState("");
+  const [supportSent, setSupportSent] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("crypto_cart");
+    if (saved) setCart(JSON.parse(saved));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("crypto_cart", JSON.stringify(cart));
+  }, [cart]);
+
+  const addToCart = (product, qty = 1, selectedVariant = "Standard") => {
+    const item = { ...product, cartQty: qty, selectedVariant };
+    setCart(prev => [...prev, item]);
+    setShowCartDrawer(true);
+  };
+
+  const removeFromCart = (indexToRemove) => {
+    setCart(prev => prev.filter((_, index) => index !== indexToRemove));
+  };
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setQuantity(1);
+    setVariant("Standard");
+    setPage("product");
+  };
+
+  const clearCart = () => setCart([]);
+  
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.cartQty || 1)), 0);
+  const shippingCost = shippingMethod === "USPS" ? 119.58 : 166.95;
+  const total = subtotal + (cart.length > 0 ? shippingCost : 0);
+
+  const handleAuth = (e) => {
+    e.preventDefault();
+    const email = e.target.elements.email.value;
+    const password = e.target.elements.password.value;
+    
+    const users = JSON.parse(localStorage.getItem("registered_users") || "{}");
+    users[email] = password;
+    localStorage.setItem("registered_users", JSON.stringify(users));
+    
+    localStorage.setItem("user_email", email);
+    setUserEmail(email);
+    setIsLoggedIn(true);
+    setPage("home");
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("user_email");
+    setUserEmail("");
+    setIsLoggedIn(false);
+    setShowProfileMenu(false);
+    setPage("home");
+  };
+
+  const handleMenuClick = (category) => {
+    setShowMenu(false);
+    setPage("home");
+    setActiveCategory(category);
+  };
+
+  const handleCheckoutSubmit = (e) => {
+    e.preventDefault();
+    setPage("success");
+  };
+
+  const handleSupportSubmit = (e) => {
+    e.preventDefault();
+    setSupportSent(true);
+    setSupportMessage("");
+    setTimeout(() => setSupportSent(false), 3000);
+  };
+
+  const filteredProducts = allProducts.filter(p => {
+    const matchesSearch = p.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = activeCategory === "All" || p.category === activeCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  return (
+    <div className="min-h-screen pb-24 relative overflow-x-hidden bg-white text-gray-900">
+      
+      <header className="sticky top-0 z-40 bg-brand-blue text-white shadow-md">
+        <div className="text-center text-xs py-2 border-b border-white/10 font-medium">See our <a href="https://www.trustpilot.com/review/bitcoinmerch.com" target="_blank" rel="noreferrer" className="underline font-bold">1,082 reviews</a> on <span className="text-green-400">★</span> Trustpilot</div>
+        
+        <div className="bg-brand-orange text-white text-[11px] py-1.5 px-4 flex justify-center items-center gap-2">
+          <span className="bg-white text-brand-orange px-2 py-0.5 rounded-full font-bold text-[10px]">BFCM Sale LIVE</span>
+          <span>Free Shipping Offers - Shop Now</span>
+        </div>
+
+        <div className="flex items-center justify-between px-4 h-16 relative">
+          <button onClick={() => { setShowMenu(true); setMenuView("main"); }} className="text-3xl font-light">☰</button>
+          <div onClick={() => { setPage("home"); setSearchQuery(""); setActiveCategory("All"); }} className="flex items-center gap-1 font-black text-2xl cursor-pointer tracking-tighter">
+            <span className="text-brand-orange text-3xl">₿</span>
+            <div className="flex flex-col leading-none"><span>itcoin</span><span className="text-lg self-end -mt-1">merch</span></div>
+          </div>
+          <div className="flex items-center gap-4">
+            <button onClick={() => setShowSearch(!showSearch)} className="text-2xl">🔍</button>
+            
+            <button onClick={() => setShowProfileMenu(!showProfileMenu)}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+            </button>
+            
+            <button onClick={() => setShowCartDrawer(true)} className="relative">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+              </svg>
+              {cart.length > 0 && (<span className="absolute -top-1 -right-2 bg-brand-orange text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">{cart.reduce((sum, item) => sum + (item.cartQty || 1), 0)}</span>)}
+            </button>
+
+            {showProfileMenu && (
+              <div className="absolute top-14 right-4 bg-white border border-gray-200 shadow-xl w-64 z-50 text-gray-900 rounded-sm overflow-hidden">
+                {isLoggedIn ? (
+                  <div className="p-4">
+                    <p className="text-xs text-gray-500 mb-1">Signed in as</p>
+                    <p className="font-bold text-sm truncate mb-4">{userEmail}</p>
+                    <hr className="border-gray-200 mb-3" />
+                    <button onClick={handleLogout} className="w-full text-left text-red-600 font-semibold text-sm hover:underline">Log out</button>
+                  </div>
+                ) : (
+                  <div className="p-4">
+                    <button onClick={() => { setPage("login"); setShowProfileMenu(false); }} className="w-full bg-brand-orange text-white font-bold py-3 rounded-sm uppercase text-sm mb-4">Login</button>
+                    <p className="text-center text-sm text-gray-600">New customer? <button onClick={() => { setPage("login"); setShowProfileMenu(false); }} className="text-brand-orange hover:underline">Create your account</button></p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+        {showSearch && (
+          <div className="p-3 bg-blue-900 border-t border-blue-800 absolute w-full">
+            <input type="text" placeholder="Search products..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full p-2 rounded text-black outline-none" />
+          </div>
+        )}
+      </header>
+
+      {/* CART DRAWER */}
+      <div className={`fixed inset-0 z-50 bg-black/50 transition-opacity ${showCartDrawer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setShowCartDrawer(false)}>
+        <div className={`absolute right-0 top-0 w-full max-w-md bg-white h-full flex flex-col shadow-2xl drawer ${showCartDrawer ? 'translate-x-0' : 'translate-x-full'}`} onClick={e => e.stopPropagation()}>
+          <div className="flex items-center justify-between p-4 border-b">
+            <div className="flex items-center gap-2">
+              <h2 className="text-2xl font-serif">Cart</h2>
+              <span className="bg-brand-orange text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">{cart.reduce((sum, item) => sum + (item.cartQty || 1), 0)}</span>
+            </div>
+            <button onClick={() => setShowCartDrawer(false)} className="text-gray-500 text-2xl">✕</button>
+          </div>
+          
+          <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
+            {cart.length === 0 ? (
+              <>
+                <div className="w-24 h-24 bg-brand-orange flex items-center justify-center mb-4">
+                  <span className="text-white text-5xl font-bold">₿</span>
+                </div>
+                <p className="font-bold text-lg mb-4">No products in cart.</p>
+                <button onClick={() => setShowCartDrawer(false)} className="border border-gray-300 px-6 py-2 rounded font-semibold hover:bg-gray-50">Continue Shopping</button>
+              </>
+            ) : (
+              <div className="w-full text-left flex flex-col h-full">
+                <div className="flex-1 overflow-y-auto">
+                  {cart.map((item, index) => (
+                    <div key={index} className="flex justify-between items-start text-sm mb-4 border-b pb-2">
+                      <div>
+                        <span className="pr-4 font-medium block">{item.title}</span>
+                        <span className="text-xs text-gray-500">Qty: {item.cartQty || 1} | Variant: {item.selectedVariant}</span>
+                        <button onClick={() => removeFromCart(index)} className="text-xs text-red-500 underline mt-1">Remove</button>
+                      </div>
+                      <span>${(item.price * (item.cartQty || 1)).toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="border-t pt-4 mt-auto">
+                  <div className="flex justify-between font-bold text-lg mb-4"><span>Total:</span><span>${subtotal.toFixed(2)}</span></div>
+                  <button onClick={() => { setShowCartDrawer(false); setPage("checkout"); }} className="w-full bg-black text-white font-bold py-3 rounded">Checkout</button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* HAMBURGER MENU */}
+      <div className={`fixed inset-0 z-50 bg-black/50 transition-opacity ${showMenu ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setShowMenu(false)}>
+        <div className={`w-[85%] max-w-sm bg-white text-gray-900 h-full flex flex-col overflow-y-auto drawer border-r border-gray-200 ${showMenu ? 'translate-x-0' : '-translate-x-full'}`} onClick={e => e.stopPropagation()}>
+          
+          <div className="bg-brand-blue text-white flex items-center justify-between px-4 h-16 sticky top-0 z-10 shrink-0">
+            <button onClick={() => setShowMenu(false)} className="text-3xl">✕</button>
+            <div className="flex items-center gap-1 font-black text-xl"><span className="text-brand-orange">₿</span>itcoin<span className="text-sm">merch</span></div>
+            <div className="text-xl flex gap-3"><span>🔍</span><span>👤</span></div>
+          </div>
+
+          {menuView === "main" && (
+            <div className="flex-1 flex flex-col">
+              <nav className="flex flex-col py-2">
+                <button onClick={() => setMenuView("miners")} className="px-6 py-4 border-b border-gray-200 flex justify-between items-center font-medium hover:bg-gray-50 transition">Miners <span>›</span></button>
+                <button onClick={() => handleMenuClick("Merch")} className="px-6 py-4 border-b border-gray-200 text-left font-medium hover:bg-gray-50 transition">Merch</button>
+                <button onClick={() => handleMenuClick("All")} className="px-6 py-4 border-b border-gray-200 text-left font-medium hover:bg-gray-50 transition">Whale Pass</button>
+                <button onClick={() => setMenuView("guides")} className="px-6 py-4 border-b border-gray-200 flex justify-between items-center font-medium hover:bg-gray-50 transition">Guides <span>›</span></button>
+                <button onClick={() => { setShowMenu(false); window.location.href = "https://www.trustpilot.com/review/bitcoinmerch.com"; }} className="px-6 py-4 border-b border-gray-200 text-left font-medium hover:bg-gray-50 transition">Reviews</button>
+                <button onClick={() => { setShowMenu(false); window.location.href = "https://pool.bitcoinmerch.com"; }} className="px-6 py-4 border-b border-gray-200 text-left font-medium hover:bg-gray-50 transition">Mining Pool</button>
+                <button onClick={() => { setShowMenu(false); setPage("support"); }} className="px-6 py-4 border-b border-gray-200 text-left font-medium hover:bg-gray-50 transition">Support</button>
+              </nav>
+              <div className="p-6 border-b border-gray-200 bg-gray-50 mt-auto">
+                <h3 className="font-bold text-sm tracking-widest mb-4 text-gray-500">NEED HELP?</h3>
+                <div className="flex items-center gap-3 mb-4 text-sm font-medium"><span className="text-xl">📞</span> 8775000282</div>
+                <div className="flex items-center gap-3 text-sm font-medium"><span className="text-xl">✉️</span> support@bitcoinmerch.com</div>
+              </div>
+            </div>
+          )}
+
+          {menuView === "miners" && (
+            <div className="flex-1 bg-white">
+              <button onClick={() => setMenuView("main")} className="px-4 py-4 text-sm font-semibold flex items-center border-b border-gray-200 w-full text-left text-brand-orange hover:bg-gray-50 transition">‹ Back</button>
+              <div className="py-2">
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-100 flex items-center gap-2 hover:bg-gray-50 transition"><span className="text-yellow-500">⭐</span> Mars Lander 3 (Miner + Node)</button>
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition">Lottery Miners</button>
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition">Bitaxe & Open-Source</button>
+                <button onClick={() => handleMenuClick("Miners")} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition">Industrial ASIC Miners</button>
+              </div>
+            </div>
+          )}
+
+          {menuView === "guides" && (
+            <div className="flex-1 bg-white">
+              <button onClick={() => setMenuView("main")} className="px-4 py-4 text-sm font-semibold flex items-center border-b border-gray-200 w-full text-left text-brand-orange hover:bg-gray-50 transition">‹ Back</button>
+              <div className="py-2">
+                <button onClick={() => setShowMenu(false)} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition">Guides</button>
+                <button onClick={() => setShowMenu(false)} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition">Video Guides</button>
+                <button onClick={() => setShowMenu(false)} className="w-full text-left px-6 py-4 text-sm font-medium border-b border-gray-100 hover:bg-gray-50 transition">Firmware Flasher</button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {page === "home" && (
+        <main>
+          <div className="bg-[#111] text-white text-center pb-6">
+            <div className="p-6">
+              <span className="bg-brand-orange text-white text-xs font-bold px-4 py-1 rounded-full mb-3 inline-block">NOV 1 - DEC 3</span>
+              <h1 className="text-4xl font-black leading-none mb-2 tracking-tighter">BFCM SALE LIVE<br/><span className="text-brand-orange">FREE SHIPPING</span></h1>
+              <p className="text-sm font-bold text-gray-300">USA $199+ · Int'l $1,000+</p>
+            </div>
+            
+            <div className="bg-white text-gray-900 py-6 border-b">
+              <p className="font-medium mb-3 text-lg">Check out our 1,082 reviews</p>
+              <div className="flex justify-center gap-1 mb-2">
+                {[1,2,3,4,5].map(i => (
+                  <div key={i} className="w-10 h-10 bg-[#00b67a] flex items-center justify-center">
+                    <span className="text-white text-2xl">★</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex justify-center items-center gap-1 font-bold text-xl">
+                <span className="text-[#00b67a] text-3xl">★</span> Trustpilot
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white py-8 px-6 border-b space-y-8">
+            <div className="flex items-start gap-4">
+              <div className="text-3xl text-gray-800 mt-1">🤝</div>
+              <div>
+                <h3 className="font-bold text-lg mb-1 uppercase tracking-wide">Trusted Brand Since 2017</h3>
+                <p className="text-gray-600 leading-relaxed">We have sold over 100,000 miners over the past 9 years</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="text-3xl text-gray-800 mt-1">🚚</div>
+              <div>
+                <h3 className="font-bold text-lg mb-1 uppercase tracking-wide">Shipped From California</h3>
+                <p className="text-gray-600 leading-relaxed">Los Angeles warehouse to all over the world</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="text-3xl text-gray-800 mt-1">🚚</div>
+              <div>
+                <h3 className="font-bold text-lg mb-1 uppercase tracking-wide">Fast Shipping</h3>
+                <p className="text-gray-600 leading-relaxed">Ships from LA not overseas. In-stock orders go out quickly.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="text-3xl text-gray-800 mt-1">📞</div>
+              <div>
+                <h3 className="font-bold text-lg mb-1 uppercase tracking-wide">Customer Service</h3>
+                <p className="text-gray-600 leading-relaxed">Top of the line email, chat, and phone support from the USA</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-white px-4 py-8 text-center border-b">
+            <h2 className="text-3xl font-bold mb-2">Bitcoin Merch Exclusive</h2>
+            <h3 className="text-2xl font-medium mb-8">Lottery Miners</h3>
+          </div>
+
+          <div className="px-2 py-3 border-b flex gap-2 overflow-x-auto whitespace-nowrap scrollbar-hide bg-white">
+            {["All", "Miners", "Accessories", "Merch"].map(cat => (
+              <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-5 py-2 rounded-full text-sm font-semibold border ${activeCategory === cat ? 'bg-brand-orange text-white border-brand-orange' : 'bg-transparent text-gray-600 border-gray-300'}`}>{cat}</button>
+            ))}
+          </div>
+          
+          {filteredProducts.length === 0 ? (
+            <div className="p-8 text-center text-gray-500">No products found.</div>
+          ) : (
+            <section className="grid grid-cols-2 gap-4 p-4">
+              {filteredProducts.map(p => (
+                <article key={p.id} className="flex flex-col bg-white">
+                  <div onClick={() => handleProductClick(p)} className="relative aspect-square mb-3 flex items-center justify-center overflow-hidden bg-gray-100 cursor-pointer">
+                    <img src={p.image} alt={p.title} className="max-h-full max-w-full object-cover" />
+                  </div>
+                  <h3 onClick={() => handleProductClick(p)} className="text-[15px] font-bold leading-snug line-clamp-3 mb-2 text-center cursor-pointer">{p.title}</h3>
+                  <p className="text-black font-bold text-lg mb-3 text-center">${p.price.toFixed(2)}</p>
+                  
+                  <button 
+                    onClick={() => handleProductClick(p)}
+                    className="mt-auto w-full py-3 bg-brand-orange text-white text-sm font-bold tracking-wide uppercase hover:bg-orange-600 transition"
+                  >
+                    Choose Options
+                  </button>
+                </article>
+              ))}
+            </section>
+          )}
+          
+          <div className="text-center py-8">
+            <button className="font-bold text-sm tracking-widest border-b-2 border-black pb-1">LOAD MORE</button>
+          </div>
+        </main>
+      )}
+
+      {page === "product" && selectedProduct && (
+        <main className="bg-white pb-24">
+          <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden mb-2">
+            <img src={selectedProduct.image} alt={selectedProduct.title} className="w-full h-full object-cover" />
+          </div>
+          
+          <div className="flex gap-2 px-4 mb-4 overflow-x-auto no-scrollbar">
+            {[1,2,3,4,5].map(i => (
+              <div key={i} className={`w-16 h-16 flex-shrink-0 border-2 ${i===1 ? 'border-brand-orange' : 'border-transparent'}`}>
+                <img src={selectedProduct.image} className="w-full h-full object-cover opacity-80" alt="thumb" />
+              </div>
+            ))}
+          </div>
+
+          <div className="px-4">
+            <p className="text-sm text-gray-600 mb-4 flex items-center gap-1">🔍 Click on image to zoom</p>
+            
+            <h1 className="text-3xl font-bold leading-tight mb-4">{selectedProduct.title}</h1>
+            
+            <div className="flex items-center gap-2 text-brand-gold mb-6">
+              <span className="text-xl">★★★★★</span>
+              <span className="text-gray-600 text-sm">{selectedProduct.reviews} reviews</span>
+            </div>
+            
+            <div className="mb-6">
+              <p className="font-semibold mb-2">Version: {variant}</p>
+              <div className="flex gap-3">
+                <button onClick={() => setVariant("Standard")} className={`px-6 py-2 border rounded-md font-medium ${variant === "Standard" ? 'border-brand-orange text-brand-orange bg-orange-50' : 'border-gray-300 text-gray-700'}`}>Standard</button>
+                <button onClick={() => setVariant("Large Screen")} className={`px-6 py-2 border rounded-md font-medium ${variant === "Large Screen" ? 'border-brand-orange text-brand-orange bg-orange-50' : 'border-gray-300 text-gray-700'}`}>Large Screen</button>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4 mb-6">
+              <span className="text-lg font-semibold">Price:</span>
+              <span className="text-3xl font-medium text-brand-orange">${selectedProduct.price.toFixed(2)}</span>
+            </div>
+            
+            <div className="flex items-center gap-4 mb-8">
+              <span className="text-lg font-semibold">Quantity:</span>
+              <div className="flex items-center border border-gray-300 rounded-md">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="px-4 py-2 text-xl text-gray-500 hover:bg-gray-50">-</button>
+                <span className="w-10 text-center font-semibold">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className="px-4 py-2 text-xl text-gray-500 hover:bg-gray-50">+</button>
+              </div>
+            </div>
+
+            <div className="bg-blue-50/50 rounded-xl p-5 mb-8 space-y-4 text-sm border border-blue-100">
+              <div className="flex items-start gap-3">
+                <span className="text-brand-blue text-lg">⚑</span>
+                <p><strong>Assembled & tested in the USA</strong> · ships from Los Angeles</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-brand-blue text-lg">🛡️</span>
+                <p><strong>120-day guarantee</strong> · lifetime warranty with <span className="text-blue-600 underline">Whale Pass</span></p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-brand-blue text-lg">📞</span>
+                <p><strong>Real US phone support</strong> · <span className="text-blue-600 underline">(877) 500-0282</span></p>
+              </div>
+            </div>
+            
+            <button 
+              onClick={() => { addToCart(selectedProduct, quantity, variant); }}
+              className="w-full bg-brand-orange text-white font-bold py-4 rounded-md uppercase mb-4 hover:bg-orange-600"
+            >
+              🛒 Add To Cart
+            </button>
+
+            <button className="w-full bg-black text-white font-bold py-4 rounded-md mb-4 flex items-center justify-center gap-2">
+              Buy with  Pay
+            </button>
+            <div className="text-center mb-8">
+              <a href="#" className="text-blue-600 underline text-sm">More payment options</a>
+            </div>
+            
+            {selectedProduct.whalePrice && (
+              <div className="bg-[#111] text-white p-4 rounded-xl flex justify-between items-center mb-8 border-2 border-brand-orange">
+                <span className="flex items-center gap-2 font-bold text-lg">👑 Whale Pass Price</span>
+                <span className="text-brand-orange font-bold text-xl">${selectedProduct.whalePrice.toFixed(2)}</span>
+              </div>
+            )}
+
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold mb-4">Description</h2>
+              <p className="text-gray-700 leading-relaxed mb-8">The Nexus S1-1 is the next generation of home Bitcoin mining. Engineered with the latest S23-generation ASIC chip, it delivers powerful 6 TH/s performance at only 95W in a compact, home-friendly design built for efficiency, reliability, and long-term operation.</p>
+            </div>
+
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold mb-4">Upgrades</h2>
+              <div className="border border-gray-200 rounded-lg p-4 flex items-center gap-4">
+                <img src="https://images.unsplash.com/photo-1601524909162-ae8725290836?w=200&q=80" alt="Upgrade" className="w-20 h-20 object-cover rounded" />
+                <div>
+                  <h3 className="font-bold text-sm">Bitcoin Merch® - Cardsmiths Crypto Currency Collectible Trading Cards</h3>
+                  <p className="text-brand-orange font-bold mt-2">$19.99</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 text-center">
+              <p className="text-sm font-medium text-gray-700 mb-4">Shipping as soon as 3 weeks.</p>
+              <div className="bg-blue-900 rounded-xl p-4 mb-4 text-white text-left flex items-center gap-4">
+                <div className="bg-white/20 p-2 rounded text-3xl">🐋</div>
+                <div>
+                  <h3 className="font-bold text-lg">Whale Battle Pass</h3>
+                  <p className="text-xs opacity-90">Membership Perks</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 border-t border-gray-200 pt-8">
+              <div className="flex justify-between items-center py-4 border-b border-gray-200">
+                <span className="font-bold uppercase tracking-wider text-sm">Our Mission Statement</span>
+                <span className="text-xl">+</span>
+              </div>
+              <div className="flex justify-between items-center py-4 border-b border-gray-200">
+                <span className="font-bold uppercase tracking-wider text-sm">Quick Links</span>
+                <span className="text-xl">+</span>
+              </div>
+              <div className="flex justify-between items-center py-4 border-b border-gray-200">
+                <span className="font-bold uppercase tracking-wider text-sm">Information</span>
+                <span className="text-xl">+</span>
+              </div>
+              <div className="flex justify-between items-center py-4 border-b border-gray-200">
+                <span className="font-bold uppercase tracking-wider text-sm">Newsletter</span>
+                <span className="text-xl">+</span>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <p className="text-sm font-bold text-gray-900 mb-2">Subscribe to receive updates, access to exclusive deals, and more.</p>
+              <input type="email" placeholder="Your email" className="w-full border border-gray-300 p-3 rounded mb-3" />
+              <button className="bg-brand-orange text-white font-bold py-3 px-8 rounded uppercase text-sm">Subscribe</button>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="font-bold text-sm mb-4">Follow Us</h3>
+              <div className="flex gap-2">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs">f</div>
+                <div className="w-8 h-8 bg-sky-400 rounded-full flex items-center justify-center text-white text-xs">t</div>
+                <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white text-xs">i</div>
+                <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">y</div>
+              </div>
+            </div>
+
+            <div className="mt-8">
+              <h3 className="font-bold text-sm mb-4">We Accept</h3>
+              <div className="flex flex-wrap gap-2">
+                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">BTC</span></div>
+                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">ETH</span></div>
+                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">LTC</span></div>
+                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">USDT</span></div>
+                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">DOGE</span></div>
+                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">VISA</span></div>
+                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">Pay</span></div>
+              </div>
+            </div>
+
+            <div className="mt-8 text-xs text-gray-500 leading-relaxed">
+              © Bitcoin Merch | 9850 Owensmouth Ave Unit 2, Chatsworth, CA 91311
+            </div>
+
+            <button onClick={() => setPage("home")} className="w-full mt-8 text-gray-500 font-medium hover:text-black">← Back to Store</button>
+          </div>
+        </main>
+      )}
+
+      {page === "login" && (
+        <main className="min-h-screen bg-white flex flex-col items-center pt-12 px-6">
+          <div className="mb-12 text-center">
+            <div className="flex items-center justify-center gap-1 font-black text-5xl mb-2 tracking-tighter text-black">
+              <span className="text-brand-orange">₿</span>
+              <div className="flex flex-col leading-none"><span>itcoin</span><span className="text-3xl self-end -mt-1">merch</span></div>
+            </div>
+          </div>
+          
+          <div className="w-full max-w-md">
+            <h2 className="text-2xl font-bold mb-1">Sign in</h2>
+            <p className="text-gray-500 mb-6 text-sm">Sign in or create an account</p>
+            
+            <button className="w-full bg-[#6b46c1] hover:bg-[#553c9a] text-white font-bold py-4 rounded-xl mb-4 transition">Continue with shop</button>
+            
+            <div className="flex gap-4 mb-6">
+              <button className="flex-1 border border-gray-300 py-3 rounded-xl flex items-center justify-center"><img src="https://www.svgrepo.com/show/475656/google-color.svg" className="w-6 h-6" alt="Google" /></button>
+              <button className="flex-1 border border-gray-300 py-3 rounded-xl flex items-center justify-center"><img src="https://www.svgrepo.com/show/475656/facebook-color.svg" className="w-6 h-6" alt="Facebook" /></button>
+            </div>
+            
+            <div className="flex items-center mb-6">
+              <div className="flex-1 border-t border-gray-300"></div>
+              <span className="px-4 text-gray-500 text-sm">or</span>
+              <div className="flex-1 border-t border-gray-300"></div>
+            </div>
+            
+            <form onSubmit={handleAuth} className="space-y-4">
+              <div className="relative">
+                <input type="email" name="email" placeholder="Email" required className="w-full border border-gray-300 p-4 rounded-xl outline-none focus:border-black text-black" />
+                <span className="absolute right-4 top-4 text-gray-500">→</span>
+              </div>
+              <input type="password" name="password" placeholder="Password" required className="w-full border border-gray-300 p-4 rounded-xl outline-none focus:border-black text-black mb-2" />
+              
+              <div className="flex items-center gap-2 text-sm text-gray-700">
+                <input type="checkbox" defaultChecked className="w-5 h-5 accent-brand-orange rounded" /> Email me with news and offers
+              </div>
+              
+              <button type="submit" className="w-full bg-brand-orange text-white font-bold py-4 rounded-xl mt-4">Sign In</button>
+            </form>
+            
+            <div className="text-center mt-12 mb-8">
+              <button onClick={() => setPage("home")} className="text-brand-orange font-medium hover:underline">← Back to Store</button>
+            </div>
+          </div>
+        </main>
+      )}
+
+      {page === "support" && (
+        <main className="p-4 max-w-lg mx-auto mt-6">
+          <h1 className="text-3xl font-bold text-center mb-4 text-black">Contact Us</h1>
+          <p className="text-center text-gray-500 text-sm mb-8 leading-relaxed">Real people in Los Angeles, ready to help with orders, setup and anything mining. Pick the way that works best for you.</p>
+          
+          <div className="border border-brand-orange rounded-xl p-6 mb-6 bg-white">
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 text-brand-orange text-xl">📞</div>
+            <h2 className="text-xl font-bold mb-2">Call us</h2>
+            <a href="tel:8775000282" className="text-brand-blue underline font-medium mb-2 block">(877) 500-0282</a>
+            <p className="text-sm text-gray-500 mb-6">(877) 5000-BTC · Fastest way to reach us, weekdays 9am – 5pm PT</p>
+            <a href="tel:8775000282" className="bg-brand-blue text-white font-medium py-3 px-8 rounded-lg inline-block">Call now</a>
+          </div>
+          
+          <div className="border border-gray-200 rounded-xl p-6 bg-white mb-8">
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 text-brand-orange text-xl">✉️</div>
+            <h2 className="text-xl font-bold mb-2">Email</h2>
+            <a href="mailto:support@bitcoinmerch.com" className="text-gray-900 font-medium mb-2 block hover:text-brand-orange">support@bitcoinmerch.com</a>
+            <p className="text-sm text-gray-500 mb-6">We reply within 24 hours. Include your order number if you have one.</p>
+            <a href="mailto:support@bitcoinmerch.com" className="bg-gray-100 text-gray-900 font-medium py-3 px-8 rounded-lg inline-block hover:bg-gray-200">Send email</a>
+          </div>
+
+          {/* Support Form */}
+          <div className="border border-gray-200 rounded-xl p-6 bg-white">
+            <h2 className="text-xl font-bold mb-4">Send us a message</h2>
+            {supportSent ? (
+              <div className="bg-green-50 border border-green-200 text-green-700 p-4 rounded-lg text-center font-medium">
+                Message Sent Successfully!
+              </div>
+            ) : (
+              <form onSubmit={handleSupportSubmit} className="space-y-4">
+                <input type="text" placeholder="Your Name" required className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-brand-blue" />
+                <input type="email" placeholder="Your Email" required className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-brand-blue" />
+                <textarea 
+                  placeholder="How can we help?" 
+                  required 
+                  rows="4" 
+                  value={supportMessage}
+                  onChange={(e) => setSupportMessage(e.target.value)}
+                  className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-brand-blue"
+                ></textarea>
+                <button type="submit" className="w-full bg-brand-orange text-white font-bold py-3 rounded-lg hover:bg-orange-600 transition">
+                  Send Message
+                </button>
+              </form>
+            )}
+          </div>
+          
+          <button onClick={() => setPage("home")} className="w-full mt-8 text-brand-blue font-bold hover:underline">← Back to Store</button>
+        </main>
+      )}
+
+      {page === "checkout" && (
+        <main className="bg-gray-50 min-h-screen">
+          <div className="bg-white p-6 text-center border-b mb-4">
+            <div className="flex items-center justify-center gap-1 font-black text-4xl mb-2 tracking-tighter text-black">
+              <span className="text-brand-orange">₿</span>
+              <div className="flex flex-col leading-none"><span>itcoin</span><span className="text-2xl self-end -mt-1">merch</span></div>
+            </div>
+          </div>
+          
+          <div className="max-w-3xl mx-auto px-4 pb-12">
+            <div className="bg-[#f5f5f5] p-4 flex justify-between items-center mb-6 border-y border-gray-200">
+              <button className="flex items-center gap-2 text-brand-orange font-medium">Order summary <span className="text-xs">▼</span></button>
+              <span className="font-bold text-lg">${total.toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between text-center mb-8 px-4">
+              <div>
+                <div className="mx-auto w-8 h-8 mb-2">🔒</div>
+                <p className="text-sm font-bold">Secure<br/>Payments</p>
+              </div>
+              <div>
+                <div className="mx-auto w-8 h-8 mb-2">🛡️</div>
+                <p className="text-sm font-bold">120-Day<br/>Warranty</p>
+              </div>
+              <div>
+                <div className="mx-auto w-8 h-8 mb-2">📞</div>
+                <p className="text-sm font-bold">Top-Rated<br/>Phone Support</p>
+              </div>
+            </div>
+
+            <div className="text-center text-gray-500 mb-2 text-sm">Express checkout</div>
+            <button className="w-full bg-black text-white font-bold py-4 rounded-lg mb-6 flex items-center justify-center gap-2">
+               Pay
+            </button>
+
+            <div className="flex items-center mb-6">
+              <div className="flex-1 border-t border-gray-300"></div>
+              <span className="px-4 text-gray-500 text-sm uppercase">Or</span>
+              <div className="flex-1 border-t border-gray-300"></div>
+            </div>
+
+            <form onSubmit={handleCheckoutSubmit}>
+              <div className="mb-8">
+                <div className="flex justify-between items-baseline mb-4">
+                  <h2 className="text-2xl font-bold">Contact</h2>
+                  <button type="button" className="text-brand-orange underline text-sm">Sign in</button>
+                </div>
+                <div className="relative">
+                  <input type="email" placeholder="Email" required className="w-full border border-gray-300 p-4 rounded-lg outline-none focus:border-blue-500 bg-white" />
+                  <span className="absolute right-4 top-4 text-gray-400">?</span>
+                </div>
+                <label className="flex items-center gap-2 mt-4 text-sm">
+                  <input type="checkbox" defaultChecked className="w-5 h-5 accent-brand-orange rounded" /> Email me with news and offers
+                </label>
+              </div>
+
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4">Delivery</h2>
+                <div className="space-y-4">
+                  <select 
+                    value={selectedCountry}
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                    className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none"
+                  >
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>United Kingdom</option>
+                    <option>Australia</option>
+                    <option>Afghanistan</option>
+                    <option>Albania</option>
+                    <option>Algeria</option>
+                    <option>Andorra</option>
+                    <option>Angola</option>
+                    <option>Argentina</option>
+                    <option>Armenia</option>
+                    <option>Austria</option>
+                    <option>Belgium</option>
+                    <option>Brazil</option>
+                    <option>China</option>
+                    <option>France</option>
+                    <option>Germany</option>
+                    <option>India</option>
+                    <option>Italy</option>
+                    <option>Japan</option>
+                    <option>Mexico</option>
+                    <option>Netherlands</option>
+                    <option>Nigeria</option>
+                    <option>South Africa</option>
+                    <option>Spain</option>
+                  </select>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="First name" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                    <input type="text" placeholder="Last name" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  </div>
+                  
+                  <input type="text" placeholder="Company (optional)" className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  <input type="text" placeholder="Address" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  <input type="text" placeholder="Apartment, suite, etc. (optional)" className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="City" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                    <select className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none">
+                      <option>California</option>
+                      <option>New York</option>
+                      <option>Texas</option>
+                      <option>Florida</option>
+                      <option>Illinois</option>
+                      <option>Lagos</option>
+                      <option>Abuja</option>
+                      <option>Rivers</option>
+                    </select>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="ZIP code" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                    <input type="tel" placeholder="Phone" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  </div>
+                </div>
+                
+                <label className="flex items-center gap-2 mt-4 text-sm">
+                  <input type="checkbox" className="w-5 h-5 rounded border-gray-300" /> Save this information for next time
+                </label>
+                <label className="flex items-center gap-2 mt-2 text-sm">
+                  <input type="checkbox" className="w-5 h-5 rounded border-gray-300" /> Text me with news and offers
+                </label>
+              </div>
+
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4">Shipping method</h2>
+                <div className="space-y-3">
+                  <label className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer ${shippingMethod === 'USPS' ? 'border-brand-orange bg-orange-50' : 'border-gray-300 bg-white'}`}>
+                    <div className="flex items-center gap-3">
+                      <input type="radio" name="shipping" value="USPS" checked={shippingMethod === 'USPS'} onChange={() => setShippingMethod('USPS')} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                      <div>
+                        <span className="font-bold block">USPS Priority Mail International</span>
+                        <span className="text-sm text-gray-500">6 to 10 business days</span>
+                      </div>
+                    </div>
+                    <span className="font-bold text-gray-700">$119.58</span>
+                  </label>
+                  
+                  <label className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer ${shippingMethod === 'DHL' ? 'border-brand-orange bg-orange-50' : 'border-gray-300 bg-white'}`}>
+                    <div className="flex items-center gap-3">
+                      <input type="radio" name="shipping" value="DHL" checked={shippingMethod === 'DHL'} onChange={() => setShippingMethod('DHL')} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                      <div>
+                        <span className="font-bold block">DHL Express Worldwide</span>
+                        <span className="text-sm text-gray-500">2 to 5 business days</span>
+                      </div>
+                    </div>
+                    <span className="font-bold text-gray-700">$166.95</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Best Sellers Upsell Section */}
+              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mb-8">
+                <h2 className="font-bold mb-4 text-xl flex items-center gap-2">Current Best Sellers <span className="text-sm">⬇️</span></h2>
+                
+                <div className="flex gap-4 items-center mb-4 border-b pb-4">
+                  <img src="https://images.unsplash.com/photo-1601524909162-ae8725290836?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Card" />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold leading-tight">Bitcoin Merch® - Cardsmiths Crypto Currency Collectible Trading Cards - Win Real Crypto! (10% OFF)</h3>
+                    <p className="text-xs text-gray-500 mt-1">1 Pack</p>
+                    <p className="font-bold mt-1">US$18.00 <span className="text-gray-400 line-through text-xs">US$19.99</span></p>
+                  </div>
+                  <button className="bg-brand-orange text-white font-bold py-2 px-4 rounded text-sm">Add</button>
+                </div>
+
+                <div className="flex gap-4 items-center">
+                  <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Miner" />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold leading-tight">Bitcoin Merch® - Gold Nugget V3 Lottery Miner (10% OFF)</h3>
+                    <p className="font-bold mt-1">US$40.50 <span className="text-gray-400 line-through text-xs">US$44.99</span></p>
+                  </div>
+                  <button className="bg-brand-orange text-white font-bold py-2 px-4 rounded text-sm">Add</button>
+                </div>
+              </div>
+
+              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-6">
+                <h2 className="font-bold mb-4 text-xl">Payment</h2>
+                <p className="text-sm text-gray-500 mb-4">All transactions are secure and encrypted.</p>
+                
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="BTC" checked={paymentMethod === "BTC"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">Bitcoin (BTC)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="ETH" checked={paymentMethod === "ETH"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">Ethereum (ETH)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="SOL" checked={paymentMethod === "SOL"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">Solana (SOL)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="USDT_TRC20" checked={paymentMethod === "USDT_TRC20"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">USDT (TRC20)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="USDT_BEP20" checked={paymentMethod === "USDT_BEP20"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">USDT (BEP20)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="USDT_SOL" checked={paymentMethod === "USDT_SOL"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">USDT (Solana)</span>
+                  </label>
+                </div>
+              </div>
+
+              <button type="submit" className="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded-lg transition mb-4">
+                Complete order
+              </button>
+            </form>
+
+            <button onClick={() => setPage("home")} className="w-full mt-4 text-gray-500 font-medium hover:text-black">← Back to Store</button>
+          </div>
+        </main>
+      )}
+
+      {page === "success" && (
+        <main className="p-4 max-w-md mx-auto mt-8">
+          <div className="bg-white p-6 rounded-lg border border-gray-200 text-center shadow-lg">
+            <div className="text-5xl mb-4">⏳</div>
+            <h1 className="text-2xl font-bold text-black mb-2">Order Pending</h1>
+            <p className="text-sm text-gray-600 mb-6">Send exactly <strong>${total.toFixed(2)}</strong> in <strong>{paymentMethod.replace('_', ' ')}</strong> to the address below.</p>
+            <div className="bg-gray-100 border border-gray-300 p-4 rounded font-mono text-sm break-all mb-4 select-all cursor-pointer text-brand-blue">{WALLETS[paymentMethod]}</div>
+            <p className="text-xs text-gray-500 mb-6">Once sent, please email your transaction hash to support@bitcoinmerch.com to approve your order.</p>
+            <button onClick={() => { clearCart(); setPage("home"); }} className="w-full bg-brand-orange text-white font-bold py-3 rounded">Return to Store</button>
+          </div>
+        </main>
+      )}
+
+      <button onClick={() => setShowChat(true)} className="fixed bottom-20 left-4 z-30 bg-brand-chat text-brand-blue rounded-full w-14 h-14 shadow-lg text-2xl flex items-center justify-center border-2 border-white">💬</button>
+
+      {showChat && (
+        <div className="fixed inset-0 z-[60] bg-brand-blue flex flex-col text-white p-6">
+          <div className="flex justify-end">
+            <button onClick={() => setShowChat(false)} className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-xl">✕</button>
+          </div>
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="bg-white px-4 py-2 rounded-md mb-6 inline-flex items-center gap-1 shadow-lg">
+              <span className="text-brand-orange font-black text-3xl">₿</span>
+              <span className="font-black text-2xl text-black leading-none">itcoin merch</span>
+            </div>
+            <h2 className="text-lg font-medium mb-12">We are online - How can we help?</h2>
+          </div>
+          <button className="bg-brand-chat text-brand-blue font-medium py-4 px-6 rounded-full self-start mb-8">Send us a message</button>
+        </div>
+      )}
+
+      <a href="#" className="fixed right-0 top-1/2 -translate-y-1/2 z-30 bg-black text-white text-[10px] font-semibold py-3 px-1 [writing-mode:vertical-rl] rotate-180 tracking-widest border-l border-gray-800">★ Reviews</a>
+
+      {showSpin && (
+        <div className="fixed bottom-0 inset-x-0 z-50 bg-black text-white px-4 py-4 flex items-center justify-between shadow-[0_-10px_20px_rgba(0,0,0,0.5)] border-t border-gray-800">
+          <span className="text-sm font-medium">Do You Want A Discount</span>
+          <button className="bg-brand-orange text-white font-bold rounded-full px-5 py-2 text-sm shadow-md">🎰 Your prize</button>
+          <button onClick={() => setShowSpin(false)} className="absolute -top-3 right-2 bg-white text-black rounded-full w-6 h-6 text-xs flex items-center justify-center border shadow-sm">✕</button>
+        </div>
+      )}
+    </div>
+  );
+}
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
