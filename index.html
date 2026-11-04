@@ -405,8 +405,7 @@ function App() {
           {cart.length === 0 ? (
             <div className="text-center p-8 bg-dark-card rounded border border-gray-800">
               <p className="mb-4 text-gray-400">Your cart is empty.</p>
-              <button onClick={() => setPage("home")} className="bg-brand-orange text-white px-6 py-2 rounded>
-                    <">Go back to storespan</button>
+              <button onClick={() => setPage("home")} className="bg-brand-orange text-white px-6 py-2 rounded">Go back to store</button>
             </div>
           ) : (
             <>
@@ -414,7 +413,8 @@ function App() {
                 <h2 className="font-bold mb-4 border-b border-gray-700 pb-2">Order Summary</h2>
                 {cart.map((item, index) => (
                   <div key={index} className="flex justify-between text-sm mb-2 text-gray-300">
-                    <span className="truncate pr-4">{item.title}</span>${item.price.toFixed(2)}</span>
+                    <span className="truncate pr-4">{item.title}</span>
+                    <span>${item.price.toFixed(2)}</span>
                   </div>
                 ))}
                 <div className="border-t border-gray-700 mt-4 pt-2 flex justify-between font-bold text-lg text-brand-orange">
