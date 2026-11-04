@@ -41,6 +41,7 @@ const WALLETS = {
 };
 
 const allProducts = [
+  // Used a real photo of a black fan/ASIC miner for the Nexus
   { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 324.99, whalePrice: 276.24, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80" },
   { id: 2, category: "Miners", title: "Bitcoin Merch® - Nexus S1-8 Hydro 40TH/s BM1373", price: 1199.99, whalePrice: 1019.99, reviews: 56, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80" },
   { id: 3, category: "Miners", title: "Bitcoin Merch® - NerdQaxe++ Hydro 4.8-6TH/s w Power Supply", price: 284.99, whalePrice: 242.24, reviews: 89, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80" },
@@ -101,6 +102,10 @@ function App() {
   const [quantity, setQuantity] = useState(1);
   const [variant, setVariant] = useState("Standard");
 
+  // Checkout State
+  const [shippingMethod, setShippingMethod] = useState("USPS");
+  const [selectedCountry, setSelectedCountry] = useState("United States");
+
   useEffect(() => {
     const saved = localStorage.getItem("crypto_cart");
     if (saved) setCart(JSON.parse(saved));
@@ -128,7 +133,10 @@ function App() {
   };
 
   const clearCart = () => setCart([]);
-  const total = cart.reduce((sum, item) => sum + (item.price * (item.cartQty || 1)), 0);
+  
+  const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.cartQty || 1)), 0);
+  const shippingCost = shippingMethod === "USPS" ? 119.58 : 166.95;
+  const total = subtotal + (cart.length > 0 ? shippingCost : 0);
 
   const handleAuth = (e) => {
     e.preventDefault();
@@ -264,7 +272,7 @@ function App() {
                   ))}
                 </div>
                 <div className="border-t pt-4 mt-auto">
-                  <div className="flex justify-between font-bold text-lg mb-4"><span>Total:</span><span>${total.toFixed(2)}</span></div>
+                  <div className="flex justify-between font-bold text-lg mb-4"><span>Total:</span><span>${subtotal.toFixed(2)}</span></div>
                   <button onClick={() => { setShowCartDrawer(false); setPage("checkout"); }} className="w-full bg-black text-white font-bold py-3 rounded">Checkout</button>
                 </div>
               </div>
@@ -719,11 +727,36 @@ function App() {
               <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-4">Delivery</h2>
                 <div className="space-y-4">
-                  <select className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none">
+                  <select 
+                    value={selectedCountry}
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                    className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none"
+                  >
                     <option>United States</option>
                     <option>Canada</option>
                     <option>United Kingdom</option>
                     <option>Australia</option>
+                    <option>Afghanistan</option>
+                    <option>Albania</option>
+                    <option>Algeria</option>
+                    <option>Andorra</option>
+                    <option>Angola</option>
+                    <option>Argentina</option>
+                    <option>Armenia</option>
+                    <option>Austria</option>
+                    <option>Belgium</option>
+                    <option>Brazil</option>
+                    <option>China</option>
+                    <option>France</option>
+                    <option>Germany</option>
+                    <option>India</option>
+                    <option>Italy</option>
+                    <option>Japan</option>
+                    <option>Mexico</option>
+                    <option>Netherlands</option>
+                    <option>Nigeria</option>
+                    <option>South Africa</option>
+                    <option>Spain</option>
                   </select>
                   
                   <div className="grid grid-cols-2 gap-4">
@@ -743,6 +776,9 @@ function App() {
                       <option>Texas</option>
                       <option>Florida</option>
                       <option>Illinois</option>
+                      <option>Lagos</option>
+                      <option>Abuja</option>
+                      <option>Rivers</option>
                     </select>
                   </div>
                   
@@ -758,6 +794,57 @@ function App() {
                 <label className="flex items-center gap-2 mt-2 text-sm">
                   <input type="checkbox" className="w-5 h-5 rounded border-gray-300" /> Text me with news and offers
                 </label>
+              </div>
+
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4">Shipping method</h2>
+                <div className="space-y-3">
+                  <label className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer ${shippingMethod === 'USPS' ? 'border-brand-orange bg-orange-50' : 'border-gray-300 bg-white'}`}>
+                    <div className="flex items-center gap-3">
+                      <input type="radio" name="shipping" value="USPS" checked={shippingMethod === 'USPS'} onChange={() => setShippingMethod('USPS')} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                      <div>
+                        <span className="font-bold block">USPS Priority Mail International</span>
+                        <span className="text-sm text-gray-500">6 to 10 business days</span>
+                      </div>
+                    </div>
+                    <span className="font-bold text-gray-700">$119.58</span>
+                  </label>
+                  
+                  <label className={`flex justify-between items-center p-4 border rounded-lg cursor-pointer ${shippingMethod === 'DHL' ? 'border-brand-orange bg-orange-50' : 'border-gray-300 bg-white'}`}>
+                    <div className="flex items-center gap-3">
+                      <input type="radio" name="shipping" value="DHL" checked={shippingMethod === 'DHL'} onChange={() => setShippingMethod('DHL')} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                      <div>
+                        <span className="font-bold block">DHL Express Worldwide</span>
+                        <span className="text-sm text-gray-500">2 to 5 business days</span>
+                      </div>
+                    </div>
+                    <span className="font-bold text-gray-700">$166.95</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Best Sellers Upsell Section */}
+              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mb-8">
+                <h2 className="font-bold mb-4 text-xl flex items-center gap-2">Current Best Sellers <span className="text-sm">⬇️</span></h2>
+                
+                <div className="flex gap-4 items-center mb-4 border-b pb-4">
+                  <img src="https://images.unsplash.com/photo-1601524909162-ae8725290836?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Card" />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold leading-tight">Bitcoin Merch® - Cardsmiths Crypto Currency Collectible Trading Cards - Win Real Crypto! (10% OFF)</h3>
+                    <p className="text-xs text-gray-500 mt-1">1 Pack</p>
+                    <p className="font-bold mt-1">US$18.00 <span className="text-gray-400 line-through text-xs">US$19.99</span></p>
+                  </div>
+                  <button className="bg-brand-orange text-white font-bold py-2 px-4 rounded text-sm">Add</button>
+                </div>
+
+                <div className="flex gap-4 items-center">
+                  <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Miner" />
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold leading-tight">Bitcoin Merch® - Gold Nugget V3 Lottery Miner (10% OFF)</h3>
+                    <p className="font-bold mt-1">US$40.50 <span className="text-gray-400 line-through text-xs">US$44.99</span></p>
+                  </div>
+                  <button className="bg-brand-orange text-white font-bold py-2 px-4 rounded text-sm">Add</button>
+                </div>
               </div>
 
               <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-6">
