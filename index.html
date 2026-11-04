@@ -41,14 +41,13 @@ const WALLETS = {
 };
 
 const allProducts = [
-  // Used a real photo of a black fan/ASIC miner for the Nexus
   { id: 1, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 324.99, whalePrice: 276.24, reviews: 45, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80" },
   { id: 2, category: "Miners", title: "Bitcoin Merch® - Nexus S1-8 Hydro 40TH/s BM1373", price: 1199.99, whalePrice: 1019.99, reviews: 56, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80" },
   { id: 3, category: "Miners", title: "Bitcoin Merch® - NerdQaxe++ Hydro 4.8-6TH/s w Power Supply", price: 284.99, whalePrice: 242.24, reviews: 89, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80" },
-  { id: 4, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma++ 2TH/s w/ Power Supply", price: 149.99, whalePrice: 127.49, reviews: 214, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" },
-  { id: 5, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 119.99, whalePrice: 101.99, reviews: 189, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80" },
-  { id: 6, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80" },
-  { id: 7, category: "Miners", title: "Bitcoin Merch® - Gold Digger Lottery Miner", price: 49.99, whalePrice: 42.49, reviews: 145, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80" },
+  { id: 4, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma++ 2TH/s w/ Power Supply", price: 149.99, whalePrice: 127.49, reviews: 214, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80" },
+  { id: 5, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 119.99, whalePrice: 101.99, reviews: 189, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80" },
+  { id: 6, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80" },
+  { id: 7, category: "Miners", title: "Bitcoin Merch® - Gold Digger Lottery Miner", price: 49.99, whalePrice: 42.49, reviews: 145, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80" },
   { id: 8, category: "Miners", title: "Bitcoin Merch® - 7x USB Lottery Miner COMBO", price: 244.99, whalePrice: 208.24, reviews: 21, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80" },
   { id: 9, category: "Miners", title: "Bitcoin Merch® - 6x Gold Nugget Lottery Miner COMBO", price: 269.99, whalePrice: 229.49, reviews: 110, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80" },
   { id: 10, category: "Miners", title: "Bitcoin Merch® - 10x USB Lottery Miner COMBO", price: 349.99, whalePrice: 297.49, reviews: 56, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80" },
@@ -721,10 +720,10 @@ function App() {
                 <h2 className="text-2xl font-bold mb-4">Delivery</h2>
                 <div className="space-y-4">
                   <select className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none">
-                    <option>Nigeria</option>
                     <option>United States</option>
-                    <option>United Kingdom</option>
                     <option>Canada</option>
+                    <option>United Kingdom</option>
+                    <option>Australia</option>
                   </select>
                   
                   <div className="grid grid-cols-2 gap-4">
@@ -739,15 +738,16 @@ function App() {
                   <div className="grid grid-cols-2 gap-4">
                     <input type="text" placeholder="City" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
                     <select className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none">
-                      <option>Lagos</option>
-                      <option>Abuja</option>
-                      <option>Rivers</option>
-                      <option>Kano</option>
+                      <option>California</option>
+                      <option>New York</option>
+                      <option>Texas</option>
+                      <option>Florida</option>
+                      <option>Illinois</option>
                     </select>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    <input type="text" placeholder="Postal code (optional)" className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                    <input type="text" placeholder="ZIP code" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
                     <input type="tel" placeholder="Phone" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
                   </div>
                 </div>
