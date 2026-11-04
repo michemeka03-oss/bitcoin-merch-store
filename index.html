@@ -82,6 +82,11 @@ function App() {
   const [quantity, setQuantity] = useState(1);
   const [variant, setVariant] = useState("Standard");
 
+  // Checkout Form State
+  const [checkoutForm, setCheckoutForm] = useState({
+    email: "", firstName: "", lastName: "", company: "", address: "", apartment: "", city: "", state: "Lagos", postalCode: "", phone: ""
+  });
+
   useEffect(() => {
     const saved = localStorage.getItem("crypto_cart");
     if (saved) setCart(JSON.parse(saved));
@@ -138,6 +143,11 @@ function App() {
     setShowMenu(false);
     setPage("home");
     setActiveCategory(category);
+  };
+
+  const handleCheckoutSubmit = (e) => {
+    e.preventDefault();
+    setPage("success");
   };
 
   const filteredProducts = allProducts.filter(p => {
@@ -205,7 +215,7 @@ function App() {
         )}
       </header>
 
-      {/* CART DRAWER WITH REMOVE BUTTON */}
+      {/* CART DRAWER */}
       <div className={`fixed inset-0 z-50 bg-black/50 transition-opacity ${showCartDrawer ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setShowCartDrawer(false)}>
         <div className={`absolute right-0 top-0 w-full max-w-md bg-white h-full flex flex-col shadow-2xl drawer ${showCartDrawer ? 'translate-x-0' : 'translate-x-full'}`} onClick={e => e.stopPropagation()}>
           <div className="flex items-center justify-between p-4 border-b">
@@ -249,6 +259,7 @@ function App() {
         </div>
       </div>
 
+      {/* HAMBURGER MENU */}
       <div className={`fixed inset-0 z-50 bg-black/50 transition-opacity ${showMenu ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} onClick={() => setShowMenu(false)}>
         <div className={`w-[85%] max-w-sm bg-white text-gray-900 h-full flex flex-col overflow-y-auto drawer border-r border-gray-200 ${showMenu ? 'translate-x-0' : '-translate-x-full'}`} onClick={e => e.stopPropagation()}>
           
@@ -636,42 +647,143 @@ function App() {
       )}
 
       {page === "checkout" && (
-        <main className="p-4 max-w-md mx-auto mt-4">
-          <h1 className="text-2xl font-bold mb-6 text-black">Checkout</h1>
-          {cart.length === 0 ? (
-            <div className="text-center p-8 bg-gray-50 rounded border border-gray-200">
-              <p className="mb-4 text-gray-600">Your cart is empty.</p>
-              <button onClick={() => setPage("home")} className="bg-brand-orange text-white px-6 py-2 rounded">Go back to store</button>
+        <main className="bg-gray-50 min-h-screen">
+          <div className="bg-white p-6 text-center border-b mb-4">
+            <div className="flex items-center justify-center gap-1 font-black text-4xl mb-2 tracking-tighter text-black">
+              <span className="text-brand-orange">₿</span>
+              <div className="flex flex-col leading-none"><span>itcoin</span><span className="text-2xl self-end -mt-1">merch</span></div>
             </div>
-          ) : (
-            <>
-              <div className="bg-white p-4 rounded-lg border border-gray-200 mb-6">
-                <h2 className="font-bold mb-4 border-b border-gray-200 pb-2 text-black">Order Summary</h2>
-                {cart.map((item, index) => (
-                  <div key={index} className="flex justify-between text-sm mb-2 text-gray-600">
-                    <span className="truncate pr-4">{item.cartQty || 1}x {item.title} ({item.selectedVariant})</span>
-                    <span>${(item.price * (item.cartQty || 1)).toFixed(2)}</span>
+          </div>
+          
+          <div className="max-w-3xl mx-auto px-4 pb-12">
+            <div className="bg-[#f5f5f5] p-4 flex justify-between items-center mb-6 border-y border-gray-200">
+              <button className="flex items-center gap-2 text-brand-orange font-medium">Order summary <span className="text-xs">▼</span></button>
+              <span className="font-bold text-lg">${total.toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between text-center mb-8 px-4">
+              <div>
+                <div className="mx-auto w-8 h-8 mb-2">🔒</div>
+                <p className="text-sm font-bold">Secure<br/>Payments</p>
+              </div>
+              <div>
+                <div className="mx-auto w-8 h-8 mb-2">🛡️</div>
+                <p className="text-sm font-bold">120-Day<br/>Warranty</p>
+              </div>
+              <div>
+                <div className="mx-auto w-8 h-8 mb-2">📞</div>
+                <p className="text-sm font-bold">Top-Rated<br/>Phone Support</p>
+              </div>
+            </div>
+
+            <div className="text-center text-gray-500 mb-2 text-sm">Express checkout</div>
+            <button className="w-full bg-black text-white font-bold py-4 rounded-lg mb-6 flex items-center justify-center gap-2">
+               Pay
+            </button>
+
+            <div className="flex items-center mb-6">
+              <div className="flex-1 border-t border-gray-300"></div>
+              <span className="px-4 text-gray-500 text-sm uppercase">Or</span>
+              <div className="flex-1 border-t border-gray-300"></div>
+            </div>
+
+            <form onSubmit={handleCheckoutSubmit}>
+              <div className="mb-8">
+                <div className="flex justify-between items-baseline mb-4">
+                  <h2 className="text-2xl font-bold">Contact</h2>
+                  <button type="button" className="text-brand-orange underline text-sm">Sign in</button>
+                </div>
+                <div className="relative">
+                  <input type="email" placeholder="Email" required className="w-full border border-gray-300 p-4 rounded-lg outline-none focus:border-blue-500 bg-white" />
+                  <span className="absolute right-4 top-4 text-gray-400">?</span>
+                </div>
+                <label className="flex items-center gap-2 mt-4 text-sm">
+                  <input type="checkbox" defaultChecked className="w-5 h-5 accent-brand-orange rounded" /> Email me with news and offers
+                </label>
+              </div>
+
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4">Delivery</h2>
+                <div className="space-y-4">
+                  <select className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none">
+                    <option>Nigeria</option>
+                    <option>United States</option>
+                    <option>United Kingdom</option>
+                    <option>Canada</option>
+                  </select>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="First name" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                    <input type="text" placeholder="Last name" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
                   </div>
-                ))}
-                <div className="border-t border-gray-200 mt-4 pt-2 flex justify-between font-bold text-lg text-brand-orange">
-                  <span>Total:</span>
-                  <span>${total.toFixed(2)}</span>
+                  
+                  <input type="text" placeholder="Company (optional)" className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  <input type="text" placeholder="Address" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  <input type="text" placeholder="Apartment, suite, etc. (optional)" className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="City" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                    <select className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white text-gray-700 appearance-none">
+                      <option>Lagos</option>
+                      <option>Abuja</option>
+                      <option>Rivers</option>
+                      <option>Kano</option>
+                    </select>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <input type="text" placeholder="Postal code (optional)" className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                    <input type="tel" placeholder="Phone" required className="w-full border border-gray-300 p-4 rounded-lg outline-none bg-white" />
+                  </div>
+                </div>
+                
+                <label className="flex items-center gap-2 mt-4 text-sm">
+                  <input type="checkbox" className="w-5 h-5 rounded border-gray-300" /> Save this information for next time
+                </label>
+                <label className="flex items-center gap-2 mt-2 text-sm">
+                  <input type="checkbox" className="w-5 h-5 rounded border-gray-300" /> Text me with news and offers
+                </label>
+              </div>
+
+              <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-6">
+                <h2 className="font-bold mb-4 text-xl">Payment</h2>
+                <p className="text-sm text-gray-500 mb-4">All transactions are secure and encrypted.</p>
+                
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="BTC" checked={paymentMethod === "BTC"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">Bitcoin (BTC)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="ETH" checked={paymentMethod === "ETH"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">Ethereum (ETH)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="SOL" checked={paymentMethod === "SOL"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">Solana (SOL)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="USDT_TRC20" checked={paymentMethod === "USDT_TRC20"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">USDT (TRC20)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="USDT_BEP20" checked={paymentMethod === "USDT_BEP20"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">USDT (BEP20)</span>
+                  </label>
+                  <label className="flex items-center gap-3 p-4 border border-gray-300 rounded-lg cursor-pointer">
+                    <input type="radio" name="payment" value="USDT_SOL" checked={paymentMethod === "USDT_SOL"} onChange={(e) => setPaymentMethod(e.target.value)} className="w-4 h-4 text-brand-orange focus:ring-brand-orange" />
+                    <span className="font-medium">USDT (Solana)</span>
+                  </label>
                 </div>
               </div>
-              <form onSubmit={(e) => { e.preventDefault(); setPage("success"); }} className="bg-white p-4 rounded-lg border border-gray-200">
-                <label className="block text-sm font-bold mb-2 text-gray-700">Select Payment Method</label>
-                <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)} className="w-full border border-gray-300 p-3 rounded mb-4 bg-gray-50 text-black outline-none focus:border-brand-orange">
-                  <option value="BTC">Bitcoin (BTC)</option>
-                  <option value="ETH">Ethereum (ETH)</option>
-                  <option value="SOL">Solana (SOL)</option>
-                  <option value="USDT_TRC20">USDT (TRC20)</option>
-                  <option value="USDT_BEP20">USDT (BEP20)</option>
-                  <option value="USDT_SOL">USDT (Solana)</option>
-                </select>
-                <button type="submit" className="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded transition">Generate Payment Address</button>
-              </form>
-            </>
-          )}
+
+              <button type="submit" className="w-full bg-brand-orange hover:bg-orange-600 text-white font-bold py-4 rounded-lg transition mb-4">
+                Complete order
+              </button>
+            </form>
+
+            <button onClick={() => setPage("home")} className="w-full mt-4 text-gray-500 font-medium hover:text-black">← Back to Store</button>
+          </div>
         </main>
       )}
 
