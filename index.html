@@ -41,7 +41,7 @@ const WALLETS = {
 };
 
 const allProducts = [
-  // Mars Lander Products (Using specific hardware images now)
+  // Mars Lander Products (Using real hardware images, no coins)
   { id: 1, category: "Miners", title: "Bitcoin Merch® - MARS LANDER V2 Lottery Miner", price: 829.99, reviews: 45, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "The Mars Lander V2 is a high-performance lottery miner designed for solo miners looking for a chance at the full block reward." },
   { id: 2, category: "Miners", title: "Bitcoin Merch® - MARS LANDER 3 All-In-One Lottery Miner & Node", price: 1249.99, reviews: 34, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "The Mars Lander 3 combines a powerful lottery miner with a full Bitcoin node." },
 
@@ -77,15 +77,15 @@ const allProducts = [
   { id: 27, category: "Miners", title: "Antminer S19 95TH/s", price: 950.00, reviews: 112, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "The classic Antminer S19, still highly profitable." },
   { id: 28, category: "Miners", title: "AvalonMiner A1246 90TH/s", price: 950.00, reviews: 67, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "Canaan's AvalonMiner A1246 is a proven performer." },
   
-  // High-Ticket Accessories
+  // High-Ticket Accessories (Removed the coins)
   { id: 29, category: "Accessories", title: "1200W Server Power Supply", price: 489.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "Ensure your rig gets the clean, stable power it needs." },
   { id: 30, category: "Accessories", title: "APW12 Power Supply", price: 410.00, reviews: 33, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "The official APW12 Power Supply for S19 series." },
   { id: 31, category: "Accessories", title: "APW3++ Power Supply", price: 495.00, reviews: 78, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "The APW3++ is a versatile and powerful PSU." },
   { id: 32, category: "Accessories", title: "Miner Silencer Duct Kit", price: 465.00, reviews: 61, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Reduce the noise of your ASIC miner significantly." },
   
-  // Premium Merch
+  // Premium Merch (Replaced with real hardware/cards images)
   { id: 33, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 449.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "Keep your crypto secure with the industry-leading Ledger Nano X." },
-  { id: 34, category: "Merch", title: "Bitcoin Gold Coin (Limited Edition)", price: 499.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "A physical, gold-plated Bitcoin for the ultimate collector." },
+  { id: 34, category: "Merch", title: "Bitcoin Hardware Wallet (Trezor)", price: 479.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "A secure, open-source hardware wallet for your crypto." },
   { id: 35, category: "Merch", title: "Whale Pass VIP Membership", price: 999.00, reviews: 150, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=600&q=80", description: "Get access to exclusive discounts, lifetime warranties, and priority support." },
   { id: 36, category: "Merch", title: "Crypto Mining Masterclass", price: 450.00, reviews: 34, image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80", description: "Learn everything you need to know about crypto mining." },
   { id: 37, category: "Merch", title: "Bitcoin Battle Pass", price: 599.00, reviews: 12, image: "https://images.unsplash.com/photo-1586528116311-ad8ed745d3e1?w=600&q=80", description: "Unlock exclusive access to products, events, and community features." }
@@ -884,7 +884,7 @@ function App() {
                 </div>
               </div>
 
-              {/* Best Sellers Upsell Section */}
+              {/* Best Sellers Upsell Section - No Coins */}
               <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mb-8">
                 <h2 className="font-bold mb-4 text-xl flex items-center gap-2">Current Best Sellers <span className="text-sm">⬇️</span></h2>
                 
@@ -899,7 +899,7 @@ function App() {
                 </div>
 
                 <div className="flex gap-4 items-center">
-                  <img src="https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Miner" />
+                  <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Miner" />
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold leading-tight">Bitcoin Merch® - Gold Nugget V3 Lottery Miner (10% OFF)</h3>
                     <p className="font-bold mt-1">US$40.50 <span className="text-gray-400 line-through text-xs">US$44.99</span></p>
