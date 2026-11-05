@@ -24,6 +24,45 @@ tailwind.config = {
 .drawer { transition: transform 0.3s ease-in-out; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* YOUR EXACT CSS */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+}
+.product-card {
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+}
+.product-image-wrap { position: relative; width: 100%; height: 260px; background: #f8f8f8; overflow: hidden; }
+.product-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.product-label {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 12px;
+    text-align: center;
+}
+.product-body { padding: 16px; display: flex; flex-direction: column; flex: 1; }
+.product-body h3 { margin: 0 0 8px 0; font-size: 18px; color: #111; }
+.product-body p { margin: 0 0 12px 0; font-size: 14px; line-height: 1.6; color: #444; flex: 1; }
+.product-specs { list-style: none; padding: 0; margin: 0 0 16px 0; font-size: 13px; color: #333; }
+.product-specs li { padding: 4px 0; border-top: 1px solid #f0f0f0; }
+.product-price { font-weight: bold; font-size: 20px; color: #111; margin-bottom: 12px; }
+.btn-add { background-color: #f7941d; color: white; font-weight: bold; padding: 12px; border-radius: 6px; text-transform: uppercase; border: none; cursor: pointer; width: 100%; transition: background 0.2s; }
+.btn-add:hover { background-color: #e0820f; }
 </style>
 </head>
 <body class="bg-white font-sans text-gray-900">
@@ -31,6 +70,7 @@ tailwind.config = {
 <script type="text/babel">
 const { useState, useEffect } = React;
 
+// The wallet addresses
 const WALLETS = {
   BTC: "bc1qaanjf99rsalzqwpqzfy7jry2dzrhc867cz8vp5",
   ETH: "0x336b215a1988fAfA64637728E5Fecc7EBc7e0A2C",
@@ -40,61 +80,45 @@ const WALLETS = {
   USDT_SOL: "6yQi3Ep7dGmwWvEB5vFqAn186doUHVDoeM9yT5tpAjai"
 };
 
+// YOUR EXACT PRODUCT DATA
 const allProducts = [
-  // 1-2. Mars Landers
-  { id: 1, category: "Miners", title: "Bitcoin Merch® - MARS LANDER V2 Lottery Miner", price: 829.99, reviews: 45, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "An entry-level home Bitcoin miner designed for beginners. It features a clear protective cover, an onboard screen, and a remote control for customizable RGB LED lighting." },
-  { id: 2, category: "Miners", title: "Bitcoin Merch® - MARS LANDER 3 All-In-One Lottery Miner & Node", price: 1249.99, reviews: 34, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "An all-in-one Bitcoin lottery miner and full node. It includes a built-in touchscreen, 2TB SSD, 8GB RAM, and customizable LEDs. It runs a full Bitcoin node." },
-
-  // 3-6. Industrial Miners
-  { id: 3, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer S21 XP 270TH/s Bitcoin Miner", price: 3899.99, reviews: 12, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80", description: "The Antminer S21 XP is the pinnacle of Bitcoin mining hardware, delivering an incredible 270 TH/s." },
-  { id: 4, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer L11 20GH/s DOGE LTC Miner", price: 6539.99, reviews: 8, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "The Antminer L11 is the ultimate Scrypt miner for Litecoin and Dogecoin." },
-  { id: 5, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer Z15 Pro 840Ksol Zcash Miner", price: 10859.99, reviews: 5, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "The Z15 Pro is a specialized Equihash miner built for Zcash." },
-  { id: 6, category: "Miners", title: "Bitcoin Merch® - BITMAIN Antminer S23 Hydro 563TH/s BTC Miner", price: 14899.99, reviews: 3, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "The S23 Hydro is the most powerful Bitcoin miner on the planet. Featuring hydro-cooling technology." },
-
-  // 7. Nexus
-  { id: 7, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 449.99, whalePrice: 399.99, reviews: 45, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "The Nexus S1-1 is the next generation of home Bitcoin mining. Engineered with the latest S23-generation ASIC chip, it delivers powerful 6 TH/s performance at only 95W." },
-
-  // 8-11. Bitaxes / NerdQaxe
-  { id: 8, category: "Miners", title: "Bitcoin Merch® - NerdQaxe++ Hydro 4.8-6TH/s w Power Supply", price: 499.99, whalePrice: 424.99, reviews: 89, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "An advanced enclosed ASIC miner design with enhanced cooling fins and a network interface shown." },
-  { id: 9, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma++ 2TH/s w/ Power Supply", price: 449.99, whalePrice: 382.49, reviews: 214, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80", description: "Compact dark box miner with an exposed heatsink." },
-  { id: 10, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 419.99, whalePrice: 356.99, reviews: 189, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80", description: "A network of green circuit boards in an open-air mining rig." },
-  { id: 11, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Standard silver ASIC miner box with dual fans." },
-
-  // 12-14. Antminers / Whatsminers
-  { id: 12, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80", description: "Standard Antminer S21 unit, with a powerful device and control board visible." },
-  { id: 13, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, reviews: 189, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "Silver industrial ASIC miner box." },
-  { id: 14, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80", description: "Whatsminer M50S unit with a robust aluminum chassis." },
-
-  // 15-18. Avalon, Bitaxe
-  { id: 15, category: "Miners", title: "IceRiver KS0 100GH/s", price: 450.00, reviews: 56, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "Compact Kaspa miner." },
-  { id: 16, category: "Miners", title: "Canaan Avalon Nano 3", price: 489.00, reviews: 240, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "A 4 TH/s home Bitcoin miner that doubles as a space heater. It connects via USB-C and is controlled through the Avalon Remote app." },
-  { id: 17, category: "Miners", title: "Bitaxe Ultra 204", price: 485.00, reviews: 32, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "Industrial-grade, ultra-dense mining power supply with a large black intake manifold." },
-  { id: 18, category: "Miners", title: "Bitaxe Gamma Hex 1300", price: 449.99, reviews: 32, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "An advanced ASIC miner with hexagonal honeycomb processing panel, featuring immense processing power." },
-
-  // 19-21. Antminer L7, Whatsminer
-  { id: 19, category: "Miners", title: "Antminer L7 9500MH/s", price: 4500.00, reviews: 88, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "Standard L7 miner." },
-  { id: 20, category: "Miners", title: "Whatsminer M30S++ 112TH/s", price: 1250.00, reviews: 110, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "Whatsminer unit with triangular power connectors and airflow management." },
-  { id: 21, category: "Miners", title: "Antminer S19j Pro 104TH/s", price: 1150.00, reviews: 145, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Standard box ASIC miner." },
-
-  // 22-28. Bitaxes & Avalon
-  { id: 22, category: "Miners", title: "Bitaxe Gamma Ice Angel", price: 449.99, reviews: 41, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80", description: "An aesthetically distinct version of Bitaxe Gamma miner, notable by its winter ice-blue external casing." },
-  { id: 23, category: "Miners", title: "Antminer S19j XP 141TH/s", price: 1850.00, reviews: 145, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "Antminer S19j XP series box." },
-  { id: 24, category: "Miners", title: "Whatsminer M50 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "Whatsminer M50 block." },
-  { id: 25, category: "Miners", title: "Antminer S19 95TH/s", price: 950.00, reviews: 112, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "The classic industrial Antminer S19 box." },
-  { id: 26, category: "Miners", title: "AvalonMiner A1246 90TH/s", price: 950.00, reviews: 67, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80", description: "Canaan A1346 industrial miner box." },
-  
-  // 27-30. Accessories
-  { id: 27, category: "Accessories", title: "1200W Server Power Supply", price: 489.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "Grey, metal-cased server PSU with cables." },
-  { id: 28, category: "Accessories", title: "APW12 Power Supply", price: 410.00, reviews: 33, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Yellow-accented power unit and brick." },
-  { id: 29, category: "Accessories", title: "APW3++ Power Supply", price: 495.00, reviews: 78, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "A 1600W AC-DC power supply designed specifically for mining operations. It features high conversion efficiency (93.5%)." },
-  { id: 30, category: "Accessories", title: "Miner Silencer Duct Kit", price: 465.00, reviews: 61, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Flexible silver ventilation ducts and soundproofing panels." },
-  
-  // 31-35. Merch
-  { id: 31, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 449.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "A Bluetooth-enabled hardware wallet with a secure element chip. It allows you to safely store and manage your crypto on the go." },
-  { id: 32, category: "Merch", title: "Trezor Safe 3 Hardware Wallet", price: 479.00, reviews: 203, image: "https://m.media-amazon.com/images/I/51hilzKj+kL._AC_SX679_.jpg", description: "An open-source hardware wallet with a touchscreen interface." },
-  { id: 33, category: "Merch", title: "Whale Pass VIP Membership", price: 999.00, reviews: 150, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=600&q=80", description: "A VIP membership that includes a 120-day guarantee and lifetime warranty." },
-  { id: 34, category: "Merch", title: "Crypto Mining Masterclass", price: 450.00, reviews: 34, image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&q=80", description: "A masterclass teaching crypto mining from rig building to pool selection." },
-  { id: 35, category: "Merch", title: "Bitcoin Battle Pass", price: 599.00, reviews: 12, image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=600&q=80", description: "A digital pass for exclusive access to the Bitcoin Merch ecosystem." }
+  { id: 1, category: "Miners", title: "Mars Lander V2", price: 829.99, reviews: 45, image: "https://joincheckmate.com/api/images/1415477aafa88c9beb393ed369691728.jpg", description: "A compact solo Bitcoin miner designed for home and office use. It is used to participate in Bitcoin mining as a lottery miner, giving users a chance to earn a full block reward while running quietly on low power.", specs: ["Hashrate: Up to 350 GH/s", "Power: Approx. 17W", "Use: Home solo mining"] },
+  { id: 2, category: "Miners", title: "Mars Lander 3", price: 1249.99, reviews: 34, image: "https://cdn.shopify.com/s/files/1/2609/9556/files/unnamed_2_9a49eafb-6abd-4bcd-9c0e-e7c80ff3fe2c.jpg?v=1773963512&width=1440", description: "An all-in-one lottery miner and Bitcoin full node. It is used for home mining and for supporting the Bitcoin network by running a full node, all in a compact desktop design.", specs: ["Hashrate: Up to 300 GH/s", "Power: Low power, silent", "Use: Solo mining + Full Node"] },
+  { id: 3, category: "Miners", title: "Antminer S21 XP", price: 3899.99, reviews: 12, image: "https://ueeshop.ly200-cdn.com/u_file/UPAV/UPAV056/2502/products/25/c943b7f2f1.jpg?x-oss-process=image/resize,m_lfit,h_500,w_500", description: "A high-performance industrial Bitcoin miner. It is used in professional mining farms to mine Bitcoin, Bitcoin Cash, and Bitcoin SV using the SHA-256 algorithm, with excellent energy efficiency.", specs: ["Hashrate: 270 TH/s", "Power: 3,645W", "Algorithm: SHA-256"] },
+  { id: 4, category: "Miners", title: "Antminer L11", price: 6539.99, reviews: 8, image: "https://promminer.ru/upload/iblock/d1b/kb6t6hvqcxqm1cbh3qf74h2i60rgpe5t/L11_20GH.jpg", description: "A Scrypt miner used to mine Litecoin and Dogecoin at the same time through merged mining. It is designed for miners who want to earn two coins from one machine.", specs: ["Hashrate: 20 GH/s", "Power: 3,680W", "Coins: LTC + DOGE"] },
+  { id: 5, category: "Miners", title: "Antminer Z15 Pro", price: 10859.99, reviews: 5, image: "https://minerbases.com/wp-content/uploads/2025/09/Bitmain-Antminer-Z15-Pro.webp", description: "An Equihash miner used to mine Zcash and other Equihash coins. It is designed for professional mining operations focused on privacy coins.", specs: ["Hashrate: 840 KSol/s", "Power: 2,780W", "Coins: ZEC, ZEN"] },
+  { id: 6, category: "Miners", title: "Antminer S23 Hydro", price: 14899.99, reviews: 3, image: "https://cdn.webshopapp.com/shops/353164/files/501418614/325x325x2/bitmain-antminer-s23-hydro.jpg", description: "A hydro-cooled industrial Bitcoin miner. It uses water cooling instead of fans for higher efficiency and quieter operation, and is used in large-scale mining farms with hydro cooling infrastructure.", specs: ["Hashrate: 580 TH/s", "Power: 5,510W", "Cooling: Hydro / Water"] },
+  { id: 7, category: "Miners", title: "Nexus S1-1", price: 449.99, whalePrice: 399.99, reviews: 45, image: "https://down-th.img.susercontent.com/file/cn-11134207-820l4-mo93ji4xdtkx04@resize_w1200_nl", description: "A small home Bitcoin miner designed for beginners. It is used for pool mining at home with low power consumption and quiet operation.", specs: ["Hashrate: 10 TH/s", "Power: Approx. 150W", "Use: Home pool mining"] },
+  { id: 8, category: "Miners", title: "NerdQaxe++", price: 499.99, reviews: 89, image: "https://res.cloudinary.com/dluwgr5op/image/upload/e_background_removal/e_trim/c_limit,w_1200/f_auto/q_auto/AihDCWCKjtx9WRoyoYtZqObm5VQ?_a=BAVFB+DW0%202x", description: "An open-source home Bitcoin miner with four chips. It is used for solo lottery mining and for learning about Bitcoin mining, with a built-in display and WiFi setup.", specs: ["Hashrate: Up to 6.1 TH/s", "Power: Approx. 90-120W", "Use: Home solo mining"] },
+  { id: 9, category: "Miners", title: "Bitaxe Gamma++", price: 449.99, reviews: 214, image: "https://powermining.io/cdn/shop/files/bitaxe_gamma_open_source_miners.jpg?v=1743491195&width=1500", description: "An upgraded open-source solo miner with two chips. It is used for desktop lottery mining, offering double the performance of the standard Gamma while still using very low power.", specs: ["Hashrate: Approx. 2.2 TH/s", "Power: Approx. 45W", "Use: Desktop solo mining"] },
+  { id: 10, category: "Miners", title: "Bitaxe Gamma", price: 419.99, reviews: 189, image: "https://judgeme.imgix.net/power-mining/1778350678__img_5064__original.jpeg?auto=format&w=1024", description: "The most popular open-source solo Bitcoin miner. It is used for home lottery mining, education, and as a desktop device for Bitcoin enthusiasts.", specs: ["Hashrate: Approx. 1.2 TH/s", "Power: Approx. 18W", "Use: Solo mining"] },
+  { id: 11, category: "Miners", title: "NerdOCTaxe", price: 424.99, reviews: 92, image: "https://lazyminers.com/wp-content/uploads/2026/03/OctAxeListingPicture.webp", description: "A powerful open-source home miner with eight chips. It is used for serious home solo mining, offering high hashrate while remaining quiet and energy-efficient.", specs: ["Hashrate: 9.6 - 12 TH/s", "Power: Approx. 200W", "Use: Home solo mining"] },
+  { id: 12, category: "Miners", title: "Antminer S21", price: 2899.00, reviews: 214, image: "https://elektronikmarknaden.com/wp-content/uploads/2026/06/6a2504a207752c6662449c5d4b2c1ad6a82c0c10906e2fad968b1.jpg", description: "A standard industrial Bitcoin miner. It is used in mining farms to mine Bitcoin efficiently using the SHA-256 algorithm.", specs: ["Hashrate: 200 TH/s", "Power: 3,500W", "Algorithm: SHA-256"] },
+  { id: 13, category: "Miners", title: "Antminer S19 XP", price: 1850.00, reviews: 189, image: "https://miningsyndicate.com/cdn/shop/products/S19XP141H02662_1512x.jpg?v=1677125021", description: "A reliable industrial Bitcoin miner. It is used for Bitcoin mining in farms and large operations, known for its stability and proven performance.", specs: ["Hashrate: 141 TH/s", "Power: 3,012W", "Algorithm: SHA-256"] },
+  { id: 14, category: "Miners", title: "Whatsminer M50S", price: 1420.00, reviews: 92, image: "https://www.bitcoindiscoverycenter.com/_next/image?url=%2Fgallery%2Fmicrobt%2Fwhatsminer-m50s.png&w=3840&q=75", description: "A Bitcoin miner from MicroBT. It is used for professional Bitcoin mining, offering strong build quality and consistent performance in mining farms.", specs: ["Hashrate: 126 TH/s", "Power: 3,276W", "Algorithm: SHA-256"] },
+  { id: 15, category: "Miners", title: "Goldshell Mini-DOGE", price: 480.00, reviews: 112, image: "https://c1.neweggimages.com/productimage/nb1280/B7U3S2210240GOC0I11.jpg", description: "A small, quiet home miner for Dogecoin and Litecoin. It is used by beginners who want to mine from home without high power usage or noise.", specs: ["Hashrate: 185 MH/s", "Power: 235W", "Coins: DOGE + LTC"] },
+  { id: 16, category: "Miners", title: "IceRiver KS0", price: 450.00, reviews: 56, image: "https://pcpraha.cz/wp-content/uploads/2020/04/iceriver-kas-ks0-100gh-s-65wapexto-600x450.jpg.webp", description: "A small home miner for Kaspa. It is used to mine Kaspa (KAS) with very low power consumption and minimal noise, ideal for desktop use.", specs: ["Hashrate: 100 GH/s", "Power: 65W", "Coin: KAS"] },
+  { id: 17, category: "Miners", title: "Canaan Avalon Nano 3", price: 489.00, reviews: 240, image: "https://www.picclickimg.com/vF0AAOSwDtNmpKez/Canaan-Avalon-Nano-3-Noir-Bitcoin-Miner-140W.webp", description: "A compact home Bitcoin miner that also functions as a small heater. It is used for quiet home mining and is controlled through a mobile app.", specs: ["Hashrate: 4 TH/s", "Power: 140W", "Use: Home mining"] },
+  { id: 18, category: "Miners", title: "Bitaxe Ultra 204", price: 485.00, reviews: 32, image: "https://shop.lnbits.com/wp-content/uploads/2024/06/PXL_20240604_131102383-1461x2048.jpg", description: "An earlier open-source solo Bitcoin miner. It is used for home lottery mining and for beginners entering the world of Bitcoin mining.", specs: ["Hashrate: Approx. 600 GH/s", "Power: Approx. 15W", "Use: Solo mining"] },
+  { id: 19, category: "Miners", title: "Antminer L7", price: 4500.00, reviews: 88, image: "http://coiname.net/wp-content/uploads/2022/08/298647363_954377082625180_7964868608704403424_n.jpg", description: "A powerful Scrypt miner used to mine Litecoin and Dogecoin together. It is used in mining farms focused on Scrypt coins.", specs: ["Hashrate: 9.5 GH/s", "Power: 3,425W", "Coins: LTC + DOGE"] },
+  { id: 20, category: "Miners", title: "Whatsminer M30S++", price: 1250.00, reviews: 110, image: "https://zcor.ir/wp-content/uploads/2025/05/m30s.png", description: "A durable industrial Bitcoin miner from MicroBT. It is used for budget-friendly farm mining, known for its long-lasting hardware.", specs: ["Hashrate: 112 TH/s", "Power: 3,472W", "Algorithm: SHA-256"] },
+  { id: 21, category: "Miners", title: "Antminer S19j Pro", price: 1150.00, reviews: 145, image: "https://21energy.com/cdn/shop/files/bitmain-antminer-s19j-pro-en-01.webp?v=1769174033&width=1900", description: "A widely used industrial Bitcoin miner. It is used for large-scale Bitcoin mining and remains popular for its balance of price and performance.", specs: ["Hashrate: 100 TH/s", "Power: 3,050W", "Algorithm: SHA-256"] },
+  { id: 22, category: "Miners", title: "Bitaxe Gamma Hex", price: 449.99, reviews: 32, image: "https://d-central.tech/wp-content/uploads/2023/08/IMG_20251222_180823-1536x1536-png.webp", description: "A six-chip version of the Bitaxe Gamma with a hexagonal board design. It is used for home solo mining with higher hashrate than the standard Gamma.", specs: ["Hashrate: Approx. 6.6 TH/s", "Power: Approx. 90W", "Use: Home solo mining"] },
+  { id: 23, category: "Miners", title: "LuckyAxe BLO4", price: 499.99, reviews: 88, image: "https://res.cloudinary.com/dluwgr5op/image/upload/e_background_removal/e_trim/c_limit,w_640/f_auto/q_85/v1/iawhwTlzLG3pk1GCYLnI0cV_8QA?_a=BAVMn6DY0", description: "A compact and affordable lottery miner. It is used for beginners who want to try solo Bitcoin mining at a low cost.", specs: ["Hashrate: Up to 1 TH/s", "Power: Approx. 15W", "Use: Lottery mining"] },
+  { id: 24, category: "Miners", title: "Bitaxe Gamma Ice Angel", price: 449.99, reviews: 41, image: "http://bitcoinmerch.com/cdn/shop/files/8c40cf75-3c02-4d0d-aebc-ae6906b933d1.png?v=1765411015", description: "A special edition of the Bitaxe Gamma in white. It is used for solo Bitcoin mining, with the same performance as the standard Gamma but with a unique collector design.", specs: ["Hashrate: Approx. 1.2 TH/s", "Power: Approx. 18W", "Use: Solo mining"] },
+  { id: 25, category: "Miners", title: "Antminer S19j XP", price: 1850.00, reviews: 145, image: "https://cdn-resource.btminer.com/wp-content/uploads/2026/03/ANTMINER-S19JXP-3.png", description: "An upgraded and more efficient version of the S19j Pro. It is used for industrial Bitcoin mining with improved energy efficiency.", specs: ["Hashrate: 151 TH/s", "Power: 3,246W", "Algorithm: SHA-256"] },
+  { id: 26, category: "Miners", title: "Whatsminer M50", price: 1420.00, reviews: 92, image: "https://french.miners-bitcoins.com/test/miners-bitcoins.com/photo/pl156655622-remark.jpg", description: "A Bitcoin miner from MicroBT. It is used for professional Bitcoin mining in farms, offering reliable performance.", specs: ["Hashrate: 114 TH/s", "Power: 3,306W", "Algorithm: SHA-256"] },
+  { id: 27, category: "Miners", title: "Antminer S19", price: 950.00, reviews: 112, image: "https://ae-pic-a1.aliexpress-media.com/kf/A8ef2ab97bbac4f71873767857bd2b886z.jpg_310x310.jpg", description: "The original model of the S19 series. It is used for Bitcoin mining and is suitable for beginners or budget farm setups.", specs: ["Hashrate: 95 TH/s", "Power: 3,250W", "Algorithm: SHA-256"] },
+  { id: 28, category: "Miners", title: "AvalonMiner A1246", price: 950.00, reviews: 67, image: "https://intelionmine.ru/uploads/product/big/818580e316cc2760476a5ca633f4cf80.jpg", description: "A Bitcoin miner from Canaan. It is used for industrial Bitcoin mining, with easy maintenance and a durable design.", specs: ["Hashrate: 83 - 90 TH/s", "Power: 3,420W", "Algorithm: SHA-256"] },
+  { id: 29, category: "Accessories", title: "1200W Server PSU", price: 489.99, reviews: 240, image: "https://www.picclickimg.com/c4cAAOSwZKpiFVWc/LX2400W-12V-Mining-Power-Supply-PSU-110V-2U.webp", description: "A server power supply unit. It is used to provide stable power to mining rigs and small miners when used with a breakout board and PCIe cables.", specs: ["Power: 1200W", "Output: 12V", "Use: Power for rigs"] },
+  { id: 30, category: "Accessories", title: "APW12 PSU", price: 410.00, reviews: 33, image: "https://asicfox.ua/wp-content/uploads/2024/08/apw121215-abcdefg_4.jpg", description: "The original Bitmain power supply for Antminer machines. It is used to power Antminer models such as S19, L7, and Z15 Pro, and is essential as a replacement part.", specs: ["Power: 3600W - 4000W", "Input: 200-240V", "Use: Antminer PSU"] },
+  { id: 31, category: "Accessories", title: "Ethernet Switch 8-Port", price: 495.00, reviews: 78, image: "https://xn----8sbncwcclqtesi5l.xn--p1ai/u/f/import_files/d4/d4cd728e-d49f-11ef-8a36-305a3a7a1ca6_1f02afeb-d7b5-11ef-8a36-305a3a7a1ca6-S.jpeg", description: "A network switch used to connect multiple miners to one router. It allows you to expand your mining setup by sharing one internet connection across up to 8 devices.", specs: ["Ports: 8x RJ45", "Speed: Gigabit recommended", "Use: Network expansion"] },
+  { id: 32, category: "Accessories", title: "CAT6 Cable 10m", price: 465.00, reviews: 61, image: "https://cdn11.bigcommerce.com/s-fkdbqpw9ac/images/stencil/1280x1280/products/9288/63555/network-cable-cat-6-10-meters__72402.1779084460.jpg?c=1", description: "A high-speed Ethernet cable used to connect miners to a switch or router. It provides a stable wired connection, which is more reliable than WiFi for mining.", specs: ["Length: 10 meters", "Type: CAT6", "Use: Miner connection"] },
+  { id: 33, category: "Accessories", title: "Mining Rack Frame", price: 449.00, reviews: 310, image: "https://m.media-amazon.com/images/I/610jlHzwrIL.jpg", description: "An open metal frame used to organize and hold multiple miners or GPU rigs. It improves airflow, makes maintenance easier, and keeps the mining area tidy.", specs: ["Material: Steel / Aluminium", "Use: Organize miners", "Benefit: Better cooling"] },
+  { id: 34, category: "Accessories", title: "Power Cable 16A", price: 479.00, reviews: 203, image: "https://icubix.ru/_next/image?url=https%3A%2F%2Fcdn.icubix.ru%2Fproxy%2Fnetlab%2F53%2F16%2F5316ba0e8d68fd5f28efeaaa9b9626e7f8725bbecba4bae2c02e776fdc45f4a1.jpg&w=1200&q=75", description: "A heavy-duty power cable used to connect an Antminer PSU to the wall socket. It is rated for high current to safely handle the power demand of industrial miners.", specs: ["Rating: 16A / 250V", "Use: PSU to wall socket", "Important: Do not use low-rated cables"] },
+  { id: 35, category: "Accessories", title: "Cooling Fan 120mm", price: 999.00, reviews: 150, image: "https://rukminim2.flixcart.com/image/610/810/l09w8sw0/cooler/m/a/m/12v-cooling-fan-for-pc-cpu-radiator-cooler-120mm-x-120mm-black-original-imagc3pyy7z3ec79.jpeg?q=80", description: "A 120mm cooling fan used to improve airflow in a mining setup. It helps remove hot air from the mining area and cool power supplies and small miners.", specs: ["Size: 120 x 120mm", "Voltage: 12V", "Use: Extra cooling"] },
+  { id: 36, category: "Accessories", title: "2400W PSU", price: 450.00, reviews: 34, image: "https://i2.wp.com/ae01.alicdn.com/kf/Hfa9a9bce00344d1ca5c09f2a0c6c11f5e/2400W-12v-mining-bitcoin-PSU-Antminer-ATX-Power-Supply-2400W-Support-Mining-Machine-A3-B3-D3.jpg", description: "A high-power supply unit used to power mining rigs and medium-sized miners. It provides stable 12V power with multiple outputs for mining equipment.", specs: ["Power: 2400W", "Output: 12V", "Use: Rig power supply"] },
+  { id: 37, category: "Accessories", title: "220V Stabilizer", price: 599.00, reviews: 12, image: "https://ryvok.ru/_ipx/f_webp&s_1000x1000/https://ryvok.ru/img/files/ostalnoe/stabilizatory_naprajenia/energiya-nybrid-1500-big-2.jpg", description: "A voltage stabilizer used to protect miners from unstable power supply. It regulates voltage to a safe level and prevents damage to the power supply and miner from power surges or drops.", specs: ["Input: 220V", "Use: Voltage protection", "Benefit: Protects miners"] }
 ];
 
 function App() {
@@ -444,21 +468,26 @@ function App() {
           {filteredProducts.length === 0 ? (
             <div className="p-8 text-center text-gray-500">No products found.</div>
           ) : (
-            <section className="grid grid-cols-2 gap-4 p-4">
+            <section className="products-grid">
               {filteredProducts.map(p => (
-                <article key={p.id} className="flex flex-col bg-white">
-                  <div onClick={() => handleProductClick(p)} className="relative aspect-square mb-3 flex items-center justify-center overflow-hidden bg-gray-100 cursor-pointer">
-                    <img src={p.image} alt={p.title} className="max-h-full max-w-full object-cover" />
+                <article key={p.id} className="product-card">
+                  <div onClick={() => handleProductClick(p)} className="product-image-wrap cursor-pointer">
+                    <img src={p.image} alt={p.title} />
+                    <div className="product-label">{p.title}</div>
                   </div>
-                  <h3 onClick={() => handleProductClick(p)} className="text-[15px] font-bold leading-snug line-clamp-3 mb-2 text-center cursor-pointer">{p.title}</h3>
-                  <p className="text-black font-bold text-lg mb-3 text-center">${p.price.toFixed(2)}</p>
-                  
-                  <button 
-                    onClick={() => handleProductClick(p)}
-                    className="mt-auto w-full py-3 bg-brand-orange text-white text-sm font-bold tracking-wide uppercase hover:bg-orange-600 transition"
-                  >
-                    Add to Cart
-                  </button>
+                  <div className="product-body">
+                    <h3 onClick={() => handleProductClick(p)} className="cursor-pointer">{p.title}</h3>
+                    <p>{p.description}</p>
+                    <ul className="product-specs">
+                      {p.specs?.map((spec, i) => <li key={i}>{spec}</li>)}
+                    </ul>
+                    <div className="mt-auto">
+                      <div className="product-price">${p.price.toFixed(2)}</div>
+                      <button onClick={() => handleProductClick(p)} className="btn-add">
+                        Choose Options
+                      </button>
+                    </div>
+                  </div>
                 </article>
               ))}
             </section>
@@ -472,18 +501,16 @@ function App() {
 
       {page === "product" && selectedProduct && (
         <main className="bg-white pb-24">
-          <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden mb-2">
+          <div className="p-4 bg-gray-50 border-b">
+             <button onClick={() => setPage("home")} className="flex items-center gap-1 text-gray-500 font-medium hover:text-black">
+              ‹ Back to Store
+            </button>
+          </div>
+          
+          <div className="w-full aspect-square bg-gray-50 flex items-center justify-center overflow-hidden mb-2 mt-4">
             <img src={selectedProduct.image} alt={selectedProduct.title} className="w-full h-full object-cover" />
           </div>
           
-          <div className="flex gap-2 px-4 mb-4 overflow-x-auto no-scrollbar">
-            {[1,2,3,4,5].map(i => (
-              <div key={i} className={`w-16 h-16 flex-shrink-0 border-2 ${i===1 ? 'border-brand-orange' : 'border-transparent'}`}>
-                <img src={selectedProduct.image} className="w-full h-full object-cover opacity-80" alt="thumb" />
-              </div>
-            ))}
-          </div>
-
           <div className="px-4">
             <p className="text-sm text-gray-600 mb-4 flex items-center gap-1">🔍 Click on image to zoom</p>
             
@@ -554,18 +581,10 @@ function App() {
 
             <div className="mt-8">
               <h2 className="text-2xl font-bold mb-4">Description</h2>
-              <p className="text-gray-700 leading-relaxed mb-8">{selectedProduct.description}</p>
-            </div>
-
-            <div className="mt-8">
-              <h2 className="text-2xl font-bold mb-4">Upgrades</h2>
-              <div className="border border-gray-200 rounded-lg p-4 flex items-center gap-4">
-                <img src="https://images.unsplash.com/photo-1601524909162-ae8725290836?w=200&q=80" alt="Upgrade" className="w-20 h-20 object-cover rounded" />
-                <div>
-                  <h3 className="font-bold text-sm">Bitcoin Merch® - Cardsmiths Crypto Currency Collectible Trading Cards</h3>
-                  <p className="text-brand-orange font-bold mt-2">$19.99</p>
-                </div>
-              </div>
+              <p className="text-gray-700 leading-relaxed mb-4">{selectedProduct.description}</p>
+              <ul className="product-specs bg-white p-4 rounded-lg border">
+                {selectedProduct.specs?.map((spec, i) => <li key={i}>{spec}</li>)}
+              </ul>
             </div>
 
             <div className="mt-8 text-center">
@@ -579,58 +598,6 @@ function App() {
               </div>
             </div>
 
-            <div className="mt-8 border-t border-gray-200 pt-8">
-              <div className="flex justify-between items-center py-4 border-b border-gray-200">
-                <span className="font-bold uppercase tracking-wider text-sm">Our Mission Statement</span>
-                <span className="text-xl">+</span>
-              </div>
-              <div className="flex justify-between items-center py-4 border-b border-gray-200">
-                <span className="font-bold uppercase tracking-wider text-sm">Quick Links</span>
-                <span className="text-xl">+</span>
-              </div>
-              <div className="flex justify-between items-center py-4 border-b border-gray-200">
-                <span className="font-bold uppercase tracking-wider text-sm">Information</span>
-                <span className="text-xl">+</span>
-              </div>
-              <div className="flex justify-between items-center py-4 border-b border-gray-200">
-                <span className="font-bold uppercase tracking-wider text-sm">Newsletter</span>
-                <span className="text-xl">+</span>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <p className="text-sm font-bold text-gray-900 mb-2">Subscribe to receive updates, access to exclusive deals, and more.</p>
-              <input type="email" placeholder="Your email" className="w-full border border-gray-300 p-3 rounded mb-3" />
-              <button className="bg-brand-orange text-white font-bold py-3 px-8 rounded uppercase text-sm">Subscribe</button>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="font-bold text-sm mb-4">Follow Us</h3>
-              <div className="flex gap-2">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-xs">f</div>
-                <div className="w-8 h-8 bg-sky-400 rounded-full flex items-center justify-center text-white text-xs">t</div>
-                <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white text-xs">i</div>
-                <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center text-white text-xs">y</div>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <h3 className="font-bold text-sm mb-4">We Accept</h3>
-              <div className="flex flex-wrap gap-2">
-                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">BTC</span></div>
-                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">ETH</span></div>
-                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">LTC</span></div>
-                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">USDT</span></div>
-                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">DOGE</span></div>
-                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">VISA</span></div>
-                <div className="border p-1 rounded"><span className="text-xs font-bold text-gray-600">Pay</span></div>
-              </div>
-            </div>
-
-            <div className="mt-8 text-xs text-gray-500 leading-relaxed">
-              © Bitcoin Merch | 9850 Owensmouth Ave Unit 2, Chatsworth, CA 91311
-            </div>
-
             <button onClick={() => setPage("home")} className="w-full mt-8 text-gray-500 font-medium hover:text-black">← Back to Store</button>
           </div>
         </main>
@@ -638,6 +605,11 @@ function App() {
 
       {page === "login" && (
         <main className="min-h-screen bg-white flex flex-col items-center pt-12 px-6">
+           <div className="w-full max-w-md mb-4">
+            <button onClick={() => setPage("home")} className="flex items-center gap-1 text-gray-500 font-medium hover:text-black">
+              ‹ Back to Store
+            </button>
+          </div>
           <div className="mb-12 text-center">
             <div className="flex items-center justify-center gap-1 font-black text-5xl mb-2 tracking-tighter text-black">
               <span className="text-brand-orange">₿</span>
@@ -685,6 +657,11 @@ function App() {
 
       {page === "support" && (
         <main className="p-4 max-w-lg mx-auto mt-6">
+           <div className="mb-4">
+            <button onClick={() => setPage("home")} className="flex items-center gap-1 text-gray-500 font-medium hover:text-black">
+              ‹ Back to Store
+            </button>
+          </div>
           <h1 className="text-3xl font-bold text-center mb-4 text-black">Contact Us</h1>
           <p className="text-center text-gray-500 text-sm mb-8 leading-relaxed">Real people in Los Angeles, ready to help with orders, setup and anything mining. Pick the way that works best for you.</p>
           
@@ -704,7 +681,6 @@ function App() {
             <a href="mailto:support@bitcoinmerch.com" className="bg-gray-100 text-gray-900 font-medium py-3 px-8 rounded-lg inline-block hover:bg-gray-200">Send email</a>
           </div>
 
-          {/* Support Form */}
           <div className="border border-gray-200 rounded-xl p-6 bg-white">
             <h2 className="text-xl font-bold mb-4">Send us a message</h2>
             {supportSent ? (
@@ -744,6 +720,12 @@ function App() {
           </div>
           
           <div className="max-w-3xl mx-auto px-4 pb-12">
+             <div className="mb-4">
+              <button onClick={() => setPage("home")} className="flex items-center gap-1 text-gray-500 font-medium hover:text-black">
+                ‹ Back to Store
+              </button>
+            </div>
+
             <div className="bg-[#f5f5f5] p-4 flex justify-between items-center mb-6 border-y border-gray-200">
               <button className="flex items-center gap-2 text-brand-orange font-medium">Order summary <span className="text-xs">▼</span></button>
               <span className="font-bold text-lg">${total.toFixed(2)}</span>
@@ -889,10 +871,8 @@ function App() {
                 </div>
               </div>
 
-              {/* Best Sellers Upsell Section */}
               <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mb-8">
                 <h2 className="font-bold mb-4 text-xl flex items-center gap-2">Current Best Sellers <span className="text-sm">⬇️</span></h2>
-                
                 <div className="flex gap-4 items-center mb-4 border-b pb-4">
                   <img src="https://images.unsplash.com/photo-1601524909162-ae8725290836?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Card" />
                   <div className="flex-1">
@@ -902,7 +882,6 @@ function App() {
                   </div>
                   <button className="bg-brand-orange text-white font-bold py-2 px-4 rounded text-sm">Add</button>
                 </div>
-
                 <div className="flex gap-4 items-center">
                   <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Miner" />
                   <div className="flex-1">
