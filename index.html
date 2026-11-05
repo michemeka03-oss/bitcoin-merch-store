@@ -41,54 +41,62 @@ const WALLETS = {
 };
 
 const allProducts = [
-  // Mars Lander Products (Using real hardware images, no coins)
-  { id: 1, category: "Miners", title: "Bitcoin Merch® - MARS LANDER V2 Lottery Miner", price: 829.99, reviews: 45, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "The Mars Lander V2 is a high-performance lottery miner designed for solo miners looking for a chance at the full block reward." },
-  { id: 2, category: "Miners", title: "Bitcoin Merch® - MARS LANDER 3 All-In-One Lottery Miner & Node", price: 1249.99, reviews: 34, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "The Mars Lander 3 combines a powerful lottery miner with a full Bitcoin node." },
+  // 1, 2. Mars Landers
+  { id: 1, category: "Miners", title: "Bitcoin Merch® - MARS LANDER V2 Lottery Miner", price: 829.99, reviews: 45, image: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=600&q=80", description: "A futuristic, robotic Mars lander model featuring deployed solar panels, scientific instruments, and a detailed mechanical structure." },
+  { id: 2, category: "Miners", title: "Bitcoin Merch® - MARS LANDER 3 All-In-One Lottery Miner & Node", price: 1249.99, reviews: 34, image: "https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=600&q=80", description: "Mars colony habitat module with greenhouses and communication arrays. A fully integrated mining node." },
 
-  // The 4 Industrial Miners
-  { id: 3, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer S21 XP 270TH/s Bitcoin Miner", price: 3899.99, reviews: 12, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "The Antminer S21 XP is the pinnacle of Bitcoin mining hardware, delivering an incredible 270 TH/s." },
-  { id: 4, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer L11 20GH/s DOGE LTC Miner", price: 6539.99, reviews: 8, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "The Antminer L11 is the ultimate Scrypt miner for Litecoin and Dogecoin." },
-  { id: 5, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer Z15 Pro 840Ksol Zcash Miner", price: 10859.99, reviews: 5, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "The Z15 Pro is a specialized Equihash miner built for Zcash." },
-  { id: 6, category: "Miners", title: "Bitcoin Merch® - BITMAIN Antminer S23 Hydro 563TH/s BTC Miner", price: 14899.99, reviews: 3, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80", description: "The S23 Hydro is the most powerful Bitcoin miner on the planet." },
+  // 3-6. Industrial Miners
+  { id: 3, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer S21 XP 270TH/s Bitcoin Miner", price: 3899.99, reviews: 12, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80", description: "Rack of powerful, modern ASIC miners stacked neatly, featuring cooling fans and red status lights." },
+  { id: 4, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer L11 20GH/s DOGE LTC Miner", price: 6539.99, reviews: 8, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80", description: "A compact, stackable ASIC miner with dual exhaust fans and LED status lights." },
+  { id: 5, category: "Miners", title: "Bitcoin Merch® - Bitmain Antminer Z15 Pro 840Ksol Zcash Miner", price: 10859.99, reviews: 5, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "A tiered, boxy ASIC miner optimized for the Equihash algorithm, with a large intake airflow." },
+  { id: 6, category: "Miners", title: "Bitcoin Merch® - BITMAIN Antminer S23 Hydro 563TH/s BTC Miner", price: 14899.99, reviews: 3, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Lane-scale mining setup using liquid cooling, featuring tubes, a cooling tower, and central pump system." },
 
-  // The Nexus (Fixed image to black fan)
-  { id: 7, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 449.99, whalePrice: 399.99, reviews: 45, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "The Nexus S1-1 is the next generation of home Bitcoin mining. Engineered with the latest S23-generation ASIC chip." },
+  // 7. Nexus
+  { id: 7, category: "Miners", title: "Bitcoin Merch® - NEXUS S1-1 6TH/s Home Miner BM1373 w/ Power Supply", price: 449.99, whalePrice: 399.99, reviews: 45, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "A satellite-based communication computing system with blinking lights, processing icons, and space circuit board orbiting Earth." },
 
-  // Other High-Ticket Miners
-  { id: 8, category: "Miners", title: "Bitcoin Merch® - NerdQaxe++ Hydro 4.8-6TH/s w Power Supply", price: 499.99, whalePrice: 424.99, reviews: 89, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "The NerdQaxe++ Hydro is a compact, high-efficiency miner." },
-  { id: 9, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma++ 2TH/s w/ Power Supply", price: 449.99, whalePrice: 382.49, reviews: 214, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80", description: "The Bitaxe Gamma++ is an open-source Bitcoin miner." },
-  { id: 10, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 419.99, whalePrice: 356.99, reviews: 189, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "The Bitaxe Gamma is a standalone miner that packs a huge punch." },
-  { id: 11, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "The NerdOCTaxe now with Hydro cooling! Eight BM1370 ASIC Chips." },
-  { id: 12, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "The standard Antminer S21 sets the benchmark for industrial Bitcoin mining." },
-  { id: 13, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, reviews: 189, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "The Antminer S19 XP is a proven, reliable workhorse." },
-  { id: 14, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "MicroBT's Whatsminer M50S offers incredible stability." },
-  { id: 15, category: "Miners", title: "Goldshell Mini-DOGE Pro 320MH/s", price: 480.00, reviews: 112, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "A compact, silent miner perfect for mining Dogecoin." },
-  { id: 16, category: "Miners", title: "IceRiver KS0 100GH/s", price: 450.00, reviews: 56, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80", description: "The IceRiver KS0 is the most efficient Kaspa miner." },
-  { id: 17, category: "Miners", title: "Canaan Avalon Nano 3", price: 489.00, reviews: 240, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "Avalon's Nano 3 is a stylish, quiet home miner." },
-  { id: 18, category: "Miners", title: "Bitaxe Ultra 204", price: 485.00, reviews: 32, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "The Bitaxe Ultra is the ultimate open-source mining project." },
-  { id: 19, category: "Miners", title: "Antminer L7 9500MH/s", price: 4500.00, reviews: 88, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "The Antminer L7 is the undisputed king of Scrypt mining." },
-  { id: 20, category: "Miners", title: "Whatsminer M30S++ 112TH/s", price: 1250.00, reviews: 110, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "A highly reliable industrial miner from MicroBT." },
-  { id: 21, category: "Miners", title: "Antminer S19j Pro 104TH/s", price: 1150.00, reviews: 145, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "The S19j Pro is a staple in mining farms worldwide." },
-  { id: 22, category: "Miners", title: "Bitaxe Gamma Hex 1300", price: 449.99, reviews: 32, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "The Gamma Hex pushes the limits of what home miners can do." },
-  { id: 23, category: "Miners", title: "LuckyAxe BLO4 Dual Miner", price: 499.99, reviews: 88, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "Mine both Bitcoin and Dogecoin with this unique dual miner." },
-  { id: 24, category: "Miners", title: "Bitaxe Gamma Ice Angel", price: 449.99, reviews: 41, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80", description: "A limited edition, beautifully designed Bitaxe miner." },
-  { id: 25, category: "Miners", title: "Antminer S19j XP 141TH/s", price: 1850.00, reviews: 145, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "The S19j XP offers the perfect balance of power and efficiency." },
-  { id: 26, category: "Miners", title: "Whatsminer M50 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "The Whatsminer M50 is a solid, reliable choice." },
-  { id: 27, category: "Miners", title: "Antminer S19 95TH/s", price: 950.00, reviews: 112, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "The classic Antminer S19, still highly profitable." },
-  { id: 28, category: "Miners", title: "AvalonMiner A1246 90TH/s", price: 950.00, reviews: 67, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "Canaan's AvalonMiner A1246 is a proven performer." },
+  // 8-11. Bitaxes / NerdQaxe
+  { id: 8, category: "Miners", title: "Bitcoin Merch® - NerdQaxe++ Hydro 4.8-6TH/s w Power Supply", price: 499.99, whalePrice: 424.99, reviews: 89, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "An advanced enclosed ASIC miner design with enhanced cooling fins and a network interface shown." },
+  { id: 9, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma++ 2TH/s w/ Power Supply", price: 449.99, whalePrice: 382.49, reviews: 214, image: "https://images.unsplash.com/photo-1563770660941-20978e870e26?w=600&q=80", description: "Compact dark box miner with an exposed heatsink." },
+  { id: 10, category: "Miners", title: "Bitcoin Merch® - Bitaxe Gamma Lottery Miner + PSU Up to 1.5TH/s", price: 419.99, whalePrice: 356.99, reviews: 189, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "A network of green circuit boards in an open-air mining rig." },
+  { id: 11, category: "Miners", title: "Bitcoin Merch® - NerdOCTaxe 9-12TH/s BTC Miner w/ Power Supply", price: 424.99, whalePrice: 361.24, reviews: 92, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Standard silver ASIC miner box with dual fans." },
+
+  // 12-14. Antminers / Whatsminers
+  { id: 12, category: "Miners", title: "Antminer S21 200TH/s", price: 2899.00, reviews: 214, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "Standard Antminer S21 unit, similar to S19, with a powerful device and control board visible." },
+  { id: 13, category: "Miners", title: "Antminer S19 XP 141TH/s", price: 1850.00, reviews: 189, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "Silver industrial ASIC miner box." },
+  { id: 14, category: "Miners", title: "Whatsminer M50S 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1591488320449-011701bb6704?w=600&q=80", description: "Whatsminer M50S unit with a robust aluminum chassis and characteristic orange-black brand stripes." },
+
+  // 15-18. Goldshell, Avalon, Bitaxe
+  { id: 15, category: "Miners", title: "Goldshell Mini-DOGE Pro 320MH/s", price: 480.00, reviews: 112, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "Scrypt compact Scrypt miner with a stylized doge face icon, looking like a powerful home appliance." },
+  { id: 16, category: "Miners", title: "IceRiver KS0 100GH/s", price: 450.00, reviews: 56, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "Compact Kaspa miner." },
+  { id: 17, category: "Miners", title: "Canaan Avalon Nano 3", price: 489.00, reviews: 240, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "A tiny, USB-powered personal Bitcoin miner plugged into a laptop with an indicator light." },
+  { id: 18, category: "Miners", title: "Bitaxe Ultra 204", price: 485.00, reviews: 32, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "Industrial-grade, ultra-dense mining power supply with a large black intake manifold for powerful exhaust." },
+
+  // 19-21. Antminer L7, Whatsminer
+  { id: 19, category: "Miners", title: "Antminer L7 9500MH/s", price: 4500.00, reviews: 88, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "Standard L7 miner." },
+  { id: 20, category: "Miners", title: "Whatsminer M30S++ 112TH/s", price: 1250.00, reviews: 110, image: "https://images.unsplash.com/photo-1555680202-c86f0e12f086?w=600&q=80", description: "Whatsminer unit with triangular power connectors and airflow management." },
+  { id: 21, category: "Miners", title: "Antminer S19j Pro 104TH/s", price: 1150.00, reviews: 145, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Standard box ASIC miner." },
+
+  // 22-28. Bitaxes & Avalon
+  { id: 22, category: "Miners", title: "Bitaxe Gamma Hex 1300", price: 449.99, reviews: 32, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80", description: "An advanced ASIC miner, suggested with hexagonal honeycomb processing panel, featuring immense processing power." },
+  { id: 23, category: "Miners", title: "LuckyAxe BLO4 Dual Miner", price: 499.99, reviews: 88, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "Dual miner hardware." },
+  { id: 24, category: "Miners", title: "Bitaxe Gamma Ice Angel", price: 449.99, reviews: 41, image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80", description: "An aesthetically distinct version of Bitaxe Gamma miner, a season-esque design, notable by its winter ice-blue external casing." },
+  { id: 25, category: "Miners", title: "Antminer S19j XP 141TH/s", price: 1850.00, reviews: 145, image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=600&q=80", description: "Antminer S19j XP series box." },
+  { id: 26, category: "Miners", title: "Whatsminer M50 126TH/s", price: 1420.00, reviews: 92, image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=600&q=80", description: "Whatsminer M50 block." },
+  { id: 27, category: "Miners", title: "Antminer S19 95TH/s", price: 950.00, reviews: 112, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=80", description: "The classic industrial Antminer S19 box." },
+  { id: 28, category: "Miners", title: "AvalonMiner A1246 90TH/s", price: 950.00, reviews: 67, image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80", description: "Canaan A1346 industrial miner box." },
   
-  // High-Ticket Accessories (Removed the coins)
-  { id: 29, category: "Accessories", title: "1200W Server Power Supply", price: 489.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "Ensure your rig gets the clean, stable power it needs." },
-  { id: 30, category: "Accessories", title: "APW12 Power Supply", price: 410.00, reviews: 33, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "The official APW12 Power Supply for S19 series." },
-  { id: 31, category: "Accessories", title: "APW3++ Power Supply", price: 495.00, reviews: 78, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "The APW3++ is a versatile and powerful PSU." },
-  { id: 32, category: "Accessories", title: "Miner Silencer Duct Kit", price: 465.00, reviews: 61, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Reduce the noise of your ASIC miner significantly." },
+  // 29-32. Accessories
+  { id: 29, category: "Accessories", title: "1200W Server Power Supply", price: 489.99, reviews: 240, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "Grey, metal-cased server PSU with cables." },
+  { id: 30, category: "Accessories", title: "APW12 Power Supply", price: 410.00, reviews: 33, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Yellow-accented power unit and brick." },
+  { id: 31, category: "Accessories", title: "APW3++ Power Supply", price: 495.00, reviews: 78, image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80", description: "Standard silver power supply unit." },
+  { id: 32, category: "Accessories", title: "Miner Silencer Duct Kit", price: 465.00, reviews: 61, image: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=600&q=80", description: "Flexible silver ventilation ducts and soundproofing panels installed in a noisy mining setting." },
   
-  // Premium Merch (Replaced with real hardware/cards images)
-  { id: 33, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 449.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "Keep your crypto secure with the industry-leading Ledger Nano X." },
-  { id: 34, category: "Merch", title: "Bitcoin Hardware Wallet (Trezor)", price: 479.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "A secure, open-source hardware wallet for your crypto." },
-  { id: 35, category: "Merch", title: "Whale Pass VIP Membership", price: 999.00, reviews: 150, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=600&q=80", description: "Get access to exclusive discounts, lifetime warranties, and priority support." },
-  { id: 36, category: "Merch", title: "Crypto Mining Masterclass", price: 450.00, reviews: 34, image: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600&q=80", description: "Learn everything you need to know about crypto mining." },
-  { id: 37, category: "Merch", title: "Bitcoin Battle Pass", price: 599.00, reviews: 12, image: "https://images.unsplash.com/photo-1586528116311-ad8ed745d3e1?w=600&q=80", description: "Unlock exclusive access to products, events, and community features." }
+  // 33-37. Merch
+  { id: 33, category: "Merch", title: "Ledger Nano X Hardware Wallet", price: 449.00, reviews: 310, image: "https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=600&q=80", description: "Bluetooth-enabled Ledger Nano X hardware wallet." },
+  { id: 34, category: "Merch", title: "Trezor Hardware Wallet", price: 479.00, reviews: 203, image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&q=80", description: "Trezor Model T hardware wallet with a screen displaying transaction confirmation." },
+  { id: 35, category: "Merch", title: "Whale Pass VIP Membership", price: 999.00, reviews: 150, image: "https://images.unsplash.com/photo-1577702312706-e23ff063064f?w=600&q=80", description: "Digital Whale Pass VIP card featuring a whale graphic." },
+  { id: 36, category: "Merch", title: "Crypto Mining Masterclass", price: 450.00, reviews: 34, image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=600&q=80", description: "Crypto Mining Masterclass presentation slide featuring an enthusiastic member of an audience." },
+  { id: 37, category: "Merch", title: "Bitcoin Battle Pass", price: 599.00, reviews: 12, image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=600&q=80", description: "Bitcoin Battle Pass digital interface with progress bars and icons." }
 ];
 
 function App() {
@@ -884,7 +892,7 @@ function App() {
                 </div>
               </div>
 
-              {/* Best Sellers Upsell Section - No Coins */}
+              {/* Best Sellers Upsell Section */}
               <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mb-8">
                 <h2 className="font-bold mb-4 text-xl flex items-center gap-2">Current Best Sellers <span className="text-sm">⬇️</span></h2>
                 
@@ -899,7 +907,7 @@ function App() {
                 </div>
 
                 <div className="flex gap-4 items-center">
-                  <img src="https://images.unsplash.com/photo-1621416894569-0f39ed31d247?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Miner" />
+                  <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?w=150&q=80" className="w-16 h-16 object-cover rounded" alt="Miner" />
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold leading-tight">Bitcoin Merch® - Gold Nugget V3 Lottery Miner (10% OFF)</h3>
                     <p className="font-bold mt-1">US$40.50 <span className="text-gray-400 line-through text-xs">US$44.99</span></p>
