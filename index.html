@@ -25,7 +25,7 @@ tailwind.config = {
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* YOUR EXACT CSS */
+/* Custom CSS from your exact code */
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -70,7 +70,6 @@ tailwind.config = {
 <script type="text/babel">
 const { useState, useEffect } = React;
 
-// The wallet addresses
 const WALLETS = {
   BTC: "bc1qaanjf99rsalzqwpqzfy7jry2dzrhc867cz8vp5",
   ETH: "0x336b215a1988fAfA64637728E5Fecc7EBc7e0A2C",
@@ -80,7 +79,6 @@ const WALLETS = {
   USDT_SOL: "6yQi3Ep7dGmwWvEB5vFqAn186doUHVDoeM9yT5tpAjai"
 };
 
-// YOUR EXACT PRODUCT DATA
 const allProducts = [
   { id: 1, category: "Miners", title: "Mars Lander V2", price: 829.99, reviews: 45, image: "https://joincheckmate.com/api/images/1415477aafa88c9beb393ed369691728.jpg", description: "A compact solo Bitcoin miner designed for home and office use. It is used to participate in Bitcoin mining as a lottery miner, giving users a chance to earn a full block reward while running quietly on low power.", specs: ["Hashrate: Up to 350 GH/s", "Power: Approx. 17W", "Use: Home solo mining"] },
   { id: 2, category: "Miners", title: "Mars Lander 3", price: 1249.99, reviews: 34, image: "https://cdn.shopify.com/s/files/1/2609/9556/files/unnamed_2_9a49eafb-6abd-4bcd-9c0e-e7c80ff3fe2c.jpg?v=1773963512&width=1440", description: "An all-in-one lottery miner and Bitcoin full node. It is used for home mining and for supporting the Bitcoin network by running a full node, all in a compact desktop design.", specs: ["Hashrate: Up to 300 GH/s", "Power: Low power, silent", "Use: Solo mining + Full Node"] },
@@ -552,10 +550,7 @@ function App() {
                 <span className="text-brand-blue text-lg">🛡️</span>
                 <p><strong>120-day guarantee</strong> · lifetime warranty with <span className="text-blue-600 underline">Whale Pass</span></p>
               </div>
-              <div className="flex items-start gap-3">
-                <span className="text-brand-blue text-lg">📞</span>
-                <p><strong>Real US phone support</strong> · <span className="text-blue-600 underline">(877) 500-0282</span></p>
-              </div>
+              {/* PHONE NUMBER REMOVED HERE */}
             </div>
             
             <button 
