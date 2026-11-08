@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bitcoin Merch</title>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
 <script src="https://cdn.tailwindcss.com"></script>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -70,6 +76,19 @@ tailwind.config = {
 <script type="text/babel">
 const { useState, useEffect } = React;
 
+// --- FIREBASE CONFIGURATION ---
+const firebaseConfig = {
+  apiKey: "AIzaSyDyA6yEJYlK3jQtvPWbmfVXQVbel5eeR3I",
+  authDomain: "bitcoin-merch-store.firebaseapp.com",
+  projectId: "bitcoin-merch-store",
+  storageBucket: "bitcoin-merch-store.firebasestorage.app",
+  messagingSenderId: "1027231375381",
+  appId: "1:1027231375381:web:9cc40f5cc2819d166aae1c"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
 const WALLETS = {
   BTC: "bc1qmmw3778u3w409wjthpp5gyqjxj9fesqcq8maez",
   ETH: "0x336b215a1988fAfA64637728E5Fecc7EBc7e0A2C",
@@ -120,6 +139,10 @@ const allProducts = [
 ];
 
 function App() {
+  if (window.location.hash === "#admin") {
+    return <AdminDashboard />;
+  }
+
   const [isLoggedIn, setIsLoggedIn] = useState(() => localStorage.getItem("user_email") !== null);
   const [userEmail, setUserEmail] = useState(() => localStorage.getItem("user_email") || "");
   
@@ -183,19 +206,31 @@ function App() {
   const shippingCost = shippingMethod === "USPS" ? 119.58 : 166.95;
   const total = subtotal + (cart.length > 0 ? shippingCost : 0);
 
-  const handleAuth = (e) => {
+  const handleAuth = async (e) => {
     e.preventDefault();
     const email = e.target.elements.email.value;
     const password = e.target.elements.password.value;
-    
-    const users = JSON.parse(localStorage.getItem("registered_users") || "{}");
-    users[email] = password;
-    localStorage.setItem("registered_users", JSON.stringify(users));
-    
-    localStorage.setItem("user_email", email);
-    setUserEmail(email);
-    setIsLoggedIn(true);
-    setPage("home");
+    try {
+      let cred;
+      try {
+        cred = await auth.createUserWithEmailAndPassword(email, password);
+      } catch (err) {
+        if (err.code === "auth/email-already-in-use") {
+          cred = await auth.signInWithEmailAndPassword(email, password);
+        } else throw err;
+      }
+      await db.collection("users").doc(cred.user.uid).set({
+        email: email,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+
+      localStorage.setItem("user_email", email);
+      setUserEmail(email);
+      setIsLoggedIn(true);
+      setPage("home");
+    } catch (err) {
+      alert("Auth error: " + err.message);
+    }
   };
 
   const handleLogout = () => {
@@ -212,16 +247,45 @@ function App() {
     setActiveCategory(category);
   };
 
-  const handleCheckoutSubmit = (e) => {
+  const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
-    setPage("success");
+    const fd = new FormData(e.target);
+    try {
+      await db.collection("orders").add({
+        email: fd.get("email") || userEmail || "guest",
+        items: cart.map(i => ({ id: i.id, title: i.title, price: i.price, qty: i.cartQty || 1 })),
+        subtotal: subtotal,
+        shipping: shippingCost,
+        total: total,
+        paymentMethod: paymentMethod,
+        walletAddress: WALLETS[paymentMethod],
+        shippingMethod: shippingMethod,
+        status: "pending",
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      setPage("success");
+    } catch (err) {
+      alert("Order save failed: " + err.message);
+    }
   };
 
-  const handleSupportSubmit = (e) => {
+  const handleSupportSubmit = async (e) => {
     e.preventDefault();
-    setSupportSent(true);
-    setSupportMessage("");
-    setTimeout(() => setSupportSent(false), 3000);
+    const fd = new FormData(e.target);
+    try {
+      await db.collection("messages").add({
+        name: fd.get("name") || "Guest",
+        email: fd.get("email") || "No email",
+        message: supportMessage,
+        read: false,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      });
+      setSupportSent(true);
+      setSupportMessage("");
+      setTimeout(() => setSupportSent(false), 3000);
+    } catch (err) {
+      alert("Message failed: " + err.message);
+    }
   };
 
   const handleChatSubmit = (e) => {
@@ -684,8 +748,8 @@ function App() {
               </div>
             ) : (
               <form onSubmit={handleSupportSubmit} className="space-y-4">
-                <input type="text" placeholder="Your Name" required className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-brand-blue" />
-                <input type="email" placeholder="Your Email" required className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-brand-blue" />
+                <input type="text" name="name" placeholder="Your Name" required className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-brand-blue" />
+                <input type="email" name="email" placeholder="Your Email" required className="w-full border border-gray-300 p-3 rounded-lg outline-none focus:border-brand-blue" />
                 <textarea 
                   placeholder="How can we help?" 
                   required 
@@ -759,7 +823,7 @@ function App() {
                   <button type="button" className="text-brand-orange underline text-sm">Sign in</button>
                 </div>
                 <div className="relative">
-                  <input type="email" placeholder="Email" required className="w-full border border-gray-300 p-4 rounded-lg outline-none focus:border-blue-500 bg-white" />
+                  <input type="email" name="email" placeholder="Email" required className="w-full border border-gray-300 p-4 rounded-lg outline-none focus:border-blue-500 bg-white" />
                   <span className="absolute right-4 top-4 text-gray-400">?</span>
                 </div>
                 <label className="flex items-center gap-2 mt-4 text-sm">
@@ -1036,6 +1100,134 @@ function App() {
     </div>
   );
 }
+
+function AdminDashboard() {
+  const [adminUser, setAdminUser] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
+  const [tab, setTab] = useState("orders");
+  const [orders, setOrders] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged(async (u) => {
+      if (!u) { setAdminUser(null); setLoading(false); return; }
+      const doc = await db.collection("users").doc(u.uid).get();
+      if (doc.exists && doc.data().isAdmin === true) {
+        setAdminUser(u);
+        loadAll();
+      } else {
+        setErr("This account is not an admin.");
+        await auth.signOut();
+        setAdminUser(null);
+      }
+      setLoading(false);
+    });
+    return () => unsub();
+  }, []);
+
+  const loadAll = async () => {
+    setLoading(true);
+    const [o, m, u] = await Promise.all([
+      db.collection("orders").orderBy("createdAt", "desc").limit(100).get(),
+      db.collection("messages").orderBy("createdAt", "desc").limit(100).get(),
+      db.collection("users").orderBy("createdAt", "desc").limit(100).get()
+    ]);
+    setOrders(o.docs.map(d => ({ id: d.id, ...d.data() })));
+    setMessages(m.docs.map(d => ({ id: d.id, ...d.data() })));
+    setUsers(u.docs.map(d => ({ id: d.id, ...d.data() })));
+    setLoading(false);
+  };
+
+  const login = async (e) => {
+    e.preventDefault();
+    setErr("");
+    try { await auth.signInWithEmailAndPassword(email, password); } 
+    catch (e2) { setErr(e2.message); }
+  };
+
+  const markOrderPaid = async (id) => {
+    await db.collection("orders").doc(id).update({ status: "paid" });
+    loadAll();
+  };
+
+  const markMessageRead = async (id) => {
+    await db.collection("messages").doc(id).update({ read: true });
+    loadAll();
+  };
+
+  if (loading) return <div className="p-10 text-center font-bold">Loading...</div>;
+
+  if (!adminUser) return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+      <form onSubmit={login} className="bg-white p-8 rounded-xl shadow-xl w-full max-w-sm">
+        <h1 className="text-2xl font-bold mb-6 text-black">Admin Login</h1>
+        {err && <div className="bg-red-50 text-red-700 text-sm p-3 rounded mb-4">{err}</div>}
+        <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@email.com" required className="w-full border p-3 rounded-lg mb-3 outline-none text-black" />
+        <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required className="w-full border p-3 rounded-lg mb-4 outline-none text-black" />
+        <button className="w-full bg-brand-orange text-white font-bold py-3 rounded-lg hover:bg-orange-600">Sign in</button>
+      </form>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gray-50 pb-10">
+      <header className="bg-brand-blue text-white px-6 py-4 flex justify-between items-center">
+        <div className="font-black text-xl text-brand-orange">₿ Admin Panel</div>
+        <button onClick={() => auth.signOut()} className="bg-white/20 px-3 py-1.5 rounded text-sm hover:bg-white/30">Log out</button>
+      </header>
+      <div className="max-w-4xl mx-auto p-4 mt-4">
+        <div className="flex gap-4 mb-6 border-b">
+          {["orders", "messages", "users"].map(k => (
+            <button key={k} onClick={() => setTab(k)} className={`px-2 py-2 font-bold uppercase text-sm border-b-2 ${tab === k ? "border-brand-orange text-brand-orange" : "border-transparent text-gray-500"}`}>{k}</button>
+          ))}
+          <button onClick={loadAll} className="ml-auto text-sm text-blue-600 font-bold">↻ Refresh</button>
+        </div>
+
+        {tab === "orders" && orders.map(o => (
+          <div key={o.id} className="bg-white rounded-lg shadow border p-4 mb-3">
+            <div className="flex justify-between mb-2">
+              <span className="font-bold text-sm text-black">{o.email}</span>
+              <span className="font-bold text-green-600">${o.total?.toFixed(2)}</span>
+            </div>
+            <div className="text-xs text-gray-600 mb-2 bg-gray-50 p-2 rounded">{o.paymentMethod} → {o.walletAddress}</div>
+            <div className="text-xs text-gray-500 flex justify-between items-center mt-3 border-t pt-2">
+              <span className={`font-bold px-2 py-1 rounded ${o.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>Status: {o.status}</span>
+              {o.status !== "paid" && <button onClick={() => markOrderPaid(o.id)} className="bg-black text-white px-4 py-1.5 rounded font-bold">Mark Paid</button>}
+            </div>
+          </div>
+        ))}
+
+        {tab === "messages" && messages.map(m => (
+          <div key={m.id} className={`bg-white rounded-lg shadow border p-4 mb-3 ${!m.read ? "border-l-4 border-l-brand-orange" : ""}`}>
+            <div className="flex justify-between mb-1">
+              <span className="font-bold text-sm text-black">{m.name} <br/><span className="text-gray-500 font-normal">{m.email}</span></span>
+              {!m.read && <button onClick={() => markMessageRead(m.id)} className="text-xs bg-blue-600 text-white px-3 py-1 rounded h-fit">Mark Read</button>}
+            </div>
+            <p className="text-sm text-gray-800 mt-2 bg-gray-50 p-2 rounded">{m.message}</p>
+          </div>
+        ))}
+
+        {tab === "users" && (
+          <div className="bg-white shadow border rounded-lg overflow-hidden">
+            <table className="w-full text-sm text-left text-black">
+              <thead className="bg-gray-100"><tr><th className="p-3">Email</th><th className="p-3">Admin?</th></tr></thead>
+              <tbody>
+                {users.map(u => (
+                  <tr key={u.id} className="border-t"><td className="p-3">{u.email}</td><td className="p-3">{u.isAdmin ? "✅" : "—"}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
 </script>
