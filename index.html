@@ -150,6 +150,7 @@ function App() {
   const [selectedProduct, setSelectedProduct] = useState(null); 
   const [cart, setCart] = useState([]);
   const [paymentMethod, setPaymentMethod] = useState("BTC");
+  const [paymentClicked, setPaymentClicked] = useState(false);
   
   const [showSpin, setShowSpin] = useState(true);
   const [showChat, setShowChat] = useState(false);
@@ -263,6 +264,7 @@ function App() {
         status: "pending",
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
+      setPaymentClicked(false);
       setPage("success");
     } catch (err) {
       alert("Order save failed: " + err.message);
@@ -1038,12 +1040,48 @@ function App() {
       {page === "success" && (
         <main className="p-4 max-w-md mx-auto mt-8">
           <div className="bg-white p-6 rounded-lg border border-gray-200 text-center shadow-lg">
-            <div className="text-5xl mb-4">⏳</div>
-            <h1 className="text-2xl font-bold text-black mb-2">Order Pending</h1>
-            <p className="text-sm text-gray-600 mb-6">Send exactly <strong>${total.toFixed(2)}</strong> in <strong>{paymentMethod.replace('_', ' ')}</strong> to the address below.</p>
-            <div className="bg-gray-100 border border-gray-300 p-4 rounded font-mono text-sm break-all mb-4 select-all cursor-pointer text-brand-blue">{WALLETS[paymentMethod]}</div>
-            <p className="text-xs text-gray-500 mb-6">Once sent, please email your transaction hash to support@bitcoinmerch.com to approve your order.</p>
-            <button onClick={() => { clearCart(); setPage("home"); }} className="w-full bg-brand-orange text-white font-bold py-3 rounded">Return to Store</button>
+            {!paymentClicked ? (
+              <>
+                <div className="text-5xl mb-4">⏳</div>
+                <h1 className="text-2xl font-bold text-black mb-2">Order Pending</h1>
+                <p className="text-sm text-gray-600 mb-6">Send exactly <strong>${total.toFixed(2)}</strong> in <strong>{paymentMethod.replace('_', ' ')}</strong> to the address below.</p>
+                
+                <div className="relative mb-4">
+                  <div className="bg-gray-100 border border-gray-300 p-4 rounded font-mono text-sm break-all text-brand-blue pr-12 text-left">
+                    {WALLETS[paymentMethod]}
+                  </div>
+                  <button 
+                    onClick={() => {
+                      navigator.clipboard.writeText(WALLETS[paymentMethod]);
+                      alert("Address copied to clipboard!");
+                    }}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-white border border-gray-300 p-2 rounded shadow-sm hover:bg-gray-50"
+                    title="Copy Address"
+                  >
+                    📋
+                  </button>
+                </div>
+
+                <p className="text-xs text-gray-500 mb-6">Once you have sent the payment, click the button below.</p>
+                
+                <button 
+                  onClick={() => setPaymentClicked(true)} 
+                  className="w-full bg-brand-orange text-white font-bold py-3 rounded mb-3 hover:bg-orange-600"
+                >
+                  I Have Paid
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="text-5xl mb-4">🔄</div>
+                <h1 className="text-2xl font-bold text-black mb-2">Validating Payment</h1>
+                <p className="text-sm text-gray-600 mb-6">We are checking the blockchain for your transaction. This usually takes about 30 minutes.</p>
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded text-sm mb-6">
+                  You can close this page. We will process your order once the payment is confirmed.
+                </div>
+                <button onClick={() => { clearCart(); setPage("home"); }} className="w-full bg-black text-white font-bold py-3 rounded">Return to Store</button>
+              </>
+            )}
           </div>
         </main>
       )}
