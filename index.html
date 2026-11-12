@@ -1066,7 +1066,7 @@ function App() {
                   <>
                     <p className="text-sm text-gray-600 mb-6">Click the button below to securely complete your payment of <strong>${total.toFixed(2)}</strong> via PayPal.</p>
                     <a 
-                      href="https://www.paypal.com/ncp/payment/PLB-GSAQB6AFPCZ9" 
+                      href={`https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mysusio59@gmail.com&item_name=Bitcoin+Merch+Order&amount=${total.toFixed(2)}&currency_code=USD`}  
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="block w-full bg-[#0070ba] text-white font-bold py-3 rounded mb-3 hover:bg-[#003087] text-center"
